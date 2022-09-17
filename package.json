@@ -1,0 +1,33 @@
+{
+  "name": "samsta_haken",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-query-firebase/firestore": "^1.0.0-dev.7",
+    "firebase": "^9.10.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.2",
+    "react-hook-form": "^7.35.0",
+    "react-query": "^3.39.2",
+    "react-query-devtools": "^2.6.3",
+    "react-router-dom": "^6.4.0",
+    "react-spinners": "^0.13.4",
+    "sass": "^1.54.9"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.1.0",
+    "autoprefixer": "^10.4.11",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8",
+    "vite": "^3.1.0"
+  }
+}
