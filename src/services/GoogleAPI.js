@@ -11,3 +11,13 @@ export const getAddress = async (lat, lon) => {
 
 	return res.data;
 };
+
+/**
+ * Get position with query
+ */
+
+export const getFormattedAddress = async (address) => {
+	const res = await axios.get(`/json?address=${address}&key=${API_KEY}`);
+
+	return res.data;
+};
