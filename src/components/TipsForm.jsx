@@ -1,17 +1,44 @@
 import { food } from "../db/food";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 
 import { MdOutlineCancel } from "react-icons/md";
 
 const TipsForm = ({ showTips, setShowTips }) => {
 	const {
+		control,
 		register,
 		handleSubmit,
 		formState: { errors },
 		reset,
-	} = useForm();
+	} = useForm({
+		defaultValues: {
+			socials: [
+				{ title: "hemsida" },
+				{ title: "e-post" },
+				{ title: "tel" },
+				{ title: "facebook" },
+				{ title: "instagram" },
+			],
+		},
+	});
+
+	const { fields } = useFieldArray({
+		control,
+		name: "socials",
+	});
+
+	// const options = [
+	// 	{ value, label: "Hemsida" },
+	// 	{ value, label: "Epost" },
+	// 	{ value, label: "Telefonnummer" },
+	// 	{ value, label: "Facebook" },
+	// 	{ value, label: "Instagram" },
+	// ];
+
+	console.log(fields);
+
 	const collectionRef = collection(db, "restaurants");
 
 	const handleTipsSubmit = async (data) => {
@@ -25,11 +52,12 @@ const TipsForm = ({ showTips, setShowTips }) => {
 			type_of_place: data.type_of_place,
 			offers_food: data.offers_food,
 			photos: [],
-			website: data.website,
-			email: data.email,
-			phone: data.phone,
-			facebook: data.facebook,
-			instagram: data.instagram,
+			socials: data.socials,
+			// website: data.website,
+			// email: data.email,
+			// phone: data.phone,
+			// facebook: data.facebook,
+			// instagram: data.instagram,
 		});
 
 		reset();
@@ -38,11 +66,11 @@ const TipsForm = ({ showTips, setShowTips }) => {
 	return (
 		<dialog
 			open={showTips}
-			className="border-none flex items-center justify-center h-screen w-full"
+			className="border-none flex items-center justify-center w-full"
 		>
 			<form
 				onSubmit={handleSubmit(handleTipsSubmit)}
-				className="grid grid-cols-7 p-4 bg-white rounded-lg w-full h-full"
+				className="grid grid-cols-7 p-4 bg-white rounded-lg w-full"
 			>
 				<div className="col-span-full grid grid-rows-2">
 					<MdOutlineCancel
@@ -189,40 +217,14 @@ const TipsForm = ({ showTips, setShowTips }) => {
 
 				<div className="col-span-full flex flex-wrap px-4">
 					<div className="basis-full grid gap-3">
-						<input
-							{...register("website")}
-							type="url"
-							placeholder="Hemsida"
-							className="label-desc rounded-md border py-1 indent-2"
-						/>
-
-						<input
-							{...register("email")}
-							type="email"
-							placeholder="E-post"
-							className="label-desc rounded-md border py-1 indent-2"
-						/>
-
-						<input
-							{...register("phone")}
-							type="tel"
-							placeholder="Telefonnummer"
-							className="label-desc rounded-md border py-1 indent-2"
-						/>
-
-						<input
-							{...register("facebook")}
-							type="url"
-							placeholder="Facebook"
-							className="label-desc rounded-md border py-1 indent-2"
-						/>
-
-						<input
-							{...register("instagram")}
-							type="url"
-							placeholder="Instagram"
-							className="label-desc rounded-md border py-1 indent-2"
-						/>
+						{fields.map((item, index) => (
+							<input
+								key={item.id}
+								placeholder={`${item.title}`}
+								{...register(`socials.${index}.value`)}
+								className="label-desc rounded-md border py-1 indent-2"
+							/>
+						))}
 					</div>
 				</div>
 
