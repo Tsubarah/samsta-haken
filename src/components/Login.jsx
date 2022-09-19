@@ -57,8 +57,8 @@ const Login = () => {
               <button className="block border border-grey-light p-3 rounded">
                 Login
               </button>
-              <div className="text-grey-dark mb-5">
-                <p>Don't have an account?</p>
+              <div className="text-grey-dark mb-5 flex flex-col justify-center">
+                <p className="m-auto py-4">Don't have an account?</p>
                 <button className="px-8 h-8">
                 Create account
                 </button>
