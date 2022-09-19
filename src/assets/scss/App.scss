@@ -13,13 +13,7 @@ dialog {
 	background: rgba(0, 0, 0, 0.556);
 
 	.label-desc::placeholder {
-		text-indent: 0.25rem;
-		font-size: 1rem;
-		font-family: "Courier New", Courier, monospace;
-		opacity: 0.7;
-	}
-
-	.label-desc-option-value {
+		text-indent: 0.5rem;
 		font-size: 1rem;
 		font-family: "Courier New", Courier, monospace;
 		opacity: 0.7;

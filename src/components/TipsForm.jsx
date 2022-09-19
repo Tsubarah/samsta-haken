@@ -1,12 +1,18 @@
 import { MdOutlineCancel } from "react-icons/md";
+import { food } from "../db/food";
 
 const TipsForm = ({ showTips, setShowTips }) => {
+	const handleTipsSubmit = () => {};
+
 	return (
 		<dialog
 			open={showTips}
 			className="border-none flex items-center justify-center h-screen w-full"
 		>
-			<form className="grid grid-cols-7 p-4 bg-white rounded-lg w-full h-full">
+			<form
+				onSubmit={handleTipsSubmit}
+				className="grid grid-cols-7 p-4 bg-white rounded-lg w-full h-full"
+			>
 				<div className="col-span-full grid grid-rows-2">
 					<MdOutlineCancel
 						size={20}
@@ -21,7 +27,8 @@ const TipsForm = ({ showTips, setShowTips }) => {
 					<input
 						type="text"
 						placeholder="Namn"
-						className="label-desc rounded-md border"
+						required
+						className="label-desc rounded-md border indent-2"
 					/>
 				</div>
 
@@ -29,7 +36,8 @@ const TipsForm = ({ showTips, setShowTips }) => {
 					<input
 						type="text"
 						placeholder="Adress"
-						className="label-desc rounded-md border"
+						required
+						className="label-desc rounded-md border indent-2"
 					/>
 				</div>
 
@@ -37,7 +45,8 @@ const TipsForm = ({ showTips, setShowTips }) => {
 					<input
 						type="text"
 						placeholder="Ort"
-						className="label-desc rounded-md border"
+						required
+						className="label-desc rounded-md border indent-2"
 					/>
 				</div>
 
@@ -46,49 +55,61 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						cols="30"
 						rows="10"
 						placeholder="Beskrivning"
-						className="basis-full label-desc mb-8 rounded-md border"
+						className="basis-full label-desc mb-8 py-2 rounded-md border indent-2"
 					></textarea>
 				</div>
 
 				<div className="col-span-full grid grid-rows-2 px-4">
-					<select className="rounded-md border">
+					<select className="rounded-md border indent-2">
 						<option
-							value=""
+							defaultValue="Typ av kök"
 							disabled
-							selected
-							hidden
 							className="label-desc-option-value"
 						>
 							Typ av kök
 						</option>
+						{food &&
+							food.cuisine.map((type, i) => (
+								<option key={i} value={type}>
+									{type}
+								</option>
+							))}
 					</select>
 				</div>
 
 				<div className="col-span-full grid grid-rows-2 px-4">
-					<select className="rounded-md border">
+					<select className="rounded-md border indent-2">
 						<option
-							value=""
+							defaultValue="Typ av matställe"
 							disabled
-							selected
-							hidden
 							className="label-desc-option-value"
 						>
 							Typ av matställe
 						</option>
+						{food &&
+							food.type_of_place.map((type, i) => (
+								<option key={i} value={type}>
+									{type}
+								</option>
+							))}
 					</select>
 				</div>
 
 				<div className="col-span-full grid grid-rows-2 px-4">
-					<select className="rounded-md border">
+					<select className="rounded-md border indent-2">
 						<option
-							value=""
+							defaultValue="Utbud"
 							disabled
-							selected
-							hidden
 							className="label-desc-option-value"
 						>
 							Utbud
 						</option>
+						{food &&
+							food.offers_food.map((type, i) => (
+								<option key={i} value={type}>
+									{type}
+								</option>
+							))}
 					</select>
 				</div>
 
@@ -97,22 +118,22 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						<input
 							type="text"
 							placeholder="Hemsida"
-							className="label-desc rounded-md border py-1"
+							className="label-desc rounded-md border py-1 indent-2"
 						/>
 						<input
 							type="text"
 							placeholder="E-post"
-							className="label-desc rounded-md border py-1"
+							className="label-desc rounded-md border py-1 indent-2"
 						/>
 						<input
 							type="text"
 							placeholder="Telefonnummer"
-							className="label-desc rounded-md border py-1"
+							className="label-desc rounded-md border py-1 indent-2"
 						/>
 						<input
 							type="text"
 							placeholder="Instagram"
-							className="label-desc rounded-md border py-1"
+							className="label-desc rounded-md border py-1 indent-2"
 						/>
 						<input
 							type="text"
@@ -123,7 +144,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				</div>
 
 				<div className="col-span-full flex px-4 my-4">
-					<button className="border-none basis-full rounded-md bg-blue-500 hover:bg-blue-700 text-white">
+					<button className="border-none basis-full rounded-md py-2 bg-blue-500 hover:bg-blue-700 text-white">
 						Skicka in
 					</button>
 				</div>

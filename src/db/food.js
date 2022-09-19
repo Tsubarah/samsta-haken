@@ -1,0 +1,22 @@
+export const food = {
+	cuisine: [
+		"Afrikanskt",
+		"Amerikanskt",
+		"Arabiskt",
+		"Asiatiskt",
+		"Europeiskt",
+		"Franskt",
+		"Grekiskt",
+		"Husmanskost",
+		"Indiskt",
+		"Italienskt",
+		"Jag glum 💀",
+		"Japanskt",
+		"Kinesiskt",
+		"Mexikanskt",
+		"Skandinaviskt",
+		"Thailändskt",
+	],
+	type_of_place: ["Café", "Restaurang", "Snabbmat", "Bar"],
+	offers_food: ["Frukost", "Lunch", "Middag/Á la carte", "Drinkar"],
+};
