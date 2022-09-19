@@ -29,16 +29,6 @@ const TipsForm = ({ showTips, setShowTips }) => {
 		name: "socials",
 	});
 
-	// const options = [
-	// 	{ value, label: "Hemsida" },
-	// 	{ value, label: "Epost" },
-	// 	{ value, label: "Telefonnummer" },
-	// 	{ value, label: "Facebook" },
-	// 	{ value, label: "Instagram" },
-	// ];
-
-	console.log(fields);
-
 	const collectionRef = collection(db, "restaurants");
 
 	const handleTipsSubmit = async (data) => {
@@ -53,14 +43,10 @@ const TipsForm = ({ showTips, setShowTips }) => {
 			offers_food: data.offers_food,
 			photos: [],
 			socials: data.socials,
-			// website: data.website,
-			// email: data.email,
-			// phone: data.phone,
-			// facebook: data.facebook,
-			// instagram: data.instagram,
 		});
 
 		reset();
+		setShowTips(!showTips);
 	};
 
 	return (
@@ -143,7 +129,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						cols="30"
 						rows="10"
 						placeholder="Beskrivning"
-						className="basis-full label-desc mb-8 p-2 rounded-md border"
+						className="basis-full label-desc-text-area mb-8 p-2 rounded-md border"
 					></textarea>
 					{errors.description && (
 						<div className="text-red-600 text-xs font-light py-2">
@@ -155,15 +141,10 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<select
 						{...register("cuisine")}
-						className="rounded-md border indent-2"
+						className="rounded-md border indent-1 label-desc-option-value"
+						defaultValue="Typ av kök"
 					>
-						<option
-							defaultValue="Typ av kök"
-							disabled
-							className="label-desc-option-value"
-						>
-							Typ av kök
-						</option>
+						<option disabled>Typ av kök</option>
 						{food &&
 							food.cuisine.map((type, i) => (
 								<option key={i} value={type}>
@@ -176,15 +157,10 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<select
 						{...register("type_of_place")}
-						className="rounded-md border indent-2"
+						className="rounded-md border indent-1 label-desc-option-value"
+						defaultValue="Typ av matställe"
 					>
-						<option
-							defaultValue="Typ av matställe"
-							disabled
-							className="label-desc-option-value"
-						>
-							Typ av matställe
-						</option>
+						<option disabled>Typ av matställe</option>
 						{food &&
 							food.type_of_place.map((type, i) => (
 								<option key={i} value={type}>
@@ -197,15 +173,10 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<select
 						{...register("offers_food")}
-						className="rounded-md border indent-2"
+						className="rounded-md border indent-1 label-desc-option-value"
+						defaultValue="Utbud"
 					>
-						<option
-							defaultValue="Utbud"
-							disabled
-							className="label-desc-option-value"
-						>
-							Utbud
-						</option>
+						<option disabled>Utbud</option>
 						{food &&
 							food.offers_food.map((type, i) => (
 								<option key={i} value={type}>
@@ -228,8 +199,8 @@ const TipsForm = ({ showTips, setShowTips }) => {
 					</div>
 				</div>
 
-				<div className="col-span-full flex px-4 my-4">
-					<button className="border-none basis-full rounded-md py-2 bg-blue-500 hover:bg-blue-700 text-white">
+				<div className="col-span-full flex px-4 mt-14">
+					<button className="basis-full rounded-md py-2 bg-blue-500 hover:bg-blue-700 text-white">
 						Skicka in
 					</button>
 				</div>
