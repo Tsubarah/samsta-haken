@@ -1,8 +1,39 @@
-import { MdOutlineCancel } from "react-icons/md";
 import { food } from "../db/food";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase";
+import { useForm } from "react-hook-form";
+
+import { MdOutlineCancel } from "react-icons/md";
 
 const TipsForm = ({ showTips, setShowTips }) => {
-	const handleTipsSubmit = () => {};
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		reset,
+	} = useForm();
+	const collectionRef = collection(db, "restaurants");
+
+	const handleTipsSubmit = async (data) => {
+		await addDoc(collectionRef, {
+			accepted: false,
+			name: data.name,
+			address: data.address,
+			city: data.city,
+			description: data.description,
+			cuisine: data.cuisine,
+			type_of_place: data.type_of_place,
+			offers_food: data.offers_food,
+			photos: [],
+			website: data.website,
+			email: data.email,
+			phone: data.phone,
+			facebook: data.facebook,
+			instagram: data.instagram,
+		});
+
+		reset();
+	};
 
 	return (
 		<dialog
@@ -10,7 +41,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 			className="border-none flex items-center justify-center h-screen w-full"
 		>
 			<form
-				onSubmit={handleTipsSubmit}
+				onSubmit={handleSubmit(handleTipsSubmit)}
 				className="grid grid-cols-7 p-4 bg-white rounded-lg w-full h-full"
 			>
 				<div className="col-span-full grid grid-rows-2">
@@ -20,47 +51,84 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						onClick={() => setShowTips(!showTips)}
 					/>
 
-					<h2 className="text-center pb-4">Tipsa om det sämsta haket</h2>
+					<h2 className="text-center font-semibold text-2xl pb-4">
+						Tipsa om det sämsta haket
+					</h2>
 				</div>
 
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<input
+						{...register("name", {
+							required: "Haket måste väl ha ett namn?!",
+						})}
 						type="text"
 						placeholder="Namn"
-						required
 						className="label-desc rounded-md border indent-2"
 					/>
+					{errors.name && (
+						<div className="text-red-600 text-xs font-light py-2">
+							{errors.name.message}
+						</div>
+					)}
 				</div>
 
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<input
+						{...register("address", {
+							required: "Hur ska man man hitta dit om du inte anger en adress?",
+						})}
 						type="text"
 						placeholder="Adress"
-						required
 						className="label-desc rounded-md border indent-2"
 					/>
+					{errors.address && (
+						<div className="text-red-600 text-xs font-light py-2">
+							{errors.address.message}
+						</div>
+					)}
 				</div>
 
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<input
+						{...register("city", {
+							required: "Men hallå, staden? Tack!",
+						})}
 						type="text"
 						placeholder="Ort"
-						required
 						className="label-desc rounded-md border indent-2"
 					/>
+					{errors.city && (
+						<div className="text-red-600 text-xs font-light py-2">
+							{errors.city.message}
+						</div>
+					)}
 				</div>
 
 				<div className="col-span-full flex flex-wrap gap-1 px-4">
 					<textarea
+						{...register("description", {
+							minLength: {
+								value: 10,
+								message: "Lite mer får du skriva om haket...",
+							},
+						})}
 						cols="30"
 						rows="10"
 						placeholder="Beskrivning"
-						className="basis-full label-desc mb-8 py-2 rounded-md border indent-2"
+						className="basis-full label-desc mb-8 p-2 rounded-md border"
 					></textarea>
+					{errors.description && (
+						<div className="text-red-600 text-xs font-light py-2">
+							{errors.description.message}
+						</div>
+					)}
 				</div>
 
 				<div className="col-span-full grid grid-rows-2 px-4">
-					<select className="rounded-md border indent-2">
+					<select
+						{...register("cuisine")}
+						className="rounded-md border indent-2"
+					>
 						<option
 							defaultValue="Typ av kök"
 							disabled
@@ -78,7 +146,10 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				</div>
 
 				<div className="col-span-full grid grid-rows-2 px-4">
-					<select className="rounded-md border indent-2">
+					<select
+						{...register("type_of_place")}
+						className="rounded-md border indent-2"
+					>
 						<option
 							defaultValue="Typ av matställe"
 							disabled
@@ -96,7 +167,10 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				</div>
 
 				<div className="col-span-full grid grid-rows-2 px-4">
-					<select className="rounded-md border indent-2">
+					<select
+						{...register("offers_food")}
+						className="rounded-md border indent-2"
+					>
 						<option
 							defaultValue="Utbud"
 							disabled
@@ -116,29 +190,38 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full flex flex-wrap px-4">
 					<div className="basis-full grid gap-3">
 						<input
-							type="text"
+							{...register("website")}
+							type="url"
 							placeholder="Hemsida"
 							className="label-desc rounded-md border py-1 indent-2"
 						/>
+
 						<input
-							type="text"
+							{...register("email")}
+							type="email"
 							placeholder="E-post"
 							className="label-desc rounded-md border py-1 indent-2"
 						/>
+
 						<input
-							type="text"
+							{...register("phone")}
+							type="tel"
 							placeholder="Telefonnummer"
 							className="label-desc rounded-md border py-1 indent-2"
 						/>
+
 						<input
-							type="text"
-							placeholder="Instagram"
+							{...register("facebook")}
+							type="url"
+							placeholder="Facebook"
 							className="label-desc rounded-md border py-1 indent-2"
 						/>
+
 						<input
-							type="text"
-							placeholder="Facebook"
-							className="label-desc rounded-md border py-1"
+							{...register("instagram")}
+							type="url"
+							placeholder="Instagram"
+							className="label-desc rounded-md border py-1 indent-2"
 						/>
 					</div>
 				</div>
