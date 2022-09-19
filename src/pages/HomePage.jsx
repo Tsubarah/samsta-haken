@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import SearchForm from "../components/SearchForm";
+import TipsForm from "../components/TipsForm";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { getFormattedAddress } from "../services/GoogleAPI";
 
 const HomePage = () => {
 	const { getCurrentLocation, currentAddress } = useCurrentLocation();
 	const [formattedAddress, setFormattedAddress] = useState("");
+	const [showTips, setShowTips] = useState(false);
 
 	console.log("Current address on location", currentAddress);
 
@@ -27,6 +29,9 @@ const HomePage = () => {
 			<button onClick={getCurrentLocation}>Current position</button>
 
 			<SearchForm handleSearch={handleSearch} />
+
+			<button onClick={() => setShowTips(!showTips)}>Tipsa!</button>
+			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />}
 		</div>
 	);
 };
