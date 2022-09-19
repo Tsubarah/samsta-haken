@@ -43,7 +43,7 @@ const Signup = () => {
 
   return (
     <>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-12 z-10">
+      <div>
         <form onSubmit={handleSubmit}>
           <div className="bg-grey-lighter flex flex-col">
             <div className="container max-w-xs mx-auto flex-1 flex flex-col items-center justify-center px-2">

@@ -7,7 +7,7 @@ const Login = () => {
   const passwordRef = useRef()
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const { login, currentUser, loginSwipe } = useAuthContext()
+  const { login, currentUser, loginSwipe, setLoginSwipe } = useAuthContext()
   const navigate = useNavigate()
   
   const handleSubmit = async (e) => {
@@ -30,7 +30,7 @@ const Login = () => {
     <>
       {loading && <div>Loading..</div>}
       
-      <form onSubmit={handleSubmit} className={loginSwipe ? "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-1" : "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-1 hidden"}>
+      <form onSubmit={handleSubmit}>
         <div className="bg-grey-lighter flex flex-col">
           <div className="container max-w-xs mx-auto flex-1 flex flex-col items-center justify-center px-2">
             <div className="flex justify-center flex-col bg-white px-6 pt-8 rounded shadow-md text-black w-full">
@@ -41,7 +41,6 @@ const Login = () => {
                   className="block border border-grey-light p-3 rounded mb-4"
                   name="email"
                   ref={emailRef}
-                  required
                   placeholder="Email" 
               />
 
@@ -50,23 +49,22 @@ const Login = () => {
                   className="block border border-grey-light p-3 rounded mb-4"
                   name="password"
                   ref={passwordRef}
-                  required
                   placeholder="Password" 
               />
 
               <button className="block border border-grey-light p-3 rounded">
                 Login
               </button>
-              <div className="text-grey-dark mb-5 flex flex-col justify-center">
-                <p className="m-auto py-4">Don't have an account?</p>
-                <button className="px-8 h-8">
-                Create account
-                </button>
-              </div>
             </div>
           </div>
         </div>
       </form>
+      <div className="text-grey-dark mb-5 flex flex-col justify-center">
+        <p className="m-auto py-4">Don't have an account?</p>
+        <button className="px-8 h-8" onClick={() => {setLoginSwipe(false)}}>
+        Create account
+        </button>
+      </div>
     </>
   )
 }

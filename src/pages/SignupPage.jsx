@@ -1,8 +1,6 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import Signup from '../components/Signup'
 import Login from '../components/Login'
-import SwipeInFromRight from '../components/animations/SwipeInFromRight'
-import SwipeOutToLeft from '../components/animations/SwipeOutToLeft'
 import { useAuthContext } from '../contexts/AuthContext'
 
 const SignupPage = () => {
@@ -15,17 +13,14 @@ const SignupPage = () => {
     <>
       {loading && <div>loading...</div>}
       
-      {loginSwipe ? <SwipeOutToLeft>
-                      <Signup />
-                    </SwipeOutToLeft>
-                  : <Signup />
-      }  
-
-      {loginSwipe ? <SwipeInFromRight>
-                      <Login />
-                    </SwipeInFromRight>
-                  : <Login />
-      }
+      <div className={`flex w-[200%] transition duration-500 ${loginSwipe ? "-translate-x-1/2" : ""}`}>
+        <div className="grid place-content-center h-screen w-full">
+          <Signup />
+        </div>
+        <div className="grid place-content-center h-screen w-full">
+          <Login />
+        </div>
+      </div>
     </>
   )
 }
