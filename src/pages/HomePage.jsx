@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import Map from "../components/Map";
 import SearchForm from "../components/SearchForm";
 import TipsForm from "../components/TipsForm";
 import useCurrentLocation from "../hooks/useCurrentLocation";
@@ -32,6 +33,8 @@ const HomePage = () => {
 
 			<button onClick={() => setShowTips(!showTips)}>Tipsa!</button>
 			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />}
+
+			<Map />
 		</div>
 	);
 };
