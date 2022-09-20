@@ -61,7 +61,7 @@ const Login = () => {
       </form>
       <div className="text-grey-dark mb-5 flex flex-col justify-center">
         <p className="m-auto py-4">Don't have an account?</p>
-        <button className="px-8 h-8" onClick={() => {setLoginSwipe(false)}}>
+        <button className="px-8 h-8" onClick={() => {setLoginSwipe(true)}}>
         Create account
         </button>
       </div>

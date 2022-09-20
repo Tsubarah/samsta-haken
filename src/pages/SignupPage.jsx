@@ -15,10 +15,10 @@ const SignupPage = () => {
       
       <div className={`flex w-[200%] transition duration-500 ${loginSwipe ? "-translate-x-1/2" : ""}`}>
         <div className="grid place-content-center h-screen w-full">
-          <Signup />
+          <Login />
         </div>
         <div className="grid place-content-center h-screen w-full">
-          <Login />
+          <Signup />
         </div>
       </div>
     </>
