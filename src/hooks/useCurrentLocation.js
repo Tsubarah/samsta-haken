@@ -5,7 +5,7 @@ import {
 } from "../services/googleAPI";
 
 const useCurrentLocation = () => {
-	const [currentAddress, setCurrentAddress] = useState();
+	const [positionAddress, setPositionAddress] = useState(null);
 	const [positionLatLng, setPositionLatLng] = useState(null);
 
 	const getCurrentLocation = () => {
@@ -19,7 +19,7 @@ const useCurrentLocation = () => {
 
 					const geolocation = await getLocationWithLatLng(latitude, longitude);
 
-					setCurrentAddress(geolocation.results[0]);
+					setPositionAddress(geolocation.results[0].formatted_address);
 					setPositionLatLng({ lat: latitude, lng: longitude });
 				} catch (err) {
 					console.log("Unable to retrieve your location");
@@ -31,6 +31,7 @@ const useCurrentLocation = () => {
 	return {
 		getCurrentLocation,
 		positionLatLng,
+		positionAddress,
 	};
 };
 
