@@ -24,17 +24,22 @@ const HomePage = () => {
 	}, [formattedAddress]);
 
 	return (
-		<div className="flex">
-			<h1 className="m-auto">Home</h1>
+		<div className="h-full flex flex-col">
+			<div className="flex gap-4 bg-gray-500 p-4">
+				<h1 className="m-auto">Home</h1>
 
-			<button onClick={getCurrentLocation}>Current position</button>
+				<button onClick={getCurrentLocation}>Current position</button>
 
-			<SearchForm handleSearch={handleSearch} />
+				<SearchForm handleSearch={handleSearch} />
 
-			<button onClick={() => setShowTips(!showTips)}>Tipsa!</button>
-			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />}
+				<button onClick={() => setShowTips(!showTips)}>Tipsa!</button>
+			</div>
 
 			<Map />
+
+			<div className="bg-gray-500 p-4">MOCK FOOTER</div>
+
+			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />}
 		</div>
 	);
 };
