@@ -77,7 +77,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						})}
 						type="text"
 						placeholder="Namn"
-						className="label-desc rounded-md border indent-2"
+						className="label-desc input input-bordered input-sm indent-2"
 					/>
 					{errors.name && (
 						<div className="text-red-600 text-xs font-light py-2">
@@ -93,7 +93,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						})}
 						type="text"
 						placeholder="Adress"
-						className="label-desc rounded-md border indent-2"
+						className="label-desc input input-bordered input-sm indent-2"
 					/>
 					{errors.address && (
 						<div className="text-red-600 text-xs font-light py-2">
@@ -109,7 +109,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						})}
 						type="text"
 						placeholder="Ort"
-						className="label-desc rounded-md border indent-2"
+						className="label-desc input input-bordered input-sm indent-2"
 					/>
 					{errors.city && (
 						<div className="text-red-600 text-xs font-light py-2">
@@ -129,7 +129,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						cols="30"
 						rows="10"
 						placeholder="Beskrivning"
-						className="basis-full label-desc-text-area mb-8 p-2 rounded-md border"
+						className="basis-full label-desc-text-area mb-8 px-5 textarea textarea-bordered"
 					></textarea>
 					{errors.description && (
 						<div className="text-red-600 text-xs font-light py-2">
@@ -141,7 +141,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<select
 						{...register("cuisine")}
-						className="rounded-md border indent-1 label-desc-option-value"
+						className="select select-bordered select-sm indent-1 font-normal label-desc-option-value"
 						defaultValue="Typ av kök"
 					>
 						<option disabled>Typ av kök</option>
@@ -157,7 +157,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<select
 						{...register("type_of_place")}
-						className="rounded-md border indent-1 label-desc-option-value"
+						className="select select-bordered select-sm indent-1 font-normal label-desc-option-value"
 						defaultValue="Typ av matställe"
 					>
 						<option disabled>Typ av matställe</option>
@@ -173,7 +173,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<select
 						{...register("offers_food")}
-						className="rounded-md border indent-1 label-desc-option-value"
+						className="select select-bordered select-sm indent-1 font-normal label-desc-option-value"
 						defaultValue="Utbud"
 					>
 						<option disabled>Utbud</option>
@@ -193,16 +193,14 @@ const TipsForm = ({ showTips, setShowTips }) => {
 								key={item.id}
 								placeholder={`${item.title}`}
 								{...register(`socials.${index}.value`)}
-								className="label-desc rounded-md border py-1 indent-2"
+								className="label-desc input input-bordered input-sm indent-2"
 							/>
 						))}
 					</div>
 				</div>
 
-				<div className="col-span-full flex px-4 mt-14">
-					<button className="basis-full rounded-md py-2 bg-blue-500 hover:bg-blue-700 text-white">
-						Skicka in
-					</button>
+				<div className="col-span-full flex px-4 mt-12">
+					<button className="btn btn-block">Skicka in</button>
 				</div>
 			</form>
 		</dialog>

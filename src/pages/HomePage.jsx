@@ -31,14 +31,18 @@ const HomePage = () => {
 
 	return (
 		<div className="h-full flex flex-col">
-			<div className="flex gap-4 bg-gray-500 p-4">
-				<h1 className="m-auto">Home</h1>
+			<div className="grid grid-cols-3 gap-4 bg-gray-500 p-4 items-center">
+				<div className="flex gap-4">
+					<h1>Home</h1>
 
-				<button onClick={getCurrentLocation}>Current position</button>
+					<button onClick={() => setShowTips(!showTips)}>Tipsa!</button>
+				</div>
 
-				<SearchForm handleSearch={handleSearch} />
-
-				<button onClick={() => setShowTips(!showTips)}>Tipsa!</button>
+				<SearchForm
+					handleSearch={handleSearch}
+					handleCurrentLocation={getCurrentLocation}
+					className="col-end-6"
+				/>
 			</div>
 
 			<Map position={location} />
