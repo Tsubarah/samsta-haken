@@ -4,24 +4,26 @@ import Map from "../components/Map";
 import SearchForm from "../components/SearchForm";
 import TipsForm from "../components/TipsForm";
 import useCurrentLocation from "../hooks/useCurrentLocation";
-import { getFormattedAddress } from "../services/GoogleAPI";
+import { getLocationWithAddress } from "../services/GoogleAPI";
 
 const HomePage = () => {
-	const { getCurrentLocation, currentAddress } = useCurrentLocation();
-	const [formattedAddress, setFormattedAddress] = useState("");
+	const { getCurrentLocation, positionLatLng } = useCurrentLocation();
+
 	const [showTips, setShowTips] = useState(false);
 
-	console.log("Current address on location", currentAddress);
+	const [location, setLocation] = useState(null);
 
 	const handleSearch = async (address) => {
-		const addressResponse = await getFormattedAddress(address);
+		const addressResponse = await getLocationWithAddress(address);
 
-		setFormattedAddress(addressResponse.results[0].formatted_address);
+		setLocation(addressResponse.results[0].geometry.location);
 	};
 
 	useEffect(() => {
-		console.log("Searched for this address:", formattedAddress);
-	}, [formattedAddress]);
+		if (positionLatLng) {
+			setLocation(positionLatLng);
+		}
+	}, [positionLatLng]);
 
 	return (
 		<div className="h-full flex flex-col">
@@ -35,7 +37,7 @@ const HomePage = () => {
 				<button onClick={() => setShowTips(!showTips)}>Tipsa!</button>
 			</div>
 
-			<Map />
+			<Map position={location} />
 
 			<div className="bg-gray-500 p-4">MOCK FOOTER</div>
 

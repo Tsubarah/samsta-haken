@@ -1,31 +1,30 @@
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
-import { useCallback, memo } from "react";
+import { useCallback } from "react";
 
-const userLocation = { lat: 55.6299416, lng: 13.5135172 };
-
-const Map = () => {
+const Map = ({ position }) => {
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
 		googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
 	});
 
-	const onLoad = useCallback(async (map) => {
-		const bounds = new window.google.maps.LatLngBounds(userLocation);
-		await map.fitBounds(bounds);
+	const onLoad = useCallback((map) => {
+		const zoom = 18;
+		map.setZoom(zoom);
 	}, []);
+
+	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
 
 	return isLoaded ? (
 		<GoogleMap
 			mapContainerClassName="w-full h-full"
-			zoom={10}
-			center={userLocation}
+			center={position ? position : defaultLocation}
 			onLoad={onLoad}
 		>
-			<Marker position={userLocation} />
+			<Marker position={position ? position : defaultLocation} />
 		</GoogleMap>
 	) : (
 		<></>
 	);
 };
 
-export default memo(Map);
+export default Map;

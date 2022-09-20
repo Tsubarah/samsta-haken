@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { getAddress } from "../services/googleAPI";
+import {
+	getLocationWithAddress,
+	getLocationWithLatLng,
+} from "../services/googleAPI";
 
 const useCurrentLocation = () => {
 	const [currentAddress, setCurrentAddress] = useState();
+	const [positionLatLng, setPositionLatLng] = useState(null);
 
 	const getCurrentLocation = () => {
 		if (!navigator.geolocation) {
@@ -13,9 +17,10 @@ const useCurrentLocation = () => {
 					let latitude = position.coords.latitude;
 					let longitude = position.coords.longitude;
 
-					const geolocation = await getAddress(latitude, longitude);
+					const geolocation = await getLocationWithLatLng(latitude, longitude);
 
 					setCurrentAddress(geolocation.results[0]);
+					setPositionLatLng({ lat: latitude, lng: longitude });
 				} catch (err) {
 					console.log("Unable to retrieve your location");
 				}
@@ -23,7 +28,10 @@ const useCurrentLocation = () => {
 		}
 	};
 
-	return { getCurrentLocation, currentAddress };
+	return {
+		getCurrentLocation,
+		positionLatLng,
+	};
 };
 
 export default useCurrentLocation;
