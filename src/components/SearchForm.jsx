@@ -14,14 +14,15 @@ const SearchForm = ({ handleSearch }) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} className="flex gap-2">
 			<input
 				type="text"
 				placeholder="Enter address here!"
 				onChange={(e) => setSearchInput(e.target.value)}
 				value={searchInput}
+				className="input input-sm"
 			/>
-			<button>Search</button>
+			<button className="btn btn-sm">Search</button>
 		</form>
 	);
 };
