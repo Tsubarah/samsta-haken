@@ -3,7 +3,7 @@ import Signup from '../components/Signup'
 import Login from '../components/Login'
 import { useAuthContext } from '../contexts/AuthContext'
 
-const SignupPage = () => {
+const LoginPage = () => {
   const [loading, setLoading] = useState(false)
   const { loginSwipe } = useAuthContext()
 
@@ -25,4 +25,4 @@ const SignupPage = () => {
   )
 }
 
-export default SignupPage
+export default LoginPage
