@@ -12,6 +12,7 @@ const SearchForm = ({ className, handleSearch, handleCurrentLocation }) => {
 		}
 
 		handleSearch(searchInput);
+		setSearchInput("");
 	};
 
 	return (
