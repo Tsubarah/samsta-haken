@@ -19,7 +19,7 @@ const Login = () => {
       setLoading(true)
       await login(emailRef.current.value, passwordRef.current.value)
       console.log("Success logging in as:", currentUser)
-      // navigate('/')
+      navigate('/')
     } catch (err) {
       setError(err.message)
       setLoading(false)
