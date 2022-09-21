@@ -58,11 +58,11 @@ const TipsForm = ({ showTips, setShowTips }) => {
 	return (
 		<dialog
 			open={showTips}
-			className="border-none flex items-center justify-center w-full"
+			className="border-none flex items-center justify-center w-full h-full"
 		>
 			<form
 				onSubmit={handleSubmit(handleTipsSubmit)}
-				className="grid grid-cols-7 p-4 bg-white rounded-lg w-full"
+				className="grid grid-cols-7 p-4 bg-white rounded-lg w-full h-full lg:w-3/6 lg:h-4/5 overflow-y-auto scrollbar-hide"
 			>
 				<div className="col-span-full grid grid-rows-2">
 					<MdOutlineCancel

@@ -3,12 +3,14 @@ import { MdOutlineExplore } from "react-icons/md";
 import { AiOutlineUser } from "react-icons/ai";
 import { VscGithubInverted } from "react-icons/vsc";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const Footer = () => {
+	const { setShowTips, showTips } = useAuthContext();
 	return (
 		<>
-			<div className="btm-nav lg:hidden">
-				<button>
+			<div className="btm-nav relative lg:hidden">
+				<button onClick={() => setShowTips(!showTips)}>
 					<HiOutlinePencil size={25} />
 					<span className="btm-nav-label">Tipsa</span>
 				</button>

@@ -1,20 +1,15 @@
-import { useState } from "react";
-import Map from "../components/Map";
-
-import TipsForm from "../components/TipsForm";
 import { useAuthContext } from "../contexts/AuthContext";
+import Map from "../components/Map";
+import TipsForm from "../components/TipsForm";
 
 const HomePage = () => {
-	const { location } = useAuthContext();
-
-	const [showTips, setShowTips] = useState(false);
+	const { location, showTips, setShowTips } = useAuthContext();
 
 	return (
-		<div className="flex flex-col h-full">
+		<div className="flex flex-col h-full relative">
 			<Map position={location} />
 
-			{/* 
-			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />} */}
+			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />}
 		</div>
 	);
 };

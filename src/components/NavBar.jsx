@@ -2,8 +2,11 @@ import SearchForm from "./SearchForm";
 import { HiOutlinePencil } from "react-icons/hi";
 import { AiOutlineUser } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const NavBar = () => {
+	const { showTips, setShowTips } = useAuthContext();
+
 	return (
 		<>
 			<div className="navbar bg-base-100 px-4 lg:hidden">
@@ -20,7 +23,10 @@ const NavBar = () => {
 
 				<SearchForm className={"w-full col-start-5 col-end-11"} />
 
-				<button className="col-start-11 justify-self-end gap-2">
+				<button
+					className="col-start-11 justify-self-end gap-2"
+					onClick={() => setShowTips(!showTips)}
+				>
 					<HiOutlinePencil size={25} />
 					<span className="btm-nav-label">Tipsa</span>
 				</button>

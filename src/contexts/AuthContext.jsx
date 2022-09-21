@@ -60,6 +60,9 @@ const AuthContextProvider = ({ children }) => {
 		setAddress(addressResponse.results[0].formatted_address);
 	};
 
+	// Show and hide tips component
+	const [showTips, setShowTips] = useState(false);
+
 	const contextValues = {
 		currentUser,
 		signup,
@@ -72,6 +75,8 @@ const AuthContextProvider = ({ children }) => {
 		setLocation,
 		address,
 		setAddress,
+		showTips,
+		setShowTips,
 	};
 
 	return (
