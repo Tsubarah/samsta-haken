@@ -9,7 +9,7 @@ const Footer = () => {
 	const { setShowTips, showTips } = useAuthContext();
 	return (
 		<>
-			<div className="btm-nav relative lg:hidden">
+			<div className="btm-nav my-2 relative lg:hidden">
 				<button onClick={() => setShowTips(!showTips)}>
 					<HiOutlinePencil size={25} />
 					<span className="btm-nav-label">Tipsa</span>
