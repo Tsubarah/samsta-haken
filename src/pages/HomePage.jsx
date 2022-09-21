@@ -5,8 +5,12 @@ import SearchForm from "../components/SearchForm";
 import TipsForm from "../components/TipsForm";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import { getLocationWithAddress } from "../services/GoogleAPI";
+import { useAuthContext } from '../contexts/AuthContext'
 
 const HomePage = () => {
+
+	const { currentUser } = useAuthContext()
+
 	const { getCurrentLocation, positionLatLng, positionAddress } =
 		useCurrentLocation();
 
@@ -49,6 +53,7 @@ const HomePage = () => {
 
 			<div className="bg-gray-500 p-4 text-center">
 				{address ? <p>Adress: {address}</p> : "Sämsta Haket Inc"}
+				{currentUser ? <p>{currentUser.email}</p> : ''}
 			</div>
 
 			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />}
