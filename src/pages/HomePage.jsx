@@ -30,8 +30,8 @@ const HomePage = () => {
 	}, [positionLatLng]);
 
 	return (
-		<div className="h-full flex flex-col">
-			<div className="grid grid-cols-3 gap-4 bg-gray-500 p-4 items-center">
+		<div className="flex flex-col h-full">
+			{/* <div className="grid grid-cols-3 gap-4 bg-gray-500 p-4 items-center">
 				<div className="flex gap-4">
 					<h1>Home</h1>
 
@@ -43,15 +43,15 @@ const HomePage = () => {
 					handleCurrentLocation={getCurrentLocation}
 					className="col-end-6"
 				/>
-			</div>
+			</div> */}
 
 			<Map position={location} />
 
-			<div className="bg-gray-500 p-4 text-center">
+			{/* <div className="bg-gray-500 p-4 text-center">
 				{address ? <p>Adress: {address}</p> : "Sämsta Haket Inc"}
 			</div>
 
-			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />}
+			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />} */}
 		</div>
 	);
 };

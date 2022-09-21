@@ -19,7 +19,7 @@ const SearchForm = ({ className, handleSearch, handleCurrentLocation }) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className={`flex justify-center items-center ${className}`}
+			className={`flex justify-center items-center gap-2 ${className}`}
 		>
 			<TiLocationArrow
 				onClick={handleCurrentLocation}
@@ -33,7 +33,7 @@ const SearchForm = ({ className, handleSearch, handleCurrentLocation }) => {
 					placeholder="Enter address here!"
 					onChange={(e) => setSearchInput(e.target.value)}
 					value={searchInput}
-					className="input input-sm"
+					className="input input-sm input-bordered w-full"
 				/>
 
 				<button className="btn btn-sm btn-square">
