@@ -30,7 +30,7 @@ const SearchForm = ({ className, handleSearch, handleCurrentLocation }) => {
 			<div className="input-group">
 				<input
 					type="text"
-					placeholder="Enter address here!"
+					placeholder="Sök..."
 					onChange={(e) => setSearchInput(e.target.value)}
 					value={searchInput}
 					className="input input-sm input-bordered w-full"

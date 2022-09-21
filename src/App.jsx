@@ -18,7 +18,7 @@ function App() {
 
 			<Footer />
 
-			<ReactQueryDevtools position="bottom-right" />
+			{/* <ReactQueryDevtools position="bottom-right" /> */}
 		</div>
 	);
 }
