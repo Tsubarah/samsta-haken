@@ -10,22 +10,22 @@ const LoginPage = () => {
 	console.log(loginSwipe);
 
 	return (
-		<div className="h-full grid place-content-center">
-			{loading && <div>loading...</div>}
+		// <div className="h-full grid place-content-center">
+		// 	{loading && <div>loading...</div>}
 
 			<div
 				className={`flex w-[200%] transition duration-500 ${
 					loginSwipe ? "-translate-x-1/2" : ""
 				}`}
 			>
-				<div className="grid place-content-center w-full">
+				<div className="grid h-screen place-content-center w-full">
 					<Login />
 				</div>
-				<div className="grid place-content-center w-full">
+				<div className="grid h-screen place-content-center w-full">
 					<Signup />
 				</div>
 			</div>
-		</div>
+		// </div>
 	);
 };
 
