@@ -37,6 +37,6 @@ module.exports = {
 			"coffee",
 			"winter",
 		],
-		darkTheme: "light",
+		darkTheme: "luxury",
 	},
 };
