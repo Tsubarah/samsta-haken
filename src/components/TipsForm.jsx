@@ -4,6 +4,7 @@ import { db } from "../firebase";
 import { useForm, useFieldArray } from "react-hook-form";
 
 import { MdOutlineCancel } from "react-icons/md";
+import { getLocationWithAddress } from "../services/googleAPI";
 
 const TipsForm = ({ showTips, setShowTips }) => {
 	const {
@@ -32,11 +33,16 @@ const TipsForm = ({ showTips, setShowTips }) => {
 	const collectionRef = collection(db, "restaurants");
 
 	const handleTipsSubmit = async (data) => {
+		const dataLatLng = await getLocationWithAddress(
+			`${data.address},${data.city}`
+		);
+
 		await addDoc(collectionRef, {
 			accepted: false,
 			name: data.name,
 			address: data.address,
 			city: data.city,
+			position: dataLatLng.results[0].geometry.location,
 			description: data.description,
 			cuisine: data.cuisine,
 			type_of_place: data.type_of_place,
