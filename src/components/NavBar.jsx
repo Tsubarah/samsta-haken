@@ -12,13 +12,15 @@ const NavBar = () => {
 			</div>
 
 			<div className="navbar bg-base-100 hidden lg:grid grid-cols-12">
-				<h1 className="btn btn-ghost normal-case text-xl col-span-2">
-					Sämsta Haken
-				</h1>
+				<Link to={"/"}>
+					<h1 className="btn btn-ghost normal-case text-xl col-span-2">
+						Sämsta Haken
+					</h1>
+				</Link>
 
 				<SearchForm className={"w-full col-start-5 col-end-11"} />
 
-				<button className="col-start-11 justify-self-end">
+				<button className="col-start-11 justify-self-end gap-2">
 					<HiOutlinePencil size={25} />
 					<span className="btm-nav-label">Tipsa</span>
 				</button>
