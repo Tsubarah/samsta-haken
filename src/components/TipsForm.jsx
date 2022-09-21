@@ -2,10 +2,10 @@ import { food } from "../db/food";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
 import { useForm, useFieldArray } from "react-hook-form";
-import useClickOutside from "../hooks/useClickOutside";
 
 import { MdOutlineCancel } from "react-icons/md";
 import { getLocationWithAddress } from "../services/googleAPI";
+import useClickOutside from "../hooks/useClickOutside";
 
 const TipsForm = ({ showTips, setShowTips }) => {
 	const {
