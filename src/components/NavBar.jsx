@@ -1,11 +1,17 @@
+import { useAuthContext } from "../contexts/AuthContext";
+import { Link, useLocation } from "react-router-dom";
+import classNames from "classnames";
+
 import SearchForm from "./SearchForm";
 import { HiOutlinePencil } from "react-icons/hi";
 import { AiOutlineUser } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { useAuthContext } from "../contexts/AuthContext";
 
 const NavBar = () => {
 	const { showTips, setShowTips } = useAuthContext();
+
+	const urlLocation = useLocation();
+
+	const hidden = classNames(urlLocation.pathname !== "/" ? "hidden" : "");
 
 	return (
 		<>
@@ -21,10 +27,10 @@ const NavBar = () => {
 					</h1>
 				</Link>
 
-				<SearchForm className={"w-full col-start-5 col-end-11"} />
+				<SearchForm className={`w-full col-start-5 col-end-11 ${hidden}`} />
 
 				<button
-					className="col-start-11 justify-self-end gap-2"
+					className={`col-start-11 justify-self-end gap-2 ${hidden}`}
 					onClick={() => setShowTips(!showTips)}
 				>
 					<HiOutlinePencil size={25} />
