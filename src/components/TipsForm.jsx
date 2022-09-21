@@ -5,7 +5,6 @@ import { useForm, useFieldArray } from "react-hook-form";
 
 import { MdOutlineCancel } from "react-icons/md";
 import { getLocationWithAddress } from "../services/googleAPI";
-import useClickOutside from "../hooks/useClickOutside";
 
 const TipsForm = ({ showTips, setShowTips }) => {
 	const {
@@ -30,12 +29,6 @@ const TipsForm = ({ showTips, setShowTips }) => {
 		control,
 		name: "socials",
 	});
-
-	const { ref } = useClickOutside();
-
-	const handleClickOutside = () => {
-		setShowTips(!showTips);
-	};
 
 	const collectionRef = collection(db, "restaurants");
 
@@ -66,8 +59,6 @@ const TipsForm = ({ showTips, setShowTips }) => {
 		<dialog
 			open={showTips}
 			className="border-none flex items-center justify-center w-full h-full"
-			ref={ref}
-			onClick={handleClickOutside}
 		>
 			<form
 				onSubmit={handleSubmit(handleTipsSubmit)}
