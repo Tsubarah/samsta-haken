@@ -2,6 +2,7 @@ import { HiOutlinePencil } from "react-icons/hi";
 import { MdOutlineExplore } from "react-icons/md";
 import { AiOutlineUser } from "react-icons/ai";
 import { VscGithubInverted } from "react-icons/vsc";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
 	return (
@@ -11,14 +12,14 @@ const Footer = () => {
 					<HiOutlinePencil size={25} />
 					<span className="btm-nav-label">Tipsa</span>
 				</button>
-				<button>
+				<Link to="/">
 					<MdOutlineExplore size={25} />
 					<span className="btm-nav-label">Utforska</span>
-				</button>
-				<button>
+				</Link>
+				<Link to="login">
 					<AiOutlineUser size={25} />
 					<span className="btm-nav-label">Logga in</span>
-				</button>
+				</Link>
 			</div>
 
 			<footer className="hidden lg:block footer footer-center p-4 bg-base-100 text-base-content">
