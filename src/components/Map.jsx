@@ -1,4 +1,6 @@
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { useState } from "react";
+import { useEffect } from "react";
 import { useCallback } from "react";
 
 const Map = ({ position }) => {
@@ -13,14 +15,23 @@ const Map = ({ position }) => {
 	}, []);
 
 	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
+	const [newLocation, setNewLocation] = useState(null);
+
+	useEffect(() => {
+		if (!position) {
+			setNewLocation(defaultLocation);
+		} else {
+			setNewLocation(position);
+		}
+	}, [position]);
 
 	return isLoaded ? (
 		<GoogleMap
 			mapContainerClassName="w-full h-full"
-			center={position ? position : defaultLocation}
+			center={newLocation}
 			onLoad={onLoad}
 		>
-			<Marker position={position ? position : defaultLocation} />
+			<Marker position={newLocation} />
 		</GoogleMap>
 	) : (
 		<></>
