@@ -6,6 +6,7 @@ import "../src/assets/scss/App.scss";
 import LoginPage from "./pages/LoginPage";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import RestaurantPage from "./pages/RestaurantPage";
 
 function App() {
 	return (
@@ -16,6 +17,7 @@ function App() {
 				<Route path="/" element={<HomePage />} />
 				<Route path="/admin" element={<AdminPage />} />
 				<Route path="/login" element={<LoginPage />} />
+				<Route path="/restaurants/:id" element={<RestaurantPage />} />
 			</Routes>
 
 			<Footer />

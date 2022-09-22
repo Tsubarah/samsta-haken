@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const RestaurantsTable = ({ restaurants }) => {
-	console.log(restaurants);
+	const navigate = useNavigate();
 
 	return (
 		<div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-black">
@@ -40,7 +42,12 @@ const RestaurantsTable = ({ restaurants }) => {
 									<td key={i}>{social.value}</td>
 								))}
 								<td>
-									<button className="btn btn-sm btn-info">Redigera</button>
+									<button
+										className="btn btn-sm btn-info"
+										onClick={() => navigate(`restaurants/${restaurant.id}`)}
+									>
+										Redigera
+									</button>
 								</td>
 
 								<td className="text-center">
