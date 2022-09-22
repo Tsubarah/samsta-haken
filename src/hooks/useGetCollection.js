@@ -1,37 +1,33 @@
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection } from "firebase/firestore";
 import { db } from "../firebase/index";
 
 const useGetCollection = (col) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(true);
 
-  const getData = async () => {
-    setLoading(true);
-    // Get reference to collection 'users'
-    const ref = collection(db, col);
-    const snapshot = await getDocs(ref);
+	useEffect(() => {
+		const ref = collection(db, col);
 
-    const docs = snapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
+		const unsubscribe = onSnapshot(ref, (snapshot) => {
+			const docs = snapshot.docs.map((doc) => {
+				return {
+					id: doc.id,
+					...doc.data(),
+				};
+			});
 
-    setData(docs);
-    setLoading(false);
-  };
+			setData(docs);
+			setLoading(false);
+		});
 
-  useEffect(() => {
-    getData();
-  }, []);
+		return unsubscribe;
+	}, []);
 
-  return {
-    data,
-    loading,
-    getData,
-  };
+	return {
+		data,
+		loading,
+	};
 };
 
 export default useGetCollection;
