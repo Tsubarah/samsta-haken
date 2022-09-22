@@ -1,42 +1,38 @@
-const UserTable = ({users}) => {
-  return (
-    <div className="overflow-x-auto">
-      <table className="table w-full">
-        {/* <!-- head --> */}
-        <thead>
-          <tr>
-            <th></th>
-            <th>Image</th>
-            <th>Email</th>
-            <th>Admin</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* <!-- row 1 --> */}
-          <tr>
-            <th>1</th>
-            <td>Null</td>
-            <td>{users[0].email}</td>
-            <td>Blue</td>
-          </tr>
-          {/* <!-- row 2 --> */}
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-          {/* <!-- row 3 --> */}
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
+const UserTable = ({ users }) => {
+	console.log(users);
+
+	return (
+		<div className="overflow-x-auto">
+			<table className="table w-full">
+				{/* <!-- head --> */}
+				<thead>
+					<tr>
+						<th></th>
+						<th>Image</th>
+						<th>Email</th>
+						<th>Admin</th>
+					</tr>
+				</thead>
+				<tbody>
+					{users &&
+						users.map((user) => (
+							<tr key={user.id}>
+								<th>1</th>
+								<td>Null</td>
+								<td>{user.email}</td>
+								<td>
+									{user.admin ? (
+										<button className="btn btn-success">J</button>
+									) : (
+										<button className="btn btn-error">N</button>
+									)}
+								</td>
+							</tr>
+						))}
+				</tbody>
+			</table>
+		</div>
+	);
 };
 
 export default UserTable;
