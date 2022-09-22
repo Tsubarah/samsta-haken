@@ -10,8 +10,8 @@ const RestaurantPage = () => {
 	console.log(restaurant);
 
 	return (
-		<div className="h-full flex items-center justify-center bg-neutral">
-			<RestaurantEditCard />
+		<div className="h-full flex items-center justify-center bg-neutral overflow-hidden">
+			<RestaurantEditCard restaurant={restaurant} />
 		</div>
 	);
 };
