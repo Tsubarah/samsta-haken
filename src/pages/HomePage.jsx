@@ -4,6 +4,7 @@ import Map from "../components/Map";
 import SearchForm from "../components/SearchForm";
 import TipsForm from "../components/TipsForm";
 import useCurrentLocation from "../hooks/useCurrentLocation";
+// import useGetRestaurants from "../hooks/useGetRestaurants";
 import { getLocationWithAddress } from "../services/GoogleAPI";
 
 const HomePage = () => {
@@ -14,6 +15,9 @@ const HomePage = () => {
 
 	const [location, setLocation] = useState(null);
 	const [address, setAddress] = useState(null);
+
+	// const restaurantQuery = useGetRestaurants()
+
 
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
@@ -27,6 +31,8 @@ const HomePage = () => {
 			setLocation(positionLatLng);
 			setAddress(positionAddress);
 		}
+
+		// console.log(restaurantQuery)
 	}, [positionLatLng]);
 
 	return (
