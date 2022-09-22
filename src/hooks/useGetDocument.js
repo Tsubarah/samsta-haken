@@ -6,7 +6,7 @@ const useGetDocument = (col, id) => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 
-	const ref = doc(db, colName, id);
+	const ref = doc(db, col, id);
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(ref, (snapshot) => {
