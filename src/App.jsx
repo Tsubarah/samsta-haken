@@ -4,10 +4,14 @@ import HomePage from "./pages/HomePage";
 import "../src/assets/scss/App.scss";
 import LoginPage from "./pages/LoginPage";
 import Drawer from "./components/Drawer";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 function App() {
 	return (
-		<div className="App h-screen">
+		<div className="App h-screen flex flex-col">
+			<NavBar />
+
 			<Routes>
 				<Route path="/" element={
 					<Drawer>
@@ -18,7 +22,9 @@ function App() {
 				<Route path="/login" element={<LoginPage />} />
 			</Routes>
 
-			<ReactQueryDevtools position="bottom-right" />
+			<Footer />
+
+			{/* <ReactQueryDevtools position="bottom-right" /> */}
 		</div>
 	);
 }

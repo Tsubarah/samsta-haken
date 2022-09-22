@@ -1,11 +1,8 @@
 import { useState } from "react";
-import {
-	getLocationWithAddress,
-	getLocationWithLatLng,
-} from "../services/googleAPI";
+import { getLocationWithLatLng } from "../services/googleAPI";
 
 const useCurrentLocation = () => {
-	const [positionAddress, setPositionAddress] = useState(null);
+	const [positionAddress, setPositionAddress] = useState("");
 	const [positionLatLng, setPositionLatLng] = useState(null);
 
 	const getCurrentLocation = () => {
@@ -32,6 +29,7 @@ const useCurrentLocation = () => {
 		getCurrentLocation,
 		positionLatLng,
 		positionAddress,
+		setPositionLatLng,
 	};
 };
 
