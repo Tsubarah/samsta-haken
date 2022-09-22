@@ -43,7 +43,10 @@ const Map = ({ position }) => {
 		>
 			<Marker position={newLocation} />
 			{restaurants.map(restaurant => (
-				<Marker key={restaurant.id} position={restaurant.position} />
+				<Marker 
+					key={restaurant.id} 
+					position={restaurant.position} 
+				/>
 			))}
 		</GoogleMap>
 	) : (
