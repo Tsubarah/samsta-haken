@@ -1,113 +1,135 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import {
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
-	onAuthStateChanged,
-	signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, getDoc, doc, writeBatch } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
 
 const AuthContext = createContext();
 
 const useAuthContext = () => {
-	return useContext(AuthContext);
+  return useContext(AuthContext);
 };
 
 const AuthContextProvider = ({ children }) => {
-	const [currentUser, setCurrentUser] = useState(null);
-	const [userEmail, setUserEmail] = useState(null);
-	const [loginSwipe, setLoginSwipe] = useState(false);
-	const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [loginSwipe, setLoginSwipe] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-	const signup = async (email, password) => {
-		// create the user
-		await createUserWithEmailAndPassword(auth, email, password);
+  const signup = async (email, password) => {
+    // create the user
+    await createUserWithEmailAndPassword(auth, email, password);
 
-		// reload user
-		await reloadUser();
+    // reload user
+    await reloadUser();
 
-		// create user document to db
-		const docRef = doc(db, "users", auth.currentUser.uid);
+    // create user document to db
+    const docRef = doc(db, "users", auth.currentUser.uid);
 
-		await setDoc(docRef, {
-			email,
-			admin: false,
-		});
-	};
+    await setDoc(docRef, {
+      email,
+      admin: false,
+    });
+  };
 
-	const login = async (email, password) => {
-		// login user
-		return signInWithEmailAndPassword(auth, email, password);
-	};
+  const login = async (email, password) => {
+    // login user
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
-	const logout = () => {
-		return signOut(auth);
-	};
+  const logout = () => {
+    return signOut(auth);
+  };
 
-	const reloadUser = async () => {
-		await auth.currentUser.reload();
-		setCurrentUser(auth.currentUser);
-		setUserEmail(auth.currentUser.email);
-		return true;
-	};
+  const updateAdmin = async (userId) => {
+    //get batch
+    const batch = writeBatch(db);
 
-	useEffect(() => {
-		// listen for auth-state changes
-		const unsubscribe = onAuthStateChanged(auth, (user) => {
-			setCurrentUser(user);
-			setUserEmail(user?.email);
-			setLoading(false);
-		});
+    //get user ref
+    const userRef = doc(db, "users", userId);
 
-		return unsubscribe;
-	}, []);
+    //get docsnap
+    const userSnap = await getDoc(userRef);
+    
+    //get the value for admin
+    const userAdmin = userSnap._document.data.value.mapValue.fields.admin.booleanValue;
 
-	// Location functions
+    //update admin value
+    batch.update(userRef, { admin: !userAdmin });
 
-	const [location, setLocation] = useState(null);
-	const [address, setAddress] = useState(null);
+    //commit update
+    await batch.commit();
+    
+  };
 
-	const handleSearch = async (address) => {
-		const addressResponse = await getLocationWithAddress(address);
+  const reloadUser = async () => {
+    await auth.currentUser.reload();
+    setCurrentUser(auth.currentUser);
+    setUserEmail(auth.currentUser.email);
+    return true;
+  };
 
-		setLocation(addressResponse.results[0].geometry.location);
-		setAddress(addressResponse.results[0].formatted_address);
-	};
+  useEffect(() => {
+    // listen for auth-state changes
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setUserEmail(user?.email);
+      setLoading(false);
+    });
 
-	// Show and hide tips component
-	const [showTips, setShowTips] = useState(false);
+    return unsubscribe;
+  }, []);
 
-	const contextValues = {
-		currentUser,
-		signup,
-		login,
-		logout,
-		reloadUser,
-		setLoginSwipe,
-		loginSwipe,
-		handleSearch,
-		location,
-		setLocation,
-		address,
-		setAddress,
-		showTips,
-		setShowTips,
-	};
+  // Location functions
 
-	return (
-		<AuthContext.Provider value={contextValues}>
-			{loading ? (
-				<div id="initial-loader">
-					<BeatLoader color={"#888"} size={50} />
-				</div>
-			) : (
-				children
-			)}
-		</AuthContext.Provider>
-	);
+  const [location, setLocation] = useState(null);
+  const [address, setAddress] = useState(null);
+
+  const handleSearch = async (address) => {
+    const addressResponse = await getLocationWithAddress(address);
+
+    setLocation(addressResponse.results[0].geometry.location);
+    setAddress(addressResponse.results[0].formatted_address);
+  };
+
+  // Show and hide tips component
+  const [showTips, setShowTips] = useState(false);
+
+  const contextValues = {
+    currentUser,
+    signup,
+    login,
+    logout,
+    reloadUser,
+    setLoginSwipe,
+    loginSwipe,
+    handleSearch,
+    location,
+    setLocation,
+    address,
+    setAddress,
+    showTips,
+    setShowTips,
+    updateAdmin
+  };
+
+  return (
+    <AuthContext.Provider value={contextValues}>
+      {loading ? (
+        <div id="initial-loader">
+          <BeatLoader color={"#888"} size={50} />
+        </div>
+      ) : (
+        children
+      )}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthContextProvider as default, useAuthContext };
