@@ -3,8 +3,10 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	onAuthStateChanged,
+	signOut,
 } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
+import { setDoc, doc } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
 
