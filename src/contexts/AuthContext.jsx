@@ -23,11 +23,26 @@ const AuthContextProvider = ({ children }) => {
 	const signup = async (email, password) => {
 		// create the user
 		await createUserWithEmailAndPassword(auth, email, password);
+
+		// reload user
+		await reloadUser();
+
+		// create user document to db
+		const docRef = doc(db, "users", auth.currentUser.uid);
+
+		await setDoc(docRef, {
+			email,
+			admin: false,
+		});
 	};
 
 	const login = async (email, password) => {
 		// login user
 		return signInWithEmailAndPassword(auth, email, password);
+	};
+
+	const logout = () => {
+		return signOut(auth);
 	};
 
 	const reloadUser = async () => {
@@ -67,6 +82,7 @@ const AuthContextProvider = ({ children }) => {
 		currentUser,
 		signup,
 		login,
+		logout,
 		reloadUser,
 		setLoginSwipe,
 		loginSwipe,
