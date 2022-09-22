@@ -11,15 +11,16 @@ const RestaurantsTable = ({ restaurants }) => {
 						<th>Namn</th>
 						<th>Addres</th>
 						<th>Stad</th>
+						<th>Typ av kök</th>
 						<th>Typ av matställe</th>
 						<th>Utbud</th>
-						<th>Typ av mat</th>
 						{restaurants &&
 							restaurants.map((restaurant) =>
 								restaurant.socials.map((social, i) => (
 									<th key={i}>{social.title}</th>
 								))
 							)}
+						<th>Redigera</th>
 						<th>Godkänd</th>
 					</tr>
 				</thead>
@@ -38,12 +39,15 @@ const RestaurantsTable = ({ restaurants }) => {
 								{restaurant.socials.map((social, i) => (
 									<td key={i}> {social.value}</td>
 								))}
+								<td>
+									<button className="btn btn-sm btn-info">Redigera</button>
+								</td>
 
 								<td className="text-center">
 									{restaurant.accepted ? (
-										<button className="btn btn-success">J</button>
+										<button className="btn btn-success btn-sm">J</button>
 									) : (
-										<button className="btn btn-error">N</button>
+										<button className="btn btn-error btn-sm">N</button>
 									)}
 								</td>
 							</tr>
