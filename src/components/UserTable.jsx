@@ -1,56 +1,54 @@
 import { useAuthContext } from "../contexts/AuthContext";
 
 const UserTable = ({ users }) => {
-  console.log(users);
+	const { updateAdmin } = useAuthContext();
 
-  const { updateAdmin } = useAuthContext();
+	const handleUpdateAdmin = (userId, user) => {
+		updateAdmin(userId, user);
+	};
 
-  const handleUpdateAdmin = (e) => {
-    updateAdmin(e.target.id);
-  };
-
-  return (
-    <div className="overflow-x-auto">
-      <table className="table w-full">
-        {/* <!-- head --> */}
-        <thead>
-          <tr>
-            <th></th>
-            <th>Image</th>
-            <th>Email</th>
-            <th>Admin</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users &&
-            users.map((user) => (
-              <tr key={user.id}>
-                <th>1</th>
-                <td>Null</td>
-                <td>{user.email}</td>
-                <td>
-                  {user.admin ? (
-                    <button
-                      id={user.id}
-                      onClick={handleUpdateAdmin}
-                      className="btn btn-success">
-                      J
-                    </button>
-                  ) : (
-                    <button
-                      id={user.id}
-                      onClick={handleUpdateAdmin}
-                      className="btn btn-error">
-                      N
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-  );
+	return (
+		<div className="overflow-x-auto">
+			<table className="table w-full">
+				{/* <!-- head --> */}
+				<thead>
+					<tr>
+						<th></th>
+						<th>Id</th>
+						<th>Email</th>
+						<th>Admin</th>
+					</tr>
+				</thead>
+				<tbody>
+					{users &&
+						users.map((user, i) => (
+							<tr key={user.id}>
+								<th>{i + 1}</th>
+								<td>{user.id}</td>
+								<td>{user.email}</td>
+								<td>
+									{user.admin ? (
+										<button
+											onClick={() => handleUpdateAdmin(user.id, user)}
+											className="btn btn-success"
+										>
+											J
+										</button>
+									) : (
+										<button
+											onClick={() => handleUpdateAdmin(user.id, user)}
+											className="btn btn-error"
+										>
+											N
+										</button>
+									)}
+								</td>
+							</tr>
+						))}
+				</tbody>
+			</table>
+		</div>
+	);
 };
 
 export default UserTable;
