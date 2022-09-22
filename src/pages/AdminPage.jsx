@@ -1,7 +1,5 @@
 import useGetCollection from "../hooks/useGetCollection";
-import { useEffect } from "react";
 import UserTable from "../components/UserTable";
-import useGetUser from "../hooks/useGetUser";
 
 const AdminPage = () => {
 	// const { user } = useGetUser();
