@@ -18,7 +18,7 @@ const AdminPage = () => {
 	const { data: restaurants } = useGetCollection("restaurants");
 
 	return (
-		<div className="h-full flex flex-col">
+		<div className="h-full flex flex-col overflow-hidden">
 			<div className="grid grid-cols-3 gap-4 bg-gray-500 p-4 items-center">
 				<div className="flex gap-4">
 					<h1>Admin</h1>
