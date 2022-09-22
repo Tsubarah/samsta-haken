@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/index";
 
 const useGetCollection = (col) => {
