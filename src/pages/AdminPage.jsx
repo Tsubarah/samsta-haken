@@ -1,15 +1,21 @@
-
-import useGetCollection from '../hooks/useGetCollection'
-import { useEffect } from "react";
+import useGetCollection from "../hooks/useGetCollection";
+import { useEffect, useState } from "react";
 import UserTable from "../components/UserTable";
-import useGetUser from "../hooks/useGetUser";
+import useGetDocument from "../hooks/useGetDocument";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const AdminPage = () => {
-  const { user } = useGetUser();
+  const { currentUser } = useAuthContext();
+  console.log(currentUser)
+  let userList;
 
-  const { data: users } = useGetCollection("users");
-  console.log("User list: ", users)
+  if (currentUser) {
+    const { data: user } = useGetDocument("users", currentUser.uid);
+    console.log("User: ", user);
 
+    const { data: users } = useGetCollection("users");
+    userList = users
+  }
 
   return (
     <div className="h-full flex flex-col">
@@ -17,11 +23,9 @@ const AdminPage = () => {
         <div className="flex gap-4">
           <h1>Admin</h1>
           {/* {user && <p>{user.email}</p>} */}
-          
         </div>
-    
       </div>
-      <UserTable users={users} />
+      {userList && <UserTable user={userList} />}
     </div>
   );
 };

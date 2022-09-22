@@ -9,19 +9,20 @@ import Footer from "./components/Footer";
 
 function App() {
 	return (
-		<div className="App h-screen flex flex-col">
-			<NavBar />
+    <div className="App h-screen flex flex-col">
+      <NavBar />
 
-			<Routes>
-				<Route path="/" element={<HomePage />} />
-				<Route path="/login" element={<LoginPage />} />
-			</Routes>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
 
-			<Footer />
+      <Footer />
 
-			{/* <ReactQueryDevtools position="bottom-right" /> */}
-		</div>
-	);
+      {/* <ReactQueryDevtools position="bottom-right" /> */}
+    </div>
+  );
 }
 
 export default App;
