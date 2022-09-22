@@ -58,20 +58,20 @@ const TipsForm = ({ showTips, setShowTips }) => {
 	return (
 		<dialog
 			open={showTips}
-			className="border-none flex items-center justify-center w-full"
+			className="border-none flex items-center justify-center w-full h-full"
 		>
 			<form
 				onSubmit={handleSubmit(handleTipsSubmit)}
-				className="grid grid-cols-7 p-4 bg-white rounded-lg w-full"
+				className="grid grid-cols-7 p-4 bg-base-content rounded-lg w-full h-full lg:w-3/6 lg:h-4/5 overflow-y-auto scrollbar-hide"
 			>
 				<div className="col-span-full grid grid-rows-2">
 					<MdOutlineCancel
-						size={20}
-						className="cursor-pointer justify-self-end"
+						size={25}
+						className="cursor-pointer justify-self-end text-primary hover:text-error"
 						onClick={() => setShowTips(!showTips)}
 					/>
 
-					<h2 className="text-center font-semibold text-2xl pb-4">
+					<h2 className="text-center font-semibold text-2xl pb-4 text-primary">
 						Tipsa om det sämsta haket
 					</h2>
 				</div>
@@ -83,7 +83,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						})}
 						type="text"
 						placeholder="Namn"
-						className="label-desc input input-bordered input-sm indent-2"
+						className="label-desc input input-bordered input-sm indent-2 bg-primary"
 					/>
 					{errors.name && (
 						<div className="text-red-600 text-xs font-light py-2">
@@ -99,7 +99,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						})}
 						type="text"
 						placeholder="Adress"
-						className="label-desc input input-bordered input-sm indent-2"
+						className="label-desc input input-bordered input-sm indent-2 bg-primary"
 					/>
 					{errors.address && (
 						<div className="text-red-600 text-xs font-light py-2">
@@ -115,7 +115,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						})}
 						type="text"
 						placeholder="Ort"
-						className="label-desc input input-bordered input-sm indent-2"
+						className="label-desc input input-bordered input-sm indent-2 bg-primary"
 					/>
 					{errors.city && (
 						<div className="text-red-600 text-xs font-light py-2">
@@ -135,7 +135,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 						cols="30"
 						rows="10"
 						placeholder="Beskrivning"
-						className="basis-full label-desc-text-area mb-8 px-5 textarea textarea-bordered"
+						className="basis-full label-desc-text-area mb-8 px-5 textarea textarea-bordered bg-primary"
 					></textarea>
 					{errors.description && (
 						<div className="text-red-600 text-xs font-light py-2">
@@ -147,7 +147,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<select
 						{...register("cuisine")}
-						className="select select-bordered select-sm indent-1 font-normal label-desc-option-value"
+						className="select select-bordered select-sm indent-1 font-normal bg-primary"
 						defaultValue="Typ av kök"
 					>
 						<option disabled>Typ av kök</option>
@@ -163,7 +163,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<select
 						{...register("type_of_place")}
-						className="select select-bordered select-sm indent-1 font-normal label-desc-option-value"
+						className="select select-bordered select-sm indent-1 font-normal bg-primary"
 						defaultValue="Typ av matställe"
 					>
 						<option disabled>Typ av matställe</option>
@@ -179,7 +179,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				<div className="col-span-full grid grid-rows-2 px-4">
 					<select
 						{...register("offers_food")}
-						className="select select-bordered select-sm indent-1 font-normal label-desc-option-value"
+						className="select select-bordered select-sm indent-1 font-normal bg-primary"
 						defaultValue="Utbud"
 					>
 						<option disabled>Utbud</option>
@@ -199,14 +199,14 @@ const TipsForm = ({ showTips, setShowTips }) => {
 								key={item.id}
 								placeholder={`${item.title}`}
 								{...register(`socials.${index}.value`)}
-								className="label-desc input input-bordered input-sm indent-2"
+								className="label-desc input input-bordered input-sm indent-2 bg-primary"
 							/>
 						))}
 					</div>
 				</div>
 
 				<div className="col-span-full flex px-4 mt-12">
-					<button className="btn btn-block">Skicka in</button>
+					<button className="btn btn-block bg-primary">Skicka in</button>
 				</div>
 			</form>
 		</dialog>

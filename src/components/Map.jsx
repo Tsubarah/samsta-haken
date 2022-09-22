@@ -1,7 +1,5 @@
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const Map = ({ position }) => {
 	const { isLoaded } = useJsApiLoader({

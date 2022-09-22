@@ -4,21 +4,24 @@ import HomePage from "./pages/HomePage";
 import AdminPage from './pages/AdminPage'
 import "../src/assets/scss/App.scss";
 import LoginPage from "./pages/LoginPage";
-import LogoutPage from "./pages/LogoutPage";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 function App() {
 	return (
-    <div className="App h-screen">
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/logout" element={<LogoutPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-      </Routes>
+		<div className="App h-screen flex flex-col">
+			<NavBar />
 
-      <ReactQueryDevtools position="bottom-right" />
-    </div>
-  );
+			<Routes>
+				<Route path="/" element={<HomePage />} />
+				<Route path="/login" element={<LoginPage />} />
+			</Routes>
+
+			<Footer />
+
+			{/* <ReactQueryDevtools position="bottom-right" /> */}
+		</div>
+	);
 }
 
 export default App;
