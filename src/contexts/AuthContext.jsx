@@ -52,16 +52,17 @@ const AuthContextProvider = ({ children }) => {
 
 	const [location, setLocation] = useState(null);
 	const [address, setAddress] = useState(null);
-
+	
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
-
+		
 		setLocation(addressResponse.results[0].geometry.location);
 		setAddress(addressResponse.results[0].formatted_address);
 	};
-
-	// Show and hide tips component
+	
+	// Show and hide
 	const [showTips, setShowTips] = useState(false);
+	const [drawerIsOpen, setDrawerIsOpen] = useState(false)
 
 	const contextValues = {
 		currentUser,
@@ -77,6 +78,8 @@ const AuthContextProvider = ({ children }) => {
 		setAddress,
 		showTips,
 		setShowTips,
+		drawerIsOpen,
+		setDrawerIsOpen,
 	};
 
 	return (

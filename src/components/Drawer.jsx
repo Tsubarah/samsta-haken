@@ -1,21 +1,18 @@
 import { useEffect } from "react"
+import { useAuthContext } from "../contexts/AuthContext"
 import useGetRestaurants from "../hooks/useGetRestaurants"
 import RestaurantCard from "./RestaurantCard"
 
 const Drawer = ({ children }) => {
   const restaurantQuery = useGetRestaurants()
-
-  useEffect(() => {
-    console.log(restaurantQuery)
-    console.log(restaurantQuery.data)
-  }, [])
+  const { drawerIsOpen, setDrawerIsOpen } = useAuthContext()
 
   return (
-    <div className="drawer drawer-end">
-      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+    <div className="drawer h-full drawer-end">
+      <input id="my-drawer-4" type="checkbox" checked={drawerIsOpen} onChange={setDrawerIsOpen} className="drawer-toggle" />
       <div className="drawer-content">
         {children}
-        <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary z-20">Open drawer</label>
+        <label htmlFor="my-drawer-4" className="drawer-button btn btn-primary hidden">Open drawer</label>
       </div> 
       <div className="drawer-side">
         <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
