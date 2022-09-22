@@ -42,7 +42,7 @@ const RestaurantsTable = ({ restaurants }) => {
 							<td>
 								<button
 									className="btn btn-sm btn-info"
-									onClick={() => navigate(`restaurants/${restaurant.id}`)}
+									onClick={() => navigate(`/restaurants/${restaurant.id}`)}
 								>
 									Redigera
 								</button>
