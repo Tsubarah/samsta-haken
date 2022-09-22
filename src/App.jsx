@@ -1,11 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import { ReactQueryDevtools } from "react-query/devtools";
 import HomePage from "./pages/HomePage";
+import AdminPage from "./pages/AdminPage";
 import "../src/assets/scss/App.scss";
 import LoginPage from "./pages/LoginPage";
 import Drawer from "./components/Drawer";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import RestaurantPage from "./pages/RestaurantPage";
 
 function App() {
 	return (
@@ -19,7 +21,9 @@ function App() {
 					</Drawer>
 				} />
 
+				<Route path="/admin" element={<AdminPage />} />
 				<Route path="/login" element={<LoginPage />} />
+				<Route path="/restaurants/:id" element={<RestaurantPage />} />
 			</Routes>
 
 			<Footer />
