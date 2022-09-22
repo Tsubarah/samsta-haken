@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import AdminPage from "./pages/AdminPage";
 import "../src/assets/scss/App.scss";
 import LoginPage from "./pages/LoginPage";
+import Drawer from "./components/Drawer";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import RestaurantPage from "./pages/RestaurantPage";
@@ -14,7 +15,12 @@ function App() {
 			<NavBar />
 
 			<Routes>
-				<Route path="/" element={<HomePage />} />
+				<Route path="/" element={
+					<Drawer>
+						<HomePage />
+					</Drawer>
+				} />
+
 				<Route path="/admin" element={<AdminPage />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/restaurants/:id" element={<RestaurantPage />} />

@@ -98,8 +98,9 @@ const AuthContextProvider = ({ children }) => {
     setAddress(addressResponse.results[0].formatted_address);
   };
 
-  // Show and hide tips component
+  // Show and hide
   const [showTips, setShowTips] = useState(false);
+	const [drawerIsOpen, setDrawerIsOpen] = useState(false)
 
   const contextValues = {
     currentUser,
@@ -116,7 +117,9 @@ const AuthContextProvider = ({ children }) => {
     setAddress,
     showTips,
     setShowTips,
-    updateAdmin
+    updateAdmin,
+		drawerIsOpen,
+		setDrawerIsOpen
   };
 
   return (

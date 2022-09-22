@@ -7,7 +7,7 @@ import { HiOutlinePencil } from "react-icons/hi";
 import { AiOutlineUser } from "react-icons/ai";
 
 const NavBar = () => {
-	const { showTips, setShowTips } = useAuthContext();
+	const { showTips, setShowTips, drawerIsOpen, setDrawerIsOpen } = useAuthContext();
 
 	const urlLocation = useLocation();
 
@@ -15,18 +15,20 @@ const NavBar = () => {
 
 	return (
 		<>
+			{/* Mobile view */}
 			<div className="navbar bg-base-100 px-4 lg:hidden">
 				{/* Search bar */}
 				<SearchForm className={"w-full"} />
 			</div>
 
+			{/* Desktop view */}
 			<div className="navbar bg-base-100 hidden lg:grid grid-cols-12">
 				<Link to={"/"}>
 					<h1 className="btn btn-ghost normal-case text-xl col-span-2">
 						Sämsta Haken
 					</h1>
 				</Link>
-
+				<button className="col-start-3" onClick={() => setDrawerIsOpen(!drawerIsOpen)}>click</button>
 				<SearchForm className={`w-full col-start-5 col-end-11 ${hidden}`} />
 
 				<button
