@@ -9,7 +9,7 @@ const RestaurantsTable = ({ restaurants }) => {
 					<tr>
 						<th></th>
 						<th>Namn</th>
-						<th>Addres</th>
+						<th>Adress</th>
 						<th>Stad</th>
 						<th>Typ av kök</th>
 						<th>Typ av matställe</th>
@@ -37,7 +37,7 @@ const RestaurantsTable = ({ restaurants }) => {
 								<td>{restaurant.offers_food}</td>
 
 								{restaurant.socials.map((social, i) => (
-									<td key={i}> {social.value}</td>
+									<td key={i}>{social.value}</td>
 								))}
 								<td>
 									<button className="btn btn-sm btn-info">Redigera</button>

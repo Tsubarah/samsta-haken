@@ -37,6 +37,8 @@ const AdminPage = () => {
 			</button>
 			{showUsersTable && <UserTable users={users} />}
 
+			<div className="divider"></div>
+
 			<button
 				className="btn btn-block btn-primary btn-sm"
 				onClick={handleShowRestaurantsTable}
