@@ -1,9 +1,9 @@
 import React from "react";
 
 const RestaurantEditCard = ({ restaurant }) => {
-	const social = () => {
+	const social = (type) => {
 		restaurant?.socials?.find((social) => {
-			if (social?.title === "tel") return social.value;
+			if (social?.title === type) return social.value;
 		});
 	};
 
@@ -76,28 +76,28 @@ const RestaurantEditCard = ({ restaurant }) => {
 					<input
 						type="email"
 						placeholder="e-post"
-						defaultValue={restaurant.city}
+						// defaultValue={restaurant.city}
 						className="input input-bordered input-sm indent-2 bg-primary"
 					/>
 
 					<input
 						type="tel"
 						placeholder="tel"
-						defaultValue={restaurant.city}
+						// defaultValue={restaurant.city}
 						className="input input-bordered input-sm indent-2 bg-primary"
 					/>
 
 					<input
 						type="url"
 						placeholder="facebook"
-						defaultValue={restaurant.city}
+						// defaultValue={restaurant.city}
 						className="input input-bordered input-sm indent-2 bg-primary"
 					/>
 
 					<input
 						type="url"
 						placeholder="instagram"
-						defaultValue={restaurant.city}
+						// defaultValue={restaurant.city}
 						className="input input-bordered input-sm indent-2 bg-primary"
 					/>
 
