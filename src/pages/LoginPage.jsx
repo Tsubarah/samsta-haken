@@ -14,14 +14,15 @@ const LoginPage = () => {
 		// 	{loading && <div>loading...</div>}
 
 		<div
-			className={`flex w-[200%] transition duration-500 ${
+			className={`flex w-[200%] transition duration-500 h-full ${
 				loginSwipe ? "-translate-x-1/2" : ""
 			}`}
 		>
-			<div className="grid h-screen place-content-center w-full">
+			<div className="grid h-full place-content-center w-full">
 				<Login />
 			</div>
-			<div className="grid h-screen place-content-center w-full">
+
+			<div className="grid h-full place-content-center w-full">
 				<Signup />
 			</div>
 		</div>
