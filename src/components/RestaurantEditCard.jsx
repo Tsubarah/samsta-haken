@@ -5,9 +5,11 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { getLocationWithAddress } from "../services/googleAPI";
 import useGetDocument from "../hooks/useGetDocument";
+import { useNavigate } from "react-router-dom"
 
 const RestaurantEditCard = ({ restaurant }) => {
   const { id } = useParams();
+  const navigate = useNavigate()
 
   // 	const social = (type) => {
   // 		restaurant?.socials?.find((social) => {
@@ -40,11 +42,11 @@ const RestaurantEditCard = ({ restaurant }) => {
 //     name: "socials",
 //   });
 
-    const social = (type) => {
-      restaurant?.socials?.find((social) => {
-        if (social?.title === type) return social.value;
-      });
-    };
+    // const social = (type) => {
+    //   restaurant?.socials?.find((social) => {
+    //     if (social?.title === type) return social.value;
+    //   });
+    // };
 
   //Only change if there is a new value
   const checkValue = (newValue, oldValue) => {
@@ -56,6 +58,8 @@ const RestaurantEditCard = ({ restaurant }) => {
   };
 
   const docRef = doc(db, "restaurants", id);
+  
+  console.log("Restaurant offers food: ", restaurant.offers_food)
 
   const handleEditSubmit = async (data) => {
     //Lägga in en check på om det faktiskt finns en adress?
@@ -80,6 +84,8 @@ const RestaurantEditCard = ({ restaurant }) => {
     });
 
     reset();
+	
+	navigate('/admin');
 	
   };
 
