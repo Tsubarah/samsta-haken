@@ -7,7 +7,7 @@ const LoginPage = () => {
 	const [loading, setLoading] = useState(false);
 	const { loginSwipe } = useAuthContext();
 
-	console.log(loginSwipe);
+	// console.log(loginSwipe);
 
 	return (
 		// <div className="h-full grid place-content-center">

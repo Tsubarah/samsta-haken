@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 
 const Map = ({ position }) => {
-	const { data: restaurants, loading} = useGetRestaurants()
-	console.log(restaurants)
+	const { data: restaurants, loading } = useGetRestaurants();
+	// console.log(restaurants)
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
@@ -19,7 +19,6 @@ const Map = ({ position }) => {
 	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
 	const [newLocation, setNewLocation] = useState(null);
 
-
 	useEffect(() => {
 		if (!position) {
 			setNewLocation(defaultLocation);
@@ -30,23 +29,22 @@ const Map = ({ position }) => {
 
 	return isLoaded ? (
 		<GoogleMap
-			mapContainerClassName="w-full h-full"
+			mapContainerClassName="w-full h-full MAP"
 			center={newLocation}
 			onLoad={onLoad}
-			options={{ styles: 
-				[{ elementType: "labels", 
-				featureType: "poi.business", 
-				stylers: 
-				[{ visibility: "off", }], 
-				}], 
+			options={{
+				styles: [
+					{
+						elementType: "labels",
+						featureType: "poi.business",
+						stylers: [{ visibility: "off" }],
+					},
+				],
 			}}
 		>
 			<Marker position={newLocation} />
-			{restaurants.map(restaurant => (
-				<Marker 
-					key={restaurant.id} 
-					position={restaurant.position} 
-				/>
+			{restaurants.map((restaurant) => (
+				<Marker key={restaurant.id} position={restaurant.position} />
 			))}
 		</GoogleMap>
 	) : (

@@ -10,8 +10,11 @@ import Footer from "./components/Footer";
 import RestaurantPage from "./pages/RestaurantPage";
 import RequireAuth from "./components/RequireAuth";
 import LogoutPage from "./pages/LogoutPage";
+import { useAuthContext } from "./contexts/AuthContext";
 
 function App() {
+	const { currentUser } = useAuthContext();
+
 	return (
 		<div className="App h-screen flex flex-col">
 			<NavBar />
@@ -32,7 +35,7 @@ function App() {
 				<Route
 					path="/admin"
 					element={
-						<RequireAuth redirectTo="/login">
+						<RequireAuth>
 							<AdminPage />
 						</RequireAuth>
 					}

@@ -20,7 +20,7 @@ const AuthContextProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [userEmail, setUserEmail] = useState(null);
 	const [loginSwipe, setLoginSwipe] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	const signup = async (email, password) => {
 		// create the user
