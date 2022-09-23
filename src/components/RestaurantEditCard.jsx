@@ -1,23 +1,14 @@
 import { food } from "../db/food";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { getLocationWithAddress } from "../services/googleAPI";
-import useGetDocument from "../hooks/useGetDocument";
 import { useNavigate } from "react-router-dom";
 
 const RestaurantEditCard = ({ restaurant }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  // 	const social = (type) => {
-  // 		restaurant?.socials?.find((social) => {
-  // 			if (social?.title === type) return social.value;
-  // 		});
-  // 	};
-
-  console.log("Restaurant socials: ", restaurant.socials);
 
   const {
     control,
@@ -25,28 +16,7 @@ const RestaurantEditCard = ({ restaurant }) => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
-    // defaultValues: {
-    //   socials: [
-    //     { title: "hemsida" },
-    //     { title: "e-post" },
-    //     { title: "tel" },
-    //     { title: "facebook" },
-    //     { title: "instagram" },
-    //   ],
-    // },
-  });
-
-  //   const { fields } = useFieldArray({
-  //     control,
-  //     name: "socials",
-  //   });
-
-  // const social = (type) => {
-  //   restaurant?.socials?.find((social) => {
-  //     if (social?.title === type) return social.value;
-  //   });
-  // };
+  } = useForm({});
 
   //Only change if there is a new value
   const checkValue = (newValue, oldValue) => {
