@@ -1,5 +1,5 @@
 import useGetCollection from "../hooks/useGetCollection";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import UserTable from "../components/UserTable";
 import RestaurantsTable from "../components/RestaurantsTable";
 
@@ -16,6 +16,37 @@ const AdminPage = () => {
 
 	const { data: users } = useGetCollection("users");
 	const { data: restaurants } = useGetCollection("restaurants");
+
+	console.log(restaurants);
+
+	const restaurantsColumns = useMemo(() => {
+		return [
+			{
+				Header: "Namn",
+				accessor: "name",
+			},
+			{
+				Header: "Adress",
+				accessor: "address",
+			},
+			{
+				Header: "Stad",
+				accessor: "city",
+			},
+			{
+				Header: "Typ av kök",
+				accessor: "cuisine",
+			},
+			{
+				Header: "Typ av matställe",
+				accessor: "type_of_place",
+			},
+			{
+				Header: "Utbud",
+				accessor: "offers_food",
+			},
+		];
+	}, []);
 
 	return (
 		<div className="h-full flex flex-col overflow-hidden">
@@ -41,7 +72,12 @@ const AdminPage = () => {
 			>
 				Restauranger
 			</button>
-			{showRestaurantsTable && <RestaurantsTable restaurants={restaurants} />}
+			{showRestaurantsTable && (
+				<RestaurantsTable
+					restaurants={restaurants}
+					restaurantsColumns={restaurantsColumns}
+				/>
+			)}
 		</div>
 	);
 };

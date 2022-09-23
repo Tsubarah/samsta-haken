@@ -1,29 +1,33 @@
 import { useNavigate } from "react-router-dom";
+import { useTable, useSortBy } from "react-table";
 
-const RestaurantsTable = ({ restaurants }) => {
+const RestaurantsTable = ({ restaurants, restaurantsColumns }) => {
+	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+		useTable({ restaurantsColumns, restaurants }, useSortBy);
+
 	const navigate = useNavigate();
 
 	return (
 		<div className="overflow-x-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-black">
-			<table className="table table-zebra w-full">
-				{/* <!-- head --> */}
+			<table {...getTableProps()} className="table table-zebra w-full">
 				<thead>
-					<tr>
-						<th></th>
-						<th>Namn</th>
-						<th>Adress</th>
-						<th>Stad</th>
-						<th>Typ av kök</th>
-						<th>Typ av matställe</th>
-						<th>Utbud</th>
-						<th>Hemsida</th>
-						<th>E-post</th>
-						<th>Tel</th>
-						<th>Facebook</th>
-						<th>Instagram</th>
-						<th>Redigera</th>
-						<th>Godkänd</th>
-					</tr>
+					{headerGroups.map((headerGroup) => (
+						<tr {...headerGroup.getHeaderGroupProps()}>
+							{headerGroup.headers.map((column) => (
+								<th {...column.getHeaderProps(column.getSortByToggleProps())}>
+									{column.render("Header")}
+									<span>
+										&nbsp;-
+										{column.isSorted
+											? column.isSortedDesc
+												? " 🔽"
+												: " 🔼"
+											: ""}
+									</span>
+								</th>
+							))}
+						</tr>
+					))}
 				</thead>
 				<tbody>
 					{restaurants.map((restaurant, i) => (
