@@ -5,11 +5,11 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { getLocationWithAddress } from "../services/googleAPI";
 import useGetDocument from "../hooks/useGetDocument";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const RestaurantEditCard = ({ restaurant }) => {
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // 	const social = (type) => {
   // 		restaurant?.socials?.find((social) => {
@@ -17,7 +17,7 @@ const RestaurantEditCard = ({ restaurant }) => {
   // 		});
   // 	};
 
-  console.log("Restaurant socials: ", restaurant.socials)
+  console.log("Restaurant socials: ", restaurant.socials);
 
   const {
     control,
@@ -37,16 +37,16 @@ const RestaurantEditCard = ({ restaurant }) => {
     // },
   });
 
-//   const { fields } = useFieldArray({
-//     control,
-//     name: "socials",
-//   });
+  //   const { fields } = useFieldArray({
+  //     control,
+  //     name: "socials",
+  //   });
 
-    // const social = (type) => {
-    //   restaurant?.socials?.find((social) => {
-    //     if (social?.title === type) return social.value;
-    //   });
-    // };
+  // const social = (type) => {
+  //   restaurant?.socials?.find((social) => {
+  //     if (social?.title === type) return social.value;
+  //   });
+  // };
 
   //Only change if there is a new value
   const checkValue = (newValue, oldValue) => {
@@ -58,17 +58,15 @@ const RestaurantEditCard = ({ restaurant }) => {
   };
 
   const docRef = doc(db, "restaurants", id);
-  
-  console.log("Restaurant offers food: ", restaurant.offers_food)
+
+  console.log("Restaurant offers food: ", restaurant.offers_food);
 
   const handleEditSubmit = async (data) => {
     //Lägga in en check på om det faktiskt finns en adress?
-	const address = checkValue(data.adress, restaurant.adress)
-	const city = checkValue(data.city, restaurant.city);
+    const address = checkValue(data.adress, restaurant.adress);
+    const city = checkValue(data.city, restaurant.city);
 
-    const dataLatLng = await getLocationWithAddress(
-      `${address},${city}`
-    );
+    const dataLatLng = await getLocationWithAddress(`${address},${city}`);
 
     await updateDoc(docRef, {
       name: checkValue(data.name, restaurant.name),
@@ -80,13 +78,12 @@ const RestaurantEditCard = ({ restaurant }) => {
       type_of_place: checkValue(data.type_of_place, restaurant.type_of_place),
       offers_food: checkValue(data.offers_food, restaurant.offers_food),
       photos: [],
-      socials: checkValue(data.socials, restaurant.socials)
+      socials: checkValue(data.socials, restaurant.socials),
     });
 
     reset();
-	
-	navigate('/admin');
-	
+
+    navigate("/admin");
   };
 
   return (
@@ -171,7 +168,10 @@ const RestaurantEditCard = ({ restaurant }) => {
               <option disabled>Typ av kök</option>
               {food &&
                 food.cuisine.map((type, i) => (
-                  <option key={i} value={type}>
+                  <option
+                    selected={type === restaurant.cuisine ? true : false}
+                    key={i}
+                    value={type}>
                     {type}
                   </option>
                 ))}
@@ -186,7 +186,10 @@ const RestaurantEditCard = ({ restaurant }) => {
               <option disabled>Typ av matställe</option>
               {food &&
                 food.type_of_place.map((type, i) => (
-                  <option key={i} value={type}>
+                  <option
+                    selected={type === restaurant.type_of_place ? true : false}
+                    key={i}
+                    value={type}>
                     {type}
                   </option>
                 ))}
@@ -201,7 +204,10 @@ const RestaurantEditCard = ({ restaurant }) => {
               <option disabled>Utbud</option>
               {food &&
                 food.offers_food.map((type, i) => (
-                  <option key={i} value={type}>
+                  <option
+                    selected={type === restaurant.offers_food ? true : false}
+                    key={i}
+                    value={type}>
                     {type}
                   </option>
                 ))}
