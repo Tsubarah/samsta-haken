@@ -8,22 +8,47 @@ import Drawer from "./components/Drawer";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import RestaurantPage from "./pages/RestaurantPage";
+import RequireAuth from "./components/RequireAuth";
+import LogoutPage from "./pages/LogoutPage";
+import { useAuthContext } from "./contexts/AuthContext";
 
 function App() {
+	const { currentUser } = useAuthContext();
+
 	return (
 		<div className="App h-screen flex flex-col">
 			<NavBar />
 
 			<Routes>
-				<Route path="/" element={
-					<Drawer>
-						<HomePage />
-					</Drawer>
-				} />
+				<Route
+					path="/"
+					element={
+						<Drawer>
+							<HomePage />
+						</Drawer>
+					}
+				/>
 
-				<Route path="/admin" element={<AdminPage />} />
 				<Route path="/login" element={<LoginPage />} />
-				<Route path="/restaurants/:id" element={<RestaurantPage />} />
+				<Route path="/logout" element={<LogoutPage />} />
+
+				<Route
+					path="/admin"
+					element={
+						<RequireAuth>
+							<AdminPage />
+						</RequireAuth>
+					}
+				/>
+
+				<Route
+					path="/restaurants/:id"
+					element={
+						<RequireAuth redirectTo="/">
+							<RestaurantPage />
+						</RequireAuth>
+					}
+				/>
 			</Routes>
 
 			<Footer />
