@@ -29,7 +29,7 @@ const Map = ({ position }) => {
 
 	return isLoaded ? (
 		<GoogleMap
-			mapContainerClassName="w-full h-full MAP"
+			mapContainerClassName="w-full h-full"
 			center={newLocation}
 			onLoad={onLoad}
 			options={{
