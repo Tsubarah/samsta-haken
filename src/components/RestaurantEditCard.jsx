@@ -15,6 +15,8 @@ const RestaurantEditCard = ({ restaurant }) => {
   // 		});
   // 	};
 
+  console.log("Restaurant socials: ", restaurant.socials)
+
   const {
     control,
     register,
@@ -22,27 +24,27 @@ const RestaurantEditCard = ({ restaurant }) => {
     formState: { errors },
     reset,
   } = useForm({
-    defaultValues: {
-      socials: [
-        { title: "hemsida" },
-        { title: "e-post" },
-        { title: "tel" },
-        { title: "facebook" },
-        { title: "instagram" },
-      ],
-    },
+    // defaultValues: {
+    //   socials: [
+    //     { title: "hemsida" },
+    //     { title: "e-post" },
+    //     { title: "tel" },
+    //     { title: "facebook" },
+    //     { title: "instagram" },
+    //   ],
+    // },
   });
 
-  const { fields } = useFieldArray({
-    control,
-    name: "socials",
-  });
+//   const { fields } = useFieldArray({
+//     control,
+//     name: "socials",
+//   });
 
-  //   const social = (type) => {
-  //     restaurant?.socials?.find((social) => {
-  //       if (social?.title === type) return social.value;
-  //     });
-  //   };
+    const social = (type) => {
+      restaurant?.socials?.find((social) => {
+        if (social?.title === type) return social.value;
+      });
+    };
 
   //Only change if there is a new value
   const checkValue = (newValue, oldValue) => {
@@ -59,6 +61,7 @@ const RestaurantEditCard = ({ restaurant }) => {
     //Lägga in en check på om det faktiskt finns en adress?
 	const address = checkValue(data.adress, restaurant.adress)
 	const city = checkValue(data.city, restaurant.city);
+
     const dataLatLng = await getLocationWithAddress(
       `${address},${city}`
     );
@@ -198,19 +201,19 @@ const RestaurantEditCard = ({ restaurant }) => {
             </select>
           </div>
 
-          {/* <div className="col-span-full flex flex-wrap px-4">
+          <div className="col-span-full flex flex-wrap px-4">
             <div className="basis-full grid gap-3">
-              {fields.map((item, index) => (
+              {restaurant?.socials?.map((item, index) => (
                 <input
                   key={item.id}
-                  placeholder={`${item.value}`}
-                  //   defaultValue={`${restaurant.socials[0]}`}
+                  placeholder={`${item.title}`}
+                  defaultValue={`${item.value}`}
                   {...register(`socials.${index}.value`)}
                   className="label-desc input input-bordered input-sm indent-2 bg-primary"
                 />
               ))}
             </div>
-          </div> */}
+          </div>
 
           <div className="col-span-full flex px-4 mt-12">
             <button className="btn btn-block bg-primary">Uppdatera</button>
