@@ -7,7 +7,8 @@ import { HiOutlinePencil } from "react-icons/hi";
 import { AiOutlineUser } from "react-icons/ai";
 
 const NavBar = () => {
-	const { showTips, setShowTips, drawerIsOpen, setDrawerIsOpen } = useAuthContext();
+	const { showTips, setShowTips, drawerIsOpen, setDrawerIsOpen, currentUser } =
+		useAuthContext();
 
 	const urlLocation = useLocation();
 
@@ -28,7 +29,12 @@ const NavBar = () => {
 						Sämsta Haken
 					</h1>
 				</Link>
-				<button className="col-start-3" onClick={() => setDrawerIsOpen(!drawerIsOpen)}>click</button>
+				<button
+					className="col-start-3"
+					onClick={() => setDrawerIsOpen(!drawerIsOpen)}
+				>
+					click
+				</button>
 				<SearchForm className={`w-full col-start-5 col-end-11 ${hidden}`} />
 
 				<button
@@ -48,8 +54,18 @@ const NavBar = () => {
 						className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
 					>
 						<li>
-							<Link to="/login" className="justify-between">
-								Logga in
+							{currentUser ? (
+								<Link to="/logout" className="justify-between">
+									Logga ut
+								</Link>
+							) : (
+								<Link to="/login" className="justify-between">
+									Logga in
+								</Link>
+							)}
+
+							<Link to="/admin" className="justify-between">
+								Admin
 							</Link>
 						</li>
 					</ul>

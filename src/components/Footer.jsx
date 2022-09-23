@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const Footer = () => {
-	const { setShowTips, showTips } = useAuthContext();
+	const { setShowTips, showTips, currentUser } = useAuthContext();
 	return (
 		<>
 			<div className="btm-nav my-2 relative lg:hidden">
@@ -18,10 +18,18 @@ const Footer = () => {
 					<MdOutlineExplore size={25} />
 					<span className="btm-nav-label">Utforska</span>
 				</Link>
-				<Link to="login">
-					<AiOutlineUser size={25} />
-					<span className="btm-nav-label">Logga in</span>
-				</Link>
+
+				{currentUser ? (
+					<Link to="logout">
+						<AiOutlineUser size={25} />
+						<span className="btm-nav-label">Logga ut</span>
+					</Link>
+				) : (
+					<Link to="login">
+						<AiOutlineUser size={25} />
+						<span className="btm-nav-label">Logga in</span>
+					</Link>
+				)}
 			</div>
 
 			<footer className="hidden lg:block footer footer-center p-4 bg-base-100 text-base-content">
