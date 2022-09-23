@@ -33,7 +33,7 @@ const useUploadImage = () => {
       const uniqueId = uuid()
       
       // construct reference to storage
-      const storageRef = ref(storage, `images/${currentUser.uid}/${uniqueId + fileExtension(image)}`)
+      const storageRef = ref(storage, `Users/${currentUser.uid}/${uniqueId + fileExtension(image)}`)
 
       // start upload of image
       const uploadTask = uploadBytesResumable(storageRef, image)

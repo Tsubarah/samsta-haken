@@ -7,7 +7,7 @@ const Signup = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
-  const [image, setImage] = useState(null)
+  const [image, setImage] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const { signup, setLoginSwipe } = useAuthContext()
@@ -26,7 +26,6 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(emailRef)
 
     // Validates that the user entered the same password in both input fields
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
@@ -56,7 +55,6 @@ const Signup = () => {
       setError(err.message)
       setLoading(false)
       console.log(error)
-      console.log(err)
     }
   }
 

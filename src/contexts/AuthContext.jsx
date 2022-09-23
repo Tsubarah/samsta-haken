@@ -39,12 +39,14 @@ const AuthContextProvider = ({ children }) => {
 		// create user document to db
 		const docRef = doc(db, "users", auth.currentUser.uid);
 
+		
 		await setDoc(docRef, {
 			name,
 			email,
 			imageURL: auth.currentUser.photoURL,
 			admin: false,
 		});
+		console.log(auth.currentUser)
 	};
 
 	const login = async (email, password) => {
@@ -61,11 +63,10 @@ const AuthContextProvider = ({ children }) => {
 
 		if (image) {
 			// create a reference to upload the file to
-			const fileRef = ref(storage, `images/${auth.currentUser.email}/${image.name}`)
+			const fileRef = ref(storage, `Users/${auth.currentUser.email}/${image.name}`)
 
 			// upload image to fileRef
 			const uploadResult = await uploadBytes(fileRef, image)
-			console.log(uploadResult)
 
 			// get download url to uploaded file
 			imageURL = await getDownloadURL(uploadResult.ref)
