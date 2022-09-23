@@ -7,8 +7,14 @@ import { HiOutlinePencil } from "react-icons/hi";
 import { AiOutlineUser } from "react-icons/ai";
 
 const NavBar = () => {
-	const { showTips, setShowTips, drawerIsOpen, setDrawerIsOpen, currentUser } =
-		useAuthContext();
+	const {
+		showTips,
+		setShowTips,
+		drawerIsOpen,
+		setDrawerIsOpen,
+		currentUser,
+		isAdmin,
+	} = useAuthContext();
 
 	const urlLocation = useLocation();
 
@@ -54,19 +60,27 @@ const NavBar = () => {
 						className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
 					>
 						<li>
-							{currentUser ? (
-								<Link to="/logout" className="justify-between">
-									Logga ut
+							{isAdmin && (
+								<Link to="/admin" className="justify-between">
+									Admin
 								</Link>
+							)}
+
+							{currentUser ? (
+								<>
+									<Link to="/profile" className="justify-between">
+										Profil
+									</Link>
+
+									<Link to="/logout" className="justify-between">
+										Logga ut
+									</Link>
+								</>
 							) : (
 								<Link to="/login" className="justify-between">
 									Logga in
 								</Link>
 							)}
-
-							<Link to="/admin" className="justify-between">
-								Admin
-							</Link>
 						</li>
 					</ul>
 				</div>
