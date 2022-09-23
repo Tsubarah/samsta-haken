@@ -6,7 +6,7 @@ import {
 	signOut,
 } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
-import { setDoc, doc, updateDoc } from "firebase/firestore";
+import { setDoc, doc, updateDoc, getDoc } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
 
@@ -21,6 +21,7 @@ const AuthContextProvider = ({ children }) => {
 	const [userEmail, setUserEmail] = useState(null);
 	const [loginSwipe, setLoginSwipe] = useState(false);
 	const [loading, setLoading] = useState(true);
+	const [isAdmin, setIsAdmin] = useState(false);
 
 	const signup = async (email, password) => {
 		// create the user
@@ -62,9 +63,19 @@ const AuthContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		// listen for auth-state changes
-		const unsubscribe = onAuthStateChanged(auth, (user) => {
+		const unsubscribe = onAuthStateChanged(auth, async (user) => {
 			setCurrentUser(user);
-			setUserEmail(user?.email);
+
+			if (user) {
+				const ref = doc(db, "users", user.uid);
+				const snapshot = await getDoc(ref);
+
+				// console.log("isAdmin:", snapshot.data().admin);
+
+				setIsAdmin(snapshot.data().admin);
+
+				setUserEmail(user.email);
+			}
 			setLoading(false);
 		});
 
@@ -105,6 +116,7 @@ const AuthContextProvider = ({ children }) => {
 		updateAdmin,
 		drawerIsOpen,
 		setDrawerIsOpen,
+		isAdmin,
 	};
 
 	return (
