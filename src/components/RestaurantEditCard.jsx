@@ -76,10 +76,11 @@ const RestaurantEditCard = ({ restaurant }) => {
       type_of_place: checkValue(data.type_of_place, restaurant.type_of_place),
       offers_food: checkValue(data.offers_food, restaurant.offers_food),
       photos: [],
-      //socials: data.socials,
+      socials: checkValue(data.socials, restaurant.socials)
     });
 
     reset();
+	
   };
 
   return (
