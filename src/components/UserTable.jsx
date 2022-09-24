@@ -1,8 +1,13 @@
 import { useMemo } from "react";
-import { useTable } from "react-table";
+import { useSortBy, useTable } from "react-table";
 import { useAuthContext } from "../contexts/AuthContext";
 
 import placeholder from "../assets/images/placeholder-user-300x300.png";
+import {
+	TiArrowSortedDown,
+	TiArrowSortedUp,
+	TiArrowUnsorted,
+} from "react-icons/ti";
 
 const UserTable = ({ users }) => {
 	const { updateAdmin } = useAuthContext();
@@ -16,10 +21,10 @@ const UserTable = ({ users }) => {
 	const columns = useMemo(
 		() => [
 			{
-				Header: "",
+				Header: "#",
 				accessor: "id",
 				Cell: (row) => {
-					return <span>{Number(row.row.id) + 1}</span>;
+					return <span className="text-sm">{Number(row.row.id) + 1}</span>;
 				},
 			},
 			{
@@ -76,7 +81,7 @@ const UserTable = ({ users }) => {
 
 	// React Table hook
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-		useTable({ columns, data: users });
+		useTable({ columns, data: users }, useSortBy);
 
 	return (
 		<div className="overflow-x-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-black">
@@ -85,7 +90,20 @@ const UserTable = ({ users }) => {
 					{headerGroups.map((headerGroup) => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map((column) => (
-								<th {...column.getHeaderProps()}>{column.render("Header")}</th>
+								<th {...column.getHeaderProps(column.getSortByToggleProps())}>
+									{column.render("Header")}
+									<span>
+										{column.isSorted ? (
+											column.isSortedDesc ? (
+												<TiArrowSortedDown size={20} />
+											) : (
+												<TiArrowSortedUp size={20} />
+											)
+										) : (
+											<TiArrowUnsorted size={20} />
+										)}
+									</span>
+								</th>
 							))}
 						</tr>
 					))}
