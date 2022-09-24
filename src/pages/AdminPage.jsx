@@ -1,5 +1,6 @@
-import useGetCollection from "../hooks/useGetCollection";
 import { useState } from "react";
+import useGetCollection from "../hooks/useGetCollection";
+import { useAuthContext } from "../contexts/AuthContext";
 import UserTable from "../components/UserTable";
 import RestaurantsTable from "../components/RestaurantsTable";
 
@@ -14,18 +15,22 @@ const AdminPage = () => {
 		setShowRestaurantsTable(!showRestaurantsTable);
 	};
 
+	const { currentUser } = useAuthContext();
+
 	const { data: users } = useGetCollection("users");
 	const { data: restaurants } = useGetCollection("restaurants");
 
-	console.log("restaurants", restaurants);
-	console.log("users", users);
-
 	return (
 		<div className="h-full flex flex-col overflow-hidden">
-			<div className="grid grid-cols-3 gap-4 bg-gray-500 p-4 items-center">
-				<div className="flex gap-4">
-					<h1>Admin</h1>
-				</div>
+			<div className="flex justify-center gap-4 py-4">
+				<h1 className="text-xl">
+					Välkommen till admin-sidan: {""}
+					<span className="font-semibold">
+						{currentUser.displayName
+							? currentUser.displayName
+							: currentUser.email}
+					</span>
+				</h1>
 			</div>
 
 			<button

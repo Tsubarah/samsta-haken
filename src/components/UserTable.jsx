@@ -23,6 +23,7 @@ const UserTable = ({ users }) => {
 			{
 				Header: "#",
 				accessor: "id",
+				disableSortBy: true,
 				Cell: (row) => {
 					return <span className="text-sm">{Number(row.row.id) + 1}</span>;
 				},
@@ -30,6 +31,7 @@ const UserTable = ({ users }) => {
 			{
 				Header: "Profilbild",
 				accessor: "imageURL",
+				disableSortBy: true,
 				Cell: (row) => {
 					return (
 						<div className="avatar">
@@ -86,7 +88,7 @@ const UserTable = ({ users }) => {
 	return (
 		<div className="overflow-x-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-black">
 			<table {...getTableProps()} className="table table-zebra w-full">
-				<thead>
+				<thead className="sticky top-0 z-10">
 					{headerGroups.map((headerGroup) => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map((column) => (

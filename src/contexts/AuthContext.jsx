@@ -54,6 +54,12 @@ const AuthContextProvider = ({ children }) => {
 		});
 	};
 
+	const updateRestaurantStatus = async (restaurantId, restaurant) => {
+		await updateDoc(doc(db, "restaurants", restaurantId), {
+			accepted: !restaurant.accepted,
+		});
+	};
+
 	const reloadUser = async () => {
 		await auth.currentUser.reload();
 		setCurrentUser(auth.currentUser);
@@ -117,6 +123,7 @@ const AuthContextProvider = ({ children }) => {
 		drawerIsOpen,
 		setDrawerIsOpen,
 		isAdmin,
+		updateRestaurantStatus,
 	};
 
 	return (
