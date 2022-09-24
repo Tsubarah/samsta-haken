@@ -9,7 +9,7 @@ const RestaurantsTable = ({ restaurants, restaurantsColumns }) => {
 
 	return (
 		<div className="overflow-x-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-black">
-			<table {...getTableProps()} className="table table-zebra w-full">
+			{/* <table {...getTableProps()} className="table table-zebra w-full">
 				<thead>
 					{headerGroups.map((headerGroup) => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
@@ -62,7 +62,7 @@ const RestaurantsTable = ({ restaurants, restaurantsColumns }) => {
 						</tr>
 					))}
 				</tbody>
-			</table>
+			</table> */}
 		</div>
 	);
 };
