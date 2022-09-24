@@ -21,8 +21,8 @@ const useAuthContext = () => {
 const AuthContextProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [userEmail, setUserEmail] = useState(null);
-	const [userName, setUserName] = useState(null)
-	const [userImageUrl, setUserImageUrl] = useState(null)
+	const [userName, setUserName] = useState(null);
+	const [userImageUrl, setUserImageUrl] = useState(null);
 	const [loginSwipe, setLoginSwipe] = useState(false);
 	const [loading, setLoading] = useState(true);
 
@@ -31,7 +31,7 @@ const AuthContextProvider = ({ children }) => {
 		await createUserWithEmailAndPassword(auth, email, password);
 
 		// set name and image
-		await setDisplayNameAndPhoto(name, image)
+		await setDisplayNameAndPhoto(name, image);
 
 		// reload user
 		await reloadUser();
@@ -39,14 +39,13 @@ const AuthContextProvider = ({ children }) => {
 		// create user document to db
 		const docRef = doc(db, "users", auth.currentUser.uid);
 
-		
 		await setDoc(docRef, {
 			name,
 			email,
 			imageURL: auth.currentUser.photoURL,
 			admin: false,
 		});
-		console.log(auth.currentUser)
+		console.log(auth.currentUser);
 	};
 
 	const login = async (email, password) => {
@@ -59,26 +58,29 @@ const AuthContextProvider = ({ children }) => {
 	};
 
 	const setDisplayNameAndPhoto = async (displayName, image) => {
-		let imageURL = auth.currentUser.photoURL
+		let imageURL = auth.currentUser.photoURL;
 
 		if (image) {
 			// create a reference to upload the file to
-			const fileRef = ref(storage, `Users/${auth.currentUser.email}/${image.name}`)
+			const fileRef = ref(
+				storage,
+				`Users/${auth.currentUser.email}/${image.name}`
+			);
 
 			// upload image to fileRef
-			const uploadResult = await uploadBytes(fileRef, image)
+			const uploadResult = await uploadBytes(fileRef, image);
 
 			// get download url to uploaded file
-			imageURL = await getDownloadURL(uploadResult.ref)
+			imageURL = await getDownloadURL(uploadResult.ref);
 
-			console.log("Image uploaded successfully. Download url is", imageURL)
+			console.log("Image uploaded successfully. Download url is", imageURL);
 		}
 
 		return updateProfile(auth.currentUser, {
 			displayName,
-			imageURL,
-		})
-	}
+			photoURL: imageURL,
+		});
+	};
 
 	const updateAdmin = async (userId, user) => {
 		await updateDoc(doc(db, "users", userId), {
@@ -89,9 +91,9 @@ const AuthContextProvider = ({ children }) => {
 	const reloadUser = async () => {
 		await auth.currentUser.reload();
 		setCurrentUser(auth.currentUser);
-		setUserName(auth.currentUser.displayName)
+		setUserName(auth.currentUser.displayName);
 		setUserEmail(auth.currentUser.email);
-		setUserImageUrl(auth.currentUser.photoURL)
+		setUserImageUrl(auth.currentUser.photoURL);
 		return true;
 	};
 
@@ -101,9 +103,9 @@ const AuthContextProvider = ({ children }) => {
 			setCurrentUser(user);
 			setUserEmail(user?.email);
 			setLoading(false);
-			setUserImageUrl(user?.photoURL)
+			setUserImageUrl(user?.photoURL);
 		});
-		console.log(auth.currentUser)
+		console.log(auth.currentUser);
 		return unsubscribe;
 	}, []);
 
