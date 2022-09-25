@@ -23,11 +23,11 @@ const ProfilePage = () => {
 
 	const handleFileChange = (e) => {
 		if (!e.target.files.length) {
-			setPhoto(null);
+			setImage(null);
 			return;
 		}
 
-		setPhoto(e.target.files[0]);
+		setImage(e.target.files[0]);
 		console.log("File changed!", e.target.files[0]);
 	};
 
@@ -68,7 +68,7 @@ const ProfilePage = () => {
 
 	return (
 		<div className="h-full flex flex-col items-center justify-center bg-base-content">
-			<form className="form-control">
+			<form className="form-control" onSubmit={handleSubmit}>
 				<div className="card w-96 bg-white shadow-xl">
 					<div className="avatar flex justify-center pt-8">
 						<div className="w-52 rounded-full">
@@ -86,9 +86,9 @@ const ProfilePage = () => {
 							type="text"
 							name="username"
 							ref={displayNameRef}
-							required
-							placeholder="Användarnamn"
 							className="input input-bordered bg-primary"
+							placeholder="Användarnamn"
+							defaultValue={currentUser.displayName}
 						/>
 
 						<label
@@ -117,8 +117,8 @@ const ProfilePage = () => {
 							className="input input-bordered bg-primary"
 							name="email"
 							ref={emailRef}
+							defaultValue={currentUser.email}
 							required
-							placeholder="E-post"
 						/>
 
 						<input
@@ -126,8 +126,8 @@ const ProfilePage = () => {
 							className="input input-bordered bg-primary"
 							name="password"
 							ref={passwordRef}
-							required
 							placeholder="Lösenord"
+							autoComplete="new-password"
 						/>
 
 						<input
@@ -135,8 +135,8 @@ const ProfilePage = () => {
 							className="input input-bordered bg-primary"
 							name="confirm_password"
 							ref={passwordConfirmRef}
-							required
 							placeholder="Bekräfta lösenord"
+							autoComplete="new-password"
 						/>
 
 						<div className="card-actions justify-end pt-4">

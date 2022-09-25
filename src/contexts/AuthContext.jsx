@@ -65,7 +65,7 @@ const AuthContextProvider = ({ children }) => {
 			// create a reference to upload the file to
 			const fileRef = ref(
 				storage,
-				`Users/${auth.currentUser.email}/${image.name}`
+				`users/${auth.currentUser.email}/${image.name}`
 			);
 
 			// upload image to fileRef
