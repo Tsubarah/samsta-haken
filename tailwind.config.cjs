@@ -4,7 +4,11 @@ module.exports = {
 	theme: {
 		extend: {},
 	},
-	plugins: [require("daisyui"), require("tailwind-scrollbar-hide")],
+	plugins: [
+		require("daisyui"),
+		require("tailwind-scrollbar-hide"),
+		require("tailwind-scrollbar"),
+	],
 	daisyui: {
 		themes: [
 			"light",
