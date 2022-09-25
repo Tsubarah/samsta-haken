@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { ReactQueryDevtools } from "react-query/devtools";
 import HomePage from "./pages/HomePage";
 import AdminPage from "./pages/AdminPage";
-import "../src/assets/scss/App.scss";
+import "./assets/scss/App.scss";
 import LoginPage from "./pages/LoginPage";
 import Drawer from "./components/Drawer";
 import NavBar from "./components/NavBar";
