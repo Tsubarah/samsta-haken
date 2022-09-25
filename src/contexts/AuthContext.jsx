@@ -4,11 +4,13 @@ import {
 	signInWithEmailAndPassword,
 	onAuthStateChanged,
 	signOut,
+	updateProfile,
 } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
 import { setDoc, doc, updateDoc, getDoc } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 const AuthContext = createContext();
 
@@ -19,13 +21,18 @@ const useAuthContext = () => {
 const AuthContextProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [userEmail, setUserEmail] = useState(null);
+	const [userName, setUserName] = useState(null);
+	const [userImageUrl, setUserImageUrl] = useState(null);
 	const [loginSwipe, setLoginSwipe] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [isAdmin, setIsAdmin] = useState(false);
 
-	const signup = async (email, password) => {
+	const signup = async (email, password, name, image) => {
 		// create the user
 		await createUserWithEmailAndPassword(auth, email, password);
+
+		// set name and image
+		await setDisplayNameAndPhoto(name, image);
 
 		// reload user
 		await reloadUser();
@@ -34,9 +41,12 @@ const AuthContextProvider = ({ children }) => {
 		const docRef = doc(db, "users", auth.currentUser.uid);
 
 		await setDoc(docRef, {
+			name,
 			email,
+			imageURL: auth.currentUser.photoURL,
 			admin: false,
 		});
+		console.log(auth.currentUser);
 	};
 
 	const login = async (email, password) => {
@@ -46,6 +56,31 @@ const AuthContextProvider = ({ children }) => {
 
 	const logout = () => {
 		return signOut(auth);
+	};
+
+	const setDisplayNameAndPhoto = async (displayName, image) => {
+		let imageURL = auth.currentUser.photoURL;
+
+		if (image) {
+			// create a reference to upload the file to
+			const fileRef = ref(
+				storage,
+				`Users/${auth.currentUser.email}/${image.name}`
+			);
+
+			// upload image to fileRef
+			const uploadResult = await uploadBytes(fileRef, image);
+
+			// get download url to uploaded file
+			imageURL = await getDownloadURL(uploadResult.ref);
+
+			console.log("Image uploaded successfully. Download url is", imageURL);
+		}
+
+		return updateProfile(auth.currentUser, {
+			displayName,
+			photoURL: imageURL,
+		});
 	};
 
 	const updateAdmin = async (userId, user) => {
@@ -63,7 +98,9 @@ const AuthContextProvider = ({ children }) => {
 	const reloadUser = async () => {
 		await auth.currentUser.reload();
 		setCurrentUser(auth.currentUser);
+		setUserName(auth.currentUser.displayName);
 		setUserEmail(auth.currentUser.email);
+		setUserImageUrl(auth.currentUser.photoURL);
 		return true;
 	};
 
@@ -83,8 +120,9 @@ const AuthContextProvider = ({ children }) => {
 				setUserEmail(user.email);
 			}
 			setLoading(false);
+			setUserImageUrl(user?.photoURL);
 		});
-
+		console.log(auth.currentUser);
 		return unsubscribe;
 	}, []);
 
@@ -124,6 +162,8 @@ const AuthContextProvider = ({ children }) => {
 		setDrawerIsOpen,
 		isAdmin,
 		updateRestaurantStatus,
+		userName,
+		userImageUrl,
 	};
 
 	return (

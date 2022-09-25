@@ -16,7 +16,7 @@ const Drawer = ({ children }) => {
       </div> 
       <div className="drawer-side">
         <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-        <ul className="menu overflow-y-auto w-80 bg-base-100 text-base-content">
+        <ul className="menu overflow-y-auto w-96 bg-base-100 text-base-content">
           {restaurantQuery.data?.map(restaurant => (
             <li key={restaurant.id}>
               <RestaurantCard data={restaurant} />

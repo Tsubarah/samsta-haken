@@ -3,18 +3,29 @@ import { useAuthContext } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
+  const displayNameRef = useRef()
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
+  const [image, setImage] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const { signup, setLoginSwipe } = useAuthContext()
   const navigate = useNavigate()
 
+  const handleFileChange = (e) => {
+    if (!e.target.files[0]) {
+      setImage(null)
+      return
+    }
+
+    setImage(e.target.files[0])
+    console.log("File changed!", e.target.files[0])
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(emailRef)
 
     // Validates that the user entered the same password in both input fields
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
@@ -26,8 +37,14 @@ const Signup = () => {
     // Try to sign up the user
     try {
       setLoading(true)
+      console.log(image)
 
-      await signup(emailRef.current.value, passwordRef.current.value)
+      await signup(
+        emailRef.current.value, 
+        passwordRef.current.value,
+        displayNameRef.current.value,
+        image,
+      )
       console.log("Success signing up")
       navigate('/')
 
@@ -50,6 +67,25 @@ const Signup = () => {
             <div className="container max-w-xs mx-auto flex-1 flex flex-col items-center justify-center px-2">
               <div className="flex justify-center flex-col bg-white px-6 py-8 rounded shadow-md text-black w-full">
                 <h1 className="mb-8 text-3xl text-center">Sign up</h1>
+
+                <input 
+                    type="text"
+                    className="block border border-grey-light p-3 rounded mb-4"
+                    name="username"
+                    ref={displayNameRef}
+                    required
+                    placeholder="Username" 
+                />
+
+                <label className="block border border-grey-light p-3 rounded">
+                  Image:
+                  <input 
+                      type="file"
+                      id="image"
+                      onChange={handleFileChange}
+                      className="mt-2"
+                    />
+                </label>
 
                 <input 
                     type="text"
