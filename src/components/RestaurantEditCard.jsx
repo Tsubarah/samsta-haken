@@ -29,8 +29,6 @@ const RestaurantEditCard = ({ restaurant }) => {
 
   const docRef = doc(db, "restaurants", id);
 
-  console.log("Restaurant offers food: ", restaurant.offers_food);
-
   const handleEditSubmit = async (data) => {
     //Lägga in en check på om det faktiskt finns en adress?
     const address = checkValue(data.adress, restaurant.adress);
@@ -57,14 +55,14 @@ const RestaurantEditCard = ({ restaurant }) => {
   };
 
   return (
-    <div className="card lg:card-side bg-base-content shadow-xl h-full overflow-y-auto scrollbar-hide">
+    <div className="card bg-base-content shadow-xl h-full overflow-y-auto scrollbar-hide">
       <img src="https://placeimg.com/400/400/arch" alt="Album" />
 
       <div className="card-body flex flex-col items-stretch">
         <h2 className="card-title text-white self-center">Redigera haket</h2>
         <form
           onSubmit={handleSubmit(handleEditSubmit)}
-          className="grid grid-cols-7 p-4 bg-base-content rounded-lg w-full h-full lg:w-3/6 lg:h-4/5 overflow-y-auto scrollbar-hide">
+          className="grid grid-cols-7 p-4 bg-base-content rounded-lg w-full h-full overflow-y-auto scrollbar-hide">
           <div className="col-span-full grid grid-rows-2 px-4">
             <input
               {...register("name")}
