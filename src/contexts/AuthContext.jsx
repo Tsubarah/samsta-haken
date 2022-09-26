@@ -25,7 +25,7 @@ const AuthContextProvider = ({ children }) => {
 	const [userImageUrl, setUserImageUrl] = useState(null);
 	const [loginSwipe, setLoginSwipe] = useState(false);
 	const [loading, setLoading] = useState(true);
-	const [isAdmin, setIsAdmin] = useState(false);
+	const [isAdmin, setIsAdmin] = useState(null);
 
 	const signup = async (email, password, name, image) => {
 		// create the user
@@ -46,7 +46,6 @@ const AuthContextProvider = ({ children }) => {
 			imageURL: auth.currentUser.photoURL,
 			admin: false,
 		});
-		console.log(auth.currentUser);
 	};
 
 	const login = async (email, password) => {
@@ -113,8 +112,6 @@ const AuthContextProvider = ({ children }) => {
 				const ref = doc(db, "users", user.uid);
 				const snapshot = await getDoc(ref);
 
-				// console.log("isAdmin:", snapshot.data().admin);
-
 				setIsAdmin(snapshot.data().admin);
 
 				setUserEmail(user.email);
@@ -122,7 +119,7 @@ const AuthContextProvider = ({ children }) => {
 			setLoading(false);
 			setUserImageUrl(user?.photoURL);
 		});
-		console.log(auth.currentUser);
+
 		return unsubscribe;
 	}, []);
 
