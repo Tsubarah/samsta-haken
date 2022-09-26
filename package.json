@@ -26,7 +26,9 @@
 		"react-spinners": "^0.13.4",
 		"react-table": "^7.8.0",
 		"sass": "^1.54.9",
-		"tailwind-scrollbar-hide": "^1.1.7"
+		"tailwind-scrollbar-hide": "^1.1.7",
+		"react-uuid": "^1.0.3"
+	
 	},
 	"devDependencies": {
 		"@types/react": "^18.0.17",
@@ -34,6 +36,7 @@
 		"@vitejs/plugin-react": "^2.1.0",
 		"autoprefixer": "^10.4.11",
 		"postcss": "^8.4.16",
+		"tailwind-scrollbar": "^2.0.1",
 		"tailwindcss": "^3.1.8",
 		"vite": "^3.1.0"
 	}

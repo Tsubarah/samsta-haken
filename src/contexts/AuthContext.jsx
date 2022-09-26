@@ -4,11 +4,13 @@ import {
 	signInWithEmailAndPassword,
 	onAuthStateChanged,
 	signOut,
+	updateProfile,
 } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
-import { setDoc, doc, updateDoc } from "firebase/firestore";
+import { setDoc, doc, updateDoc, getDoc } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 const AuthContext = createContext();
 
@@ -19,12 +21,18 @@ const useAuthContext = () => {
 const AuthContextProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [userEmail, setUserEmail] = useState(null);
+	const [userName, setUserName] = useState(null);
+	const [userImageUrl, setUserImageUrl] = useState(null);
 	const [loginSwipe, setLoginSwipe] = useState(false);
 	const [loading, setLoading] = useState(true);
+	const [isAdmin, setIsAdmin] = useState(null);
 
-	const signup = async (email, password) => {
+	const signup = async (email, password, name, image) => {
 		// create the user
 		await createUserWithEmailAndPassword(auth, email, password);
+
+		// set name and image
+		await setDisplayNameAndPhoto(name, image);
 
 		// reload user
 		await reloadUser();
@@ -33,7 +41,9 @@ const AuthContextProvider = ({ children }) => {
 		const docRef = doc(db, "users", auth.currentUser.uid);
 
 		await setDoc(docRef, {
+			name,
 			email,
+			imageURL: auth.currentUser.photoURL,
 			admin: false,
 		});
 	};
@@ -47,25 +57,67 @@ const AuthContextProvider = ({ children }) => {
 		return signOut(auth);
 	};
 
+	const setDisplayNameAndPhoto = async (displayName, image) => {
+		let imageURL = auth.currentUser.photoURL;
+
+		if (image) {
+			// create a reference to upload the file to
+			const fileRef = ref(
+				storage,
+				`users/${auth.currentUser.email}/${image.name}`
+			);
+
+			// upload image to fileRef
+			const uploadResult = await uploadBytes(fileRef, image);
+
+			// get download url to uploaded file
+			imageURL = await getDownloadURL(uploadResult.ref);
+
+			console.log("Image uploaded successfully. Download url is", imageURL);
+		}
+
+		return updateProfile(auth.currentUser, {
+			displayName,
+			photoURL: imageURL,
+		});
+	};
+
 	const updateAdmin = async (userId, user) => {
 		await updateDoc(doc(db, "users", userId), {
 			admin: !user.admin,
 		});
 	};
 
+	const updateRestaurantStatus = async (restaurantId, restaurant) => {
+		await updateDoc(doc(db, "restaurants", restaurantId), {
+			accepted: !restaurant.accepted,
+		});
+	};
+
 	const reloadUser = async () => {
 		await auth.currentUser.reload();
 		setCurrentUser(auth.currentUser);
+		setUserName(auth.currentUser.displayName);
 		setUserEmail(auth.currentUser.email);
+		setUserImageUrl(auth.currentUser.photoURL);
 		return true;
 	};
 
 	useEffect(() => {
 		// listen for auth-state changes
-		const unsubscribe = onAuthStateChanged(auth, (user) => {
+		const unsubscribe = onAuthStateChanged(auth, async (user) => {
 			setCurrentUser(user);
-			setUserEmail(user?.email);
+
+			if (user) {
+				const ref = doc(db, "users", user.uid);
+				const snapshot = await getDoc(ref);
+
+				setIsAdmin(snapshot.data().admin);
+
+				setUserEmail(user.email);
+			}
 			setLoading(false);
+			setUserImageUrl(user?.photoURL);
 		});
 
 		return unsubscribe;
@@ -105,6 +157,10 @@ const AuthContextProvider = ({ children }) => {
 		updateAdmin,
 		drawerIsOpen,
 		setDrawerIsOpen,
+		isAdmin,
+		updateRestaurantStatus,
+		userName,
+		userImageUrl,
 	};
 
 	return (
