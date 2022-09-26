@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 import placeholder from "../assets/images/placeholder-user-300x300.png";
-import { MdAddAPhoto } from "react-icons/md";
+import { MdAddPhotoAlternate } from "react-icons/md";
 
 const ProfilePage = () => {
 	const displayNameRef = useRef();
@@ -95,7 +95,7 @@ const ProfilePage = () => {
 							htmlFor="image"
 							className="border border-grey-light p-3 rounded-md flex items-center gap-2"
 						>
-							<MdAddAPhoto size={25} className="text-gray-400" />
+							<MdAddPhotoAlternate size={25} className="text-gray-400" />
 							<span className="text-gray-400">Välj bild</span>
 							<input
 								type="file"
