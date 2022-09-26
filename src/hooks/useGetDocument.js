@@ -1,36 +1,32 @@
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
 const useGetDocument = (col, id) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(true);
 
-  const getData = async () => {
-    setLoading(true);
-    
-    const ref = doc(db, col, id);
-    const snapshot = await getDoc(ref);
+	const ref = doc(db, col, id);
 
-    if (!snapshot.exists()) {
-      setData(false);
-      setLoading(false);
-      return;
-    }
+	useEffect(() => {
+		const unsubscribe = onSnapshot(ref, (snapshot) => {
+			if (!snapshot.exists()) {
+				setData(false);
+				setLoading(false);
+				return;
+			}
 
-    setData(snapshot.data());
-    setLoading(false);
-  };
+			setData({ id: snapshot.id, ...snapshot.data() });
+			setLoading(false);
+		});
 
-  useEffect(() => {
-    getData();
-  }, []);
+		return unsubscribe;
+	}, []);
 
-  return {
-    data,
-    loading,
-    getData,
-  };
+	return {
+		data,
+		loading,
+	};
 };
 
 export default useGetDocument;

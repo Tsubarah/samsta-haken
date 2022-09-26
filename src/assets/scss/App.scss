@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 * {
 	padding: 0;
 	margin: 0;
@@ -15,21 +11,4 @@ body {
 //* Tips form styles *//
 dialog {
 	background: rgba(0, 0, 0, 0.556);
-}
-
-//* Drawer styling *//
-.drawer-content {
-	height: 100%;
-}
-
-.drawer-toggle:checked ~ .drawer-side > .drawer-overlay {
-	visibility: hidden;
-}
-
-.drawer-toggle ~ .drawer-side {
-	overflow-y: auto;
-}
-
-.drawer.drawer-end > .drawer-toggle:checked ~ .drawer-content {
-	--tw-translate-x: 0rem;
 }
