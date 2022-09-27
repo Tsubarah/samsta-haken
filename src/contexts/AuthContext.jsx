@@ -1,13 +1,20 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import {
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
-	onAuthStateChanged,
-	signOut,
-	updateProfile,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  updateProfile,
 } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
-import { setDoc, doc, updateDoc, getDoc } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  updateDoc,
+  getDoc,
+  FieldValue,
+  arrayUnion,
+} from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
@@ -15,165 +22,189 @@ import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 const AuthContext = createContext();
 
 const useAuthContext = () => {
-	return useContext(AuthContext);
+  return useContext(AuthContext);
 };
 
 const AuthContextProvider = ({ children }) => {
-	const [currentUser, setCurrentUser] = useState(null);
-	const [userEmail, setUserEmail] = useState(null);
-	const [userName, setUserName] = useState(null);
-	const [userImageUrl, setUserImageUrl] = useState(null);
-	const [loginSwipe, setLoginSwipe] = useState(false);
-	const [loading, setLoading] = useState(true);
-	const [isAdmin, setIsAdmin] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [userImageUrl, setUserImageUrl] = useState(null);
+  const [loginSwipe, setLoginSwipe] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(null);
 
-	const signup = async (email, password, name, image) => {
-		// create the user
-		await createUserWithEmailAndPassword(auth, email, password);
+  const signup = async (email, password, name, image) => {
+    // create the user
+    await createUserWithEmailAndPassword(auth, email, password);
 
-		// set name and image
-		await setDisplayNameAndPhoto(name, image);
+    // set name and image
+    await setDisplayNameAndPhoto(name, image);
 
-		// reload user
-		await reloadUser();
+    // reload user
+    await reloadUser();
 
-		// create user document to db
-		const docRef = doc(db, "users", auth.currentUser.uid);
+    // create user document to db
+    const docRef = doc(db, "users", auth.currentUser.uid);
 
-		await setDoc(docRef, {
-			name,
-			email,
-			imageURL: auth.currentUser.photoURL,
-			admin: false,
-		});
-	};
+    await setDoc(docRef, {
+      name,
+      email,
+      imageURL: auth.currentUser.photoURL,
+      admin: false,
+    });
+  };
 
-	const login = async (email, password) => {
-		// login user
-		return signInWithEmailAndPassword(auth, email, password);
-	};
+  const login = async (email, password) => {
+    // login user
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
-	const logout = () => {
-		return signOut(auth);
-	};
+  const logout = () => {
+    return signOut(auth);
+  };
 
-	const setDisplayNameAndPhoto = async (displayName, image) => {
-		let imageURL = auth.currentUser.photoURL;
+  const setDisplayNameAndPhoto = async (displayName, image) => {
+    let imageURL = auth.currentUser.photoURL;
 
-		if (image) {
-			// create a reference to upload the file to
-			const fileRef = ref(
-				storage,
-				`users/${auth.currentUser.email}/${image.name}`
-			);
+    if (image) {
+      // create a reference to upload the file to
+      const fileRef = ref(
+        storage,
+        `users/${auth.currentUser.email}/${image.name}`
+      );
 
-			// upload image to fileRef
-			const uploadResult = await uploadBytes(fileRef, image);
+      // upload image to fileRef
+      const uploadResult = await uploadBytes(fileRef, image);
 
-			// get download url to uploaded file
-			imageURL = await getDownloadURL(uploadResult.ref);
+      // get download url to uploaded file
+      imageURL = await getDownloadURL(uploadResult.ref);
 
-			console.log("Image uploaded successfully. Download url is", imageURL);
-		}
+      console.log("Image uploaded successfully. Download url is", imageURL);
+    }
 
-		return updateProfile(auth.currentUser, {
-			displayName,
-			photoURL: imageURL,
-		});
-	};
+    return updateProfile(auth.currentUser, {
+      displayName,
+      photoURL: imageURL,
+    });
+  };
 
-	const updateAdmin = async (userId, user) => {
-		await updateDoc(doc(db, "users", userId), {
-			admin: !user.admin,
-		});
-	};
+  const updateAdmin = async (userId, user) => {
+    await updateDoc(doc(db, "users", userId), {
+      admin: !user.admin,
+    });
+  };
 
-	const updateRestaurantStatus = async (restaurantId, restaurant) => {
-		await updateDoc(doc(db, "restaurants", restaurantId), {
-			accepted: !restaurant.accepted,
-		});
-	};
+  const updateRestaurantStatus = async (restaurantId, restaurant) => {
+    await updateDoc(doc(db, "restaurants", restaurantId), {
+      accepted: !restaurant.accepted,
+    });
+  };
 
-	const reloadUser = async () => {
-		await auth.currentUser.reload();
-		setCurrentUser(auth.currentUser);
-		setUserName(auth.currentUser.displayName);
-		setUserEmail(auth.currentUser.email);
-		setUserImageUrl(auth.currentUser.photoURL);
-		return true;
-	};
+  const uploadRestaurantImages = async (restaurantId, image) => {
+	  let imageURL;
 
-	useEffect(() => {
-		// listen for auth-state changes
-		const unsubscribe = onAuthStateChanged(auth, async (user) => {
-			setCurrentUser(user);
+    if (image) {
+      // create a reference to upload the file to
+      const fileRef = ref(
+        storage,
+        `restaurant-images/${restaurantId}/${image.name}`
+      );
 
-			if (user) {
-				const ref = doc(db, "users", user.uid);
-				const snapshot = await getDoc(ref);
+      // upload image to fileRef
+      const uploadResult = await uploadBytes(fileRef, image);
 
-				setIsAdmin(snapshot.data().admin);
+      // get download url to uploaded file
+      imageURL = await getDownloadURL(uploadResult.ref);
 
-				setUserEmail(user.email);
-			}
-			setLoading(false);
-			setUserImageUrl(user?.photoURL);
-		});
+      console.log("Image uploaded successfully. Download url is", imageURL);
+    }
+    await updateDoc(doc(db, "restaurants", restaurantId), {
+      photos: arrayUnion(imageURL),
+    });
+  };
 
-		return unsubscribe;
-	}, []);
+  const reloadUser = async () => {
+    await auth.currentUser.reload();
+    setCurrentUser(auth.currentUser);
+    setUserName(auth.currentUser.displayName);
+    setUserEmail(auth.currentUser.email);
+    setUserImageUrl(auth.currentUser.photoURL);
+    return true;
+  };
 
-	// Location functions
+  useEffect(() => {
+    // listen for auth-state changes
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setCurrentUser(user);
 
-	const [location, setLocation] = useState(null);
-	const [address, setAddress] = useState(null);
+      if (user) {
+        const ref = doc(db, "users", user.uid);
+        const snapshot = await getDoc(ref);
 
-	const handleSearch = async (address) => {
-		const addressResponse = await getLocationWithAddress(address);
+        setIsAdmin(snapshot.data().admin);
 
-		setLocation(addressResponse.results[0].geometry.location);
-		setAddress(addressResponse.results[0].formatted_address);
-	};
+        setUserEmail(user.email);
+      }
+      setLoading(false);
+      setUserImageUrl(user?.photoURL);
+    });
 
-	// Show and hide
-	const [showTips, setShowTips] = useState(false);
-	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+    return unsubscribe;
+  }, []);
 
-	const contextValues = {
-		currentUser,
-		signup,
-		login,
-		logout,
-		reloadUser,
-		setLoginSwipe,
-		loginSwipe,
-		handleSearch,
-		location,
-		setLocation,
-		address,
-		setAddress,
-		showTips,
-		setShowTips,
-		updateAdmin,
-		drawerIsOpen,
-		setDrawerIsOpen,
-		isAdmin,
-		updateRestaurantStatus,
-		userName,
-		userImageUrl,
-	};
+  // Location functions
 
-	return (
-		<AuthContext.Provider value={contextValues}>
-			{loading ? (
-				<div id="initial-loader">
-					<BeatLoader color={"#888"} size={50} />
-				</div>
-			) : (
-				children
-			)}
-		</AuthContext.Provider>
-	);
+  const [location, setLocation] = useState(null);
+  const [address, setAddress] = useState(null);
+
+  const handleSearch = async (address) => {
+    const addressResponse = await getLocationWithAddress(address);
+
+    setLocation(addressResponse.results[0].geometry.location);
+    setAddress(addressResponse.results[0].formatted_address);
+  };
+
+  // Show and hide
+  const [showTips, setShowTips] = useState(false);
+  const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+
+  const contextValues = {
+    currentUser,
+    signup,
+    login,
+    logout,
+    reloadUser,
+    setLoginSwipe,
+    loginSwipe,
+    handleSearch,
+    location,
+    setLocation,
+    address,
+    setAddress,
+    showTips,
+    setShowTips,
+    updateAdmin,
+    drawerIsOpen,
+    setDrawerIsOpen,
+    isAdmin,
+    updateRestaurantStatus,
+    userName,
+    userImageUrl,
+    uploadRestaurantImages,
+  };
+
+  return (
+    <AuthContext.Provider value={contextValues}>
+      {loading ? (
+        <div id="initial-loader">
+          <BeatLoader color={"#888"} size={50} />
+        </div>
+      ) : (
+        children
+      )}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthContextProvider as default, useAuthContext };

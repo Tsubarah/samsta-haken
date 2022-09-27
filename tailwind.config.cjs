@@ -41,6 +41,6 @@ module.exports = {
 			"coffee",
 			"winter",
 		],
-		darkTheme: "luxury",
+		darkTheme: "forest",
 	},
 };
