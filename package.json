@@ -27,9 +27,9 @@
 		"react-router-dom": "^6.4.0",
 		"react-spinners": "^0.13.4",
 		"react-table": "^7.8.0",
+		"react-uuid": "^1.0.3",
 		"sass": "^1.54.9",
-		"tailwind-scrollbar-hide": "^1.1.7",
-		"react-uuid": "^1.0.3"
+		"tailwind-scrollbar-hide": "^1.1.7"
 	},
 	"devDependencies": {
 		"@testing-library/jest-dom": "^5.16.5",
@@ -39,6 +39,7 @@
 		"@types/react-dom": "^18.0.6",
 		"@vitejs/plugin-react": "^2.1.0",
 		"autoprefixer": "^10.4.11",
+		"firebase-mock": "^2.3.2",
 		"jsdom": "^20.0.0",
 		"postcss": "^8.4.16",
 		"tailwind-scrollbar": "^2.0.1",

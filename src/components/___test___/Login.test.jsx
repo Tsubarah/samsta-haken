@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import {
 	screen,
 	renderWithContextProvider,
@@ -9,7 +8,7 @@ import Login from "../Login";
 describe("Test login input fields", () => {
 	it("render input fields", () => {
 		// render
-		// renderWithContextProvider(<Login />);
+		renderWithContextProvider(<Login />);
 		// render(<Login />);
 		// find
 		// const emailFieldEl = screen.getByRole("textbox", {
