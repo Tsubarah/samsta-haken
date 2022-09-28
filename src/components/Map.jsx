@@ -1,8 +1,9 @@
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api";
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 
 const Map = ({ position }) => {
+	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
 	// console.log(restaurants)
 
@@ -10,6 +11,13 @@ const Map = ({ position }) => {
 		id: "google-map-script",
 		googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
 	});
+
+	const handleActiveMarker = (marker) => {
+		if (marker === activeMarker) {
+			return;
+		}
+		setActiveMarker(marker)
+	}
 
 	const onLoad = useCallback((map) => {
 		const zoom = 18;
@@ -32,6 +40,7 @@ const Map = ({ position }) => {
 			mapContainerClassName="w-full h-full"
 			center={newLocation}
 			onLoad={onLoad}
+			onClick={() => setActiveMarker(null)}
 			options={{
 				styles: [
 					{
@@ -44,7 +53,17 @@ const Map = ({ position }) => {
 		>
 			<Marker position={newLocation} />
 			{restaurants.map((restaurant) => (
-				<Marker key={restaurant.id} position={restaurant.position} />
+				<Marker 
+					key={restaurant.id} 
+					position={restaurant.position} 
+					onClick={() => handleActiveMarker(restaurant.id)}
+				>
+					{activeMarker === restaurant.id ? (
+						<InfoWindow onCloseClick={() => setActiveMarker(null)}>
+							<div>{restaurant.name}</div>
+						</InfoWindow>
+					) : null}
+				</Marker>
 			))}
 		</GoogleMap>
 	) : (
