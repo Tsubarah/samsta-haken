@@ -19,14 +19,10 @@ const useCurrentLocation = () => {
 
 					const geolocation = await getLocationWithLatLng(latitude, longitude);
 
-					console.log(geolocation)
-
 					const currentCity = findCity(geolocation)
 
+					
 					setCurrentCityName(currentCity)
-					
-					
-					
 					setPositionAddress(geolocation.results[0].formatted_address);
 					setPositionLatLng({ lat: latitude, lng: longitude });
 				} catch (err) {
