@@ -3,7 +3,19 @@ import {
 	renderWithContextProvider,
 	render,
 } from "../../utils/test-utils";
+import { ref } from "../../utils/test-utils-firebase";
+
 import Login from "../Login";
+
+// const jest = require("jest");
+
+import jest from "@testing-library/jest-dom";
+
+jest.mock(ref, () => {
+	return mocksdk;
+});
+
+mocksdk.firestore().flush();
 
 describe("Test login input fields", () => {
 	it("render input fields", () => {

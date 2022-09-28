@@ -131,6 +131,8 @@ const AuthContextProvider = ({ children }) => {
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
 
+		console.log(addressResponse.results[0]);
+
 		setLocation(addressResponse.results[0].geometry.location);
 		setAddress(addressResponse.results[0].formatted_address);
 	};
