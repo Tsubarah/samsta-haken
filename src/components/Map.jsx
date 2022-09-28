@@ -1,10 +1,12 @@
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api";
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
+import useCurrentLocation from "../hooks/useCurrentLocation"
 
 const Map = ({ position }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
+	const { currentCityName, positionLatLng } = useCurrentLocation()
 	// console.log(restaurants)
 
 	const { isLoaded } = useJsApiLoader({
@@ -26,8 +28,10 @@ const Map = ({ position }) => {
 
 	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
 	const [newLocation, setNewLocation] = useState(null);
-
+	
 	useEffect(() => {
+		console.log(currentCityName)
+		console.log(positionLatLng)
 		if (!position) {
 			setNewLocation(defaultLocation);
 		} else {
