@@ -5,17 +5,20 @@ import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 
 const SearchForm = ({ className }) => {
-	const { handleSearch, setLocation, setAddress, address } = useAuthContext();
+	const { handleSearch, setLocation, setAddress, address, searchedCity } =
+		useAuthContext();
 
 	const {
 		getCurrentLocation,
 		positionLatLng,
 		positionAddress,
 		setPositionLatLng,
+		currentCityName,
 	} = useCurrentLocation();
 
 	const [searchInput, setSearchInput] = useState("");
 	const [placeholder, setPlaceholder] = useState("Sök...");
+	const [city, setCity] = useState(null);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -24,6 +27,8 @@ const SearchForm = ({ className }) => {
 			return;
 		}
 		setPositionLatLng(null);
+		//* HÄr ska city name från search i context
+		// setCity(searchedCity);
 		handleSearch(searchInput);
 		setSearchInput("");
 	};
@@ -32,13 +37,15 @@ const SearchForm = ({ className }) => {
 		if (positionLatLng) {
 			setLocation(positionLatLng);
 			setAddress(positionAddress);
+			setCity(currentCityName);
 		}
 
-		// setSearchInput(address);
 		if (address) {
 			setPlaceholder(address);
 		}
-	}, [positionLatLng, address]);
+
+		console.log("CITY", city);
+	}, [positionLatLng, address, city]);
 
 	return (
 		<form

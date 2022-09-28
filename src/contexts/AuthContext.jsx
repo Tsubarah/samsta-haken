@@ -11,6 +11,7 @@ import { setDoc, doc, updateDoc, getDoc } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { findCity } from "../utils/helpers";
 
 const AuthContext = createContext();
 
@@ -127,9 +128,18 @@ const AuthContextProvider = ({ children }) => {
 
 	const [location, setLocation] = useState(null);
 	const [address, setAddress] = useState(null);
+	const [searchedCity, setSearchedCity] = useState(null);
+
+	//* City borde vara global då den måste skickas till MAP
 
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
+
+		console.log(addressResponse);
+
+		const city = findCity(addressResponse);
+		// console.log("SEARCHED CITY", city);
+		// setSearchedCity(city)
 
 		setLocation(addressResponse.results[0].geometry.location);
 		setAddress(addressResponse.results[0].formatted_address);
@@ -152,6 +162,7 @@ const AuthContextProvider = ({ children }) => {
 		setLocation,
 		address,
 		setAddress,
+		// searchedCity,
 		showTips,
 		setShowTips,
 		updateAdmin,

@@ -6,9 +6,15 @@ export const findSocialsValue = (source, type) => {
 };
 
 export const findCity = (geolocation) => {
-	const postalTownIndex = geolocation.results.map(location => location.types).findIndex(location => location == 'postal_town')
+	//* Hitta types inne i address_components
+	//* Logga addressResponse i handleSearch i Context
 
-	const city = geolocation.results[postalTownIndex].address_components[0].long_name
+	const postalTownIndex = geolocation.results
+		.map((location) => location.types)
+		.findIndex((location) => location == "postal_town");
 
-	return city
-}
+	const city =
+		geolocation.results[postalTownIndex].address_components[0].long_name;
+
+	return city;
+};

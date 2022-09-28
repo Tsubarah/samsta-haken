@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { getLocationWithLatLng } from "../services/googleAPI";
-import { findCity } from "../utils/helpers"
+import { findCity } from "../utils/helpers";
 
 const useCurrentLocation = () => {
 	const [positionAddress, setPositionAddress] = useState("");
 	const [positionLatLng, setPositionLatLng] = useState(null);
-	const [currentCityName, setCurrentCityName] = useState(null)
+	const [currentCityName, setCurrentCityName] = useState(null);
 
 	const getCurrentLocation = () => {
 		if (!navigator.geolocation) {
@@ -19,10 +19,11 @@ const useCurrentLocation = () => {
 
 					const geolocation = await getLocationWithLatLng(latitude, longitude);
 
-					const currentCity = findCity(geolocation)
+					console.log("GEOLOCATION", geolocation);
 
-					
-					setCurrentCityName(currentCity)
+					const currentCity = findCity(geolocation);
+
+					setCurrentCityName(currentCity);
 					setPositionAddress(geolocation.results[0].formatted_address);
 					setPositionLatLng({ lat: latitude, lng: longitude });
 				} catch (err) {
@@ -32,9 +33,9 @@ const useCurrentLocation = () => {
 		}
 	};
 
-	useEffect(() => {
-		getCurrentLocation()
-	}, [currentCityName])
+	// useEffect(() => {
+	// 	getCurrentLocation()
+	// }, [currentCityName])
 
 	return {
 		getCurrentLocation,
