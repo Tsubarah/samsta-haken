@@ -7,8 +7,6 @@ const Map = ({ position }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
 	const { currentCityName, positionLatLng } = useCurrentLocation()
-	console.log(restaurants.filter(restaurant => restaurant.city === currentCityName))
-	console.log(restaurants)
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
@@ -31,8 +29,6 @@ const Map = ({ position }) => {
 	const [newLocation, setNewLocation] = useState(null);
 	
 	useEffect(() => {
-		console.log(currentCityName)
-		console.log(positionLatLng)
 		if (!position) {
 			setNewLocation(defaultLocation);
 		} else {
