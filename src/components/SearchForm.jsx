@@ -3,6 +3,7 @@ import { TiLocationArrow } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
 import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
+import { usePlacesWidget } from "react-google-autocomplete";
 
 const SearchForm = ({ className }) => {
 	const { handleSearch, setLocation, setAddress, address } = useAuthContext();
@@ -13,6 +14,11 @@ const SearchForm = ({ className }) => {
 		positionAddress,
 		setPositionLatLng,
 	} = useCurrentLocation();
+
+	const { ref } = usePlacesWidget({
+		apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+		onPlaceSelected: (place) => console.log(place),
+	});
 
 	const [searchInput, setSearchInput] = useState("");
 	const [placeholder, setPlaceholder] = useState("Sök...");
