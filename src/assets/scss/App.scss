@@ -12,3 +12,15 @@ body {
 dialog {
 	background: rgba(0, 0, 0, 0.556);
 }
+
+ul li:nth-child(odd) {
+	background-color: rgb(19, 15, 10);
+}
+
+h3 {
+	font-weight: bold;
+}
+
+.restaurant-card {
+	overflow-y: scroll !important;
+}
