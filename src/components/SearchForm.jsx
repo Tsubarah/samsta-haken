@@ -3,7 +3,6 @@ import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import useGetCollection from "../hooks/useGetCollection";
 
-import { Combobox } from "@headlessui/react";
 import { TiLocationArrow } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
 
@@ -60,11 +59,11 @@ const SearchForm = ({ className }) => {
 		if (address) {
 			setPlaceholder(address);
 		}
-
 	}, [positionLatLng, address, city]);
 
 	return (
-		<div
+		<form
+			onSubmit={handleSubmit}
 			className={`flex justify-center items-center gap-2 relative ${className}`}
 		>
 			<TiLocationArrow
@@ -73,14 +72,8 @@ const SearchForm = ({ className }) => {
 				className="cursor-pointer"
 			/>
 
-			<Combobox
-				as="form"
-				className="input-group relative"
-				value={searchInput}
-				onChange={setSearchInput}
-				onSubmit={handleSubmit}
-			>
-				<Combobox.Input
+			<div className="input-group">
+				<input
 					type="text"
 					placeholder={placeholder}
 					onChange={(e) => setSearchInput(e.target.value)}
@@ -88,23 +81,25 @@ const SearchForm = ({ className }) => {
 					className="input input-sm input-bordered w-full"
 				/>
 
-				<Combobox.Options className="absolute top-10 px-4 pb-2 bg-base-100 w-full z-10 rounded-b-md">
+				<button className="btn btn-sm btn-square">
+					<BiSearch size={20} />
+				</button>
+			</div>
+
+			{searchInput.length > 0 && (
+				<ul className="absolute top-12 px-2 z-10 bg-base-100 w-4/5">
 					{filteredRestaurants.map((restaurant) => (
-						<Combobox.Option
+						<li
 							key={restaurant.id}
-							value={`${restaurant.address}, ${restaurant.city}`}
 							className="cursor-pointer hover:bg-base-300 p-2"
+							onClick={(e) => setSearchInput(e.target.innerText)}
 						>
 							{restaurant.name}, {restaurant.city}
-						</Combobox.Option>
+						</li>
 					))}
-				</Combobox.Options>
-
-				<Combobox.Button className="btn btn-sm btn-square" type="submit">
-					<BiSearch size={20} />
-				</Combobox.Button>
-			</Combobox>
-		</div>
+				</ul>
+			)}
+		</form>
 	);
 };
 
