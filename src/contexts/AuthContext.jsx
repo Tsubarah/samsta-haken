@@ -141,7 +141,8 @@ const AuthContextProvider = ({ children }) => {
 	};
 
 	// ref for autocomplete
-	const [autocompleteRef, setAutocompleteRef] = useState(null);
+	const [placesRef, setPlacesRef] = useState(null);
+	const [autoPlacesRef, setAutoPlacesRef] = useState(null);
 
 	// Show and hide
 	const [showTips, setShowTips] = useState(false);
@@ -160,8 +161,10 @@ const AuthContextProvider = ({ children }) => {
 		setLocation,
 		address,
 		setAddress,
-		autocompleteRef,
-		setAutocompleteRef,
+		placesRef,
+		setPlacesRef,
+		autoPlacesRef,
+		setAutoPlacesRef,
 		showTips,
 		setShowTips,
 		updateAdmin,

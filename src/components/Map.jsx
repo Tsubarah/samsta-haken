@@ -8,16 +8,21 @@ import { usePlacesWidget } from "react-google-autocomplete";
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 
-const Map = ({ position, setAutocompleteRef }) => {
+const libraries = ["places"];
+
+const Map = ({ position, setPlacesRef, setAutoPlacesRef }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
+	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
+	const [newLocation, setNewLocation] = useState(null);
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
 		googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+		libraries,
 	});
 
-	const { ref } = usePlacesWidget({
+	const { ref, autocompleteRef } = usePlacesWidget({
 		apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
 		onPlaceSelected: (place) => console.log(place),
 	});
@@ -34,11 +39,9 @@ const Map = ({ position, setAutocompleteRef }) => {
 		map.setZoom(zoom);
 	}, []);
 
-	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
-	const [newLocation, setNewLocation] = useState(null);
-
 	useEffect(() => {
-		// setAutocompleteRef(ref);
+		setPlacesRef(ref);
+		setAutoPlacesRef(autocompleteRef);
 
 		if (!position) {
 			setNewLocation(defaultLocation);
