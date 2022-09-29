@@ -135,13 +135,13 @@ const AuthContextProvider = ({ children }) => {
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
 
+		console.log("Searched city in COntext", addressResponse);
+
 		const city = findSearchedCity(addressResponse);
-		console.log("SEARCHED CITY", city);
+
+		console.log("city function", city);
+
 		setSearchedCity(city);
-		console.log(
-			"Address Response",
-			addressResponse.results[0].geometry.location
-		);
 
 		setLocation(addressResponse.results[0].geometry.location);
 		setAddress(addressResponse.results[0].formatted_address);

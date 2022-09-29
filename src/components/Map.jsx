@@ -35,16 +35,11 @@ const Map = ({ position }) => {
 	}, []);
 
 	useEffect(() => {
-		console.log("current city name", searchedCity);
 		if (!position) {
 			setNewLocation(defaultLocation);
-			console.log("POSITION IF", position);
 		} else {
 			setNewLocation(position);
-			console.log("POSITION ELSE", position);
 		}
-
-		console.log("NEW LOCATION", newLocation);
 	}, [position]);
 
 	return isLoaded ? (

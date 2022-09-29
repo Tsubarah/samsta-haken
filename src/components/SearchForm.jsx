@@ -15,7 +15,6 @@ const SearchForm = ({ className }) => {
 		positionLatLng,
 		positionAddress,
 		setPositionLatLng,
-		currentCityName,
 	} = useCurrentLocation();
 
 	const [searchInput, setSearchInput] = useState("");
@@ -53,7 +52,6 @@ const SearchForm = ({ className }) => {
 			console.log(positionLatLng);
 			setLocation(positionLatLng);
 			setAddress(positionAddress);
-			// setCity(currentCityName);
 		}
 
 		if (address) {
@@ -92,7 +90,9 @@ const SearchForm = ({ className }) => {
 						<li
 							key={restaurant.id}
 							className="cursor-pointer hover:bg-base-300 p-2"
-							onClick={(e) => setSearchInput(e.target.innerText)}
+							onClick={() =>
+								setSearchInput(`${restaurant.address}, ${restaurant.city}`)
+							}
 						>
 							{restaurant.name}, {restaurant.city}
 						</li>
