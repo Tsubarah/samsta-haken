@@ -6,8 +6,6 @@ export const findSocialsValue = (source, type) => {
 };
 
 export const findCity = (geolocation) => {
-	//* Hitta types inne i address_components
-	//* Logga addressResponse i handleSearch i Context
 
 	const postalTownIndex = geolocation.results
 		.map((location) => location.types)
@@ -20,7 +18,11 @@ export const findCity = (geolocation) => {
 };
 
 export const findSearchedCity = (adressResponse) => {
-	const adressComponent = adressResponse.results.map(location => location.address_components[0].long_name)[0]
+	const adressComponents = adressResponse.results.map(location => location.address_components)
 
-  return adressComponent
+	const postalTownIndex = adressComponents[0].map(location => location.types).findIndex(location => location == "postal_town")
+
+	const city = adressResponse.results[0].address_components[postalTownIndex].long_name
+
+  return city
 }
