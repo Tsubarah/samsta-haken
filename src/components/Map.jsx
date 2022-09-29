@@ -4,13 +4,10 @@ import {
 	Marker,
 	InfoWindow,
 } from "@react-google-maps/api";
-import { usePlacesWidget } from "react-google-autocomplete";
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 
-const libraries = ["places"];
-
-const Map = ({ position, setPlacesRef, setAutoPlacesRef }) => {
+const Map = ({ position }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
 	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
@@ -19,12 +16,6 @@ const Map = ({ position, setPlacesRef, setAutoPlacesRef }) => {
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
 		googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-		libraries,
-	});
-
-	const { ref, autocompleteRef } = usePlacesWidget({
-		apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-		onPlaceSelected: (place) => console.log(place),
 	});
 
 	const handleActiveMarker = (marker) => {
@@ -40,9 +31,6 @@ const Map = ({ position, setPlacesRef, setAutoPlacesRef }) => {
 	}, []);
 
 	useEffect(() => {
-		setPlacesRef(ref);
-		setAutoPlacesRef(autocompleteRef);
-
 		if (!position) {
 			setNewLocation(defaultLocation);
 			console.log("POSITION IF", position);

@@ -8,14 +8,7 @@ import { TiLocationArrow } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
 
 const SearchForm = ({ className }) => {
-	const {
-		handleSearch,
-		setLocation,
-		setAddress,
-		address,
-		placesRef,
-		autoPlacesRef,
-	} = useAuthContext();
+	const { handleSearch, setLocation, setAddress, address } = useAuthContext();
 
 	const {
 		getCurrentLocation,
@@ -52,9 +45,6 @@ const SearchForm = ({ className }) => {
 	};
 
 	useEffect(() => {
-		console.log("Places REF", placesRef);
-		console.log("Places Auto REF", autoPlacesRef);
-
 		if (positionLatLng) {
 			console.log(positionLatLng);
 			setLocation(positionLatLng);
@@ -89,7 +79,6 @@ const SearchForm = ({ className }) => {
 					onChange={(e) => setSearchInput(e.target.value)}
 					value={searchInput}
 					className="input input-sm input-bordered w-full"
-					ref={placesRef}
 				/>
 
 				<Combobox.Options className="absolute top-10 px-4 pb-2 bg-base-100 w-full z-10 rounded-b-md">

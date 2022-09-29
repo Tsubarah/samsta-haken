@@ -3,16 +3,11 @@ import Map from "../components/Map";
 import TipsForm from "../components/TipsForm";
 
 const HomePage = () => {
-	const { location, showTips, setShowTips, setPlacesRef, setAutoPlacesRef } =
-		useAuthContext();
+	const { location, showTips, setShowTips } = useAuthContext();
 
 	return (
 		<div className="flex flex-col h-full relative">
-			<Map
-				position={location}
-				setPlacesRef={setPlacesRef}
-				setAutoPlacesRef={setAutoPlacesRef}
-			/>
+			<Map position={location} />
 
 			{showTips && <TipsForm showTips={showTips} setShowTips={setShowTips} />}
 		</div>

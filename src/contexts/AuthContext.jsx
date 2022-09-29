@@ -140,10 +140,6 @@ const AuthContextProvider = ({ children }) => {
 		setAddress(addressResponse.results[0].formatted_address);
 	};
 
-	// ref for autocomplete
-	const [placesRef, setPlacesRef] = useState(null);
-	const [autoPlacesRef, setAutoPlacesRef] = useState(null);
-
 	// Show and hide
 	const [showTips, setShowTips] = useState(false);
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
@@ -161,10 +157,6 @@ const AuthContextProvider = ({ children }) => {
 		setLocation,
 		address,
 		setAddress,
-		placesRef,
-		setPlacesRef,
-		autoPlacesRef,
-		setAutoPlacesRef,
 		showTips,
 		setShowTips,
 		updateAdmin,
