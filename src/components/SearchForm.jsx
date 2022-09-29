@@ -61,7 +61,7 @@ const SearchForm = ({ className }) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className={`flex justify-center items-center gap-2 relative ${className}`}
+			className={`flex justify-center items-center gap-2 ${className}`}
 		>
 			<TiLocationArrow
 				onClick={getCurrentLocation}
@@ -83,8 +83,8 @@ const SearchForm = ({ className }) => {
 				</button>
 			</div>
 
-			{searchInput.length > 0 && (
-				<ul className="absolute top-12 px-2 z-10 bg-base-100 w-4/5">
+			{searchInput.length > 0 && filteredRestaurants.length > 0 && (
+				<ul className="absolute top-12 px-2 py-4 z-10 bg-base-100 w-4/6 lg:w-5/12 h-1/5 overflow-scroll scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
 					{filteredRestaurants.map((restaurant) => (
 						<li
 							key={restaurant.id}
