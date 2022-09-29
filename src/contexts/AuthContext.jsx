@@ -150,6 +150,7 @@ const AuthContextProvider = ({ children }) => {
 	// Show and hide
 	const [showTips, setShowTips] = useState(false);
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+	const [showAdminForm, setShowAdminForm] = useState(false);
 
 	const contextValues = {
 		currentUser,
@@ -164,9 +165,10 @@ const AuthContextProvider = ({ children }) => {
 		setLocation,
 		address,
 		setAddress,
-		searchedCity,
 		showTips,
 		setShowTips,
+		showAdminForm,
+		setShowAdminForm,
 		updateAdmin,
 		drawerIsOpen,
 		setDrawerIsOpen,
