@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import { getLocationWithLatLng } from "../services/googleAPI";
 import { findCity } from "../utils/helpers";

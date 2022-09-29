@@ -11,7 +11,7 @@ import { setDoc, doc, updateDoc, getDoc } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import { findCity } from "../utils/helpers";
+import { findSearchedCity } from "../utils/helpers";
 
 const AuthContext = createContext();
 
@@ -135,11 +135,9 @@ const AuthContextProvider = ({ children }) => {
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
 
-		console.log(addressResponse);
-
-		const city = findCity(addressResponse);
-		// console.log("SEARCHED CITY", city);
-		// setSearchedCity(city)
+		const city = findSearchedCity(addressResponse);
+		console.log("SEARCHED CITY", city);
+		setSearchedCity(city)
 
 		setLocation(addressResponse.results[0].geometry.location);
 		setAddress(addressResponse.results[0].formatted_address);
@@ -162,7 +160,7 @@ const AuthContextProvider = ({ children }) => {
 		setLocation,
 		address,
 		setAddress,
-		// searchedCity,
+		searchedCity,
 		showTips,
 		setShowTips,
 		updateAdmin,

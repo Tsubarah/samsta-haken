@@ -28,7 +28,7 @@ const SearchForm = ({ className }) => {
 		}
 		setPositionLatLng(null);
 		//* HÄr ska city name från search i context
-		// setCity(searchedCity);
+		setCity(searchedCity);
 		handleSearch(searchInput);
 		setSearchInput("");
 	};
@@ -37,14 +37,13 @@ const SearchForm = ({ className }) => {
 		if (positionLatLng) {
 			setLocation(positionLatLng);
 			setAddress(positionAddress);
-			setCity(currentCityName);
+			// setCity(currentCityName);
 		}
 
 		if (address) {
 			setPlaceholder(address);
 		}
 
-		console.log("CITY", city);
 	}, [positionLatLng, address, city]);
 
 	return (

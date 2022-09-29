@@ -18,3 +18,9 @@ export const findCity = (geolocation) => {
 
 	return city;
 };
+
+export const findSearchedCity = (adressResponse) => {
+	const adressComponent = adressResponse.results.map(location => location.address_components[0].long_name)[0]
+
+  return adressComponent
+}

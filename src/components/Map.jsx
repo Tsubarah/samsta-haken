@@ -6,12 +6,12 @@ import {
 } from "@react-google-maps/api";
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
-import useCurrentLocation from "../hooks/useCurrentLocation";
+import { useAuthContext } from '../contexts/AuthContext';
 
 const Map = ({ position }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
-	const { currentCityName } = useCurrentLocation();
+	const { searchedCity } = useAuthContext()
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
@@ -34,11 +34,11 @@ const Map = ({ position }) => {
 	const [newLocation, setNewLocation] = useState(null);
 
 	useEffect(() => {
+		console.log("current city name", searchedCity);
 		if (!position) {
 			setNewLocation(defaultLocation);
 		} else {
 			setNewLocation(position);
-			console.log("current city name", currentCityName);
 		}
 	}, [position]);
 
@@ -60,7 +60,7 @@ const Map = ({ position }) => {
 		>
 			<Marker position={newLocation} />
 			{restaurants
-				.filter((restaurant) => restaurant.city === currentCityName)
+				.filter((restaurant) => restaurant.city === searchedCity)
 				.map((restaurant) => (
 					<Marker
 						key={restaurant.id}
