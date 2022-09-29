@@ -55,6 +55,7 @@ const AuthContextProvider = ({ children }) => {
 	};
 
 	const logout = () => {
+		setIsAdmin(false);
 		return signOut(auth);
 	};
 
