@@ -93,7 +93,7 @@ const SearchForm = ({ className }) => {
 					))}
 				</Combobox.Options>
 
-				<Combobox.Button className="btn btn-sm btn-square">
+				<Combobox.Button className="btn btn-sm btn-square" type="submit">
 					<BiSearch size={20} />
 				</Combobox.Button>
 			</Combobox>
