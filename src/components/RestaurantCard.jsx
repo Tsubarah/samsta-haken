@@ -8,7 +8,7 @@ import { AiFillInstagram } from "react-icons/ai";
 
 
 const RestaurantCard = ({ restaurant }) => {
-  const [showRestaurantCard, setShowRestaurantCard] = useState(false)
+  //const [showRestaurantCard, setShowRestaurantCard] = useState(false)
   console.log(restaurant);
   let icon;
 
