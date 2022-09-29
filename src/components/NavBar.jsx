@@ -27,10 +27,10 @@ const NavBar = () => {
 			{/* Mobile view */}
 			<div className="navbar bg-base-100 px-4 lg:hidden grid grid-cols-12">
 				{/* Search bar */}
-				<SearchForm className={"col-span-11"} />
+				<SearchForm className={"col-span-10 lg:col-span-11"} />
 
 				<button
-					className="col-start-12 justify-self-center"
+					className="col-start-12 justify-self-end"
 					onClick={() => setDrawerIsOpen(!drawerIsOpen)}
 				>
 					Lista
