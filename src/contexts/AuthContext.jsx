@@ -137,7 +137,11 @@ const AuthContextProvider = ({ children }) => {
 
 		const city = findSearchedCity(addressResponse);
 		console.log("SEARCHED CITY", city);
-		setSearchedCity(city)
+		setSearchedCity(city);
+		console.log(
+			"Address Response",
+			addressResponse.results[0].geometry.location
+		);
 
 		setLocation(addressResponse.results[0].geometry.location);
 		setAddress(addressResponse.results[0].formatted_address);

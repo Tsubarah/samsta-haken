@@ -6,12 +6,16 @@ import {
 } from "@react-google-maps/api";
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
-import { useAuthContext } from '../contexts/AuthContext';
+import { useAuthContext } from "../contexts/AuthContext";
 
 const Map = ({ position }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
-	const { searchedCity } = useAuthContext()
+	////////
+	const { searchedCity } = useAuthContext();
+	//////////
+	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
+	const [newLocation, setNewLocation] = useState(null);
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
@@ -30,16 +34,17 @@ const Map = ({ position }) => {
 		map.setZoom(zoom);
 	}, []);
 
-	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
-	const [newLocation, setNewLocation] = useState(null);
-
 	useEffect(() => {
 		console.log("current city name", searchedCity);
 		if (!position) {
 			setNewLocation(defaultLocation);
+			console.log("POSITION IF", position);
 		} else {
 			setNewLocation(position);
+			console.log("POSITION ELSE", position);
 		}
+
+		console.log("NEW LOCATION", newLocation);
 	}, [position]);
 
 	return isLoaded ? (

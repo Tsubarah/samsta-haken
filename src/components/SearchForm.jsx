@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { TiLocationArrow } from "react-icons/ti";
-import { BiSearch } from "react-icons/bi";
 import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
+import useGetCollection from "../hooks/useGetCollection";
+
+import { Combobox } from "@headlessui/react";
+import { TiLocationArrow } from "react-icons/ti";
+import { BiSearch } from "react-icons/bi";
 
 const SearchForm = ({ className }) => {
 	const { handleSearch, setLocation, setAddress, address, searchedCity } =
@@ -20,12 +23,25 @@ const SearchForm = ({ className }) => {
 	const [placeholder, setPlaceholder] = useState("Sök...");
 	const [city, setCity] = useState(null);
 
+	const { data: restaurants } = useGetCollection("restaurants");
+
+	const filteredRestaurants =
+		searchInput === ""
+			? restaurants
+			: restaurants.filter((restaurant) => {
+					return (
+						restaurant.city.toLowerCase().includes(searchInput.toLowerCase()) ||
+						restaurant.name.toLowerCase().includes(searchInput.toLowerCase())
+					);
+			  });
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
 		if (!searchInput.length) {
 			return;
 		}
+
 		setPositionLatLng(null);
 		//* HÄr ska city name från search i context
 		setCity(searchedCity);
@@ -35,6 +51,7 @@ const SearchForm = ({ className }) => {
 
 	useEffect(() => {
 		if (positionLatLng) {
+			console.log(positionLatLng);
 			setLocation(positionLatLng);
 			setAddress(positionAddress);
 			// setCity(currentCityName);
@@ -47,9 +64,8 @@ const SearchForm = ({ className }) => {
 	}, [positionLatLng, address, city]);
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className={`flex justify-center items-center gap-2 ${className}`}
+		<div
+			className={`flex justify-center items-center gap-2 relative ${className}`}
 		>
 			<TiLocationArrow
 				onClick={getCurrentLocation}
@@ -57,8 +73,14 @@ const SearchForm = ({ className }) => {
 				className="cursor-pointer"
 			/>
 
-			<div className="input-group">
-				<input
+			<Combobox
+				as="form"
+				className="input-group relative"
+				value={searchInput}
+				onChange={setSearchInput}
+				onSubmit={handleSubmit}
+			>
+				<Combobox.Input
 					type="text"
 					placeholder={placeholder}
 					onChange={(e) => setSearchInput(e.target.value)}
@@ -66,11 +88,23 @@ const SearchForm = ({ className }) => {
 					className="input input-sm input-bordered w-full"
 				/>
 
-				<button className="btn btn-sm btn-square">
+				<Combobox.Options className="absolute top-10 px-4 pb-2 bg-base-100 w-full z-10 rounded-b-md">
+					{filteredRestaurants.map((restaurant) => (
+						<Combobox.Option
+							key={restaurant.id}
+							value={`${restaurant.address}, ${restaurant.city}`}
+							className="cursor-pointer hover:bg-base-300 p-2"
+						>
+							{restaurant.name}, {restaurant.city}
+						</Combobox.Option>
+					))}
+				</Combobox.Options>
+
+				<Combobox.Button className="btn btn-sm btn-square" type="submit">
 					<BiSearch size={20} />
-				</button>
-			</div>
-		</form>
+				</Combobox.Button>
+			</Combobox>
+		</div>
 	);
 };
 
