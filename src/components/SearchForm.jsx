@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { TiLocationArrow } from "react-icons/ti";
-import { BiSearch } from "react-icons/bi";
 import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
-import { usePlacesWidget } from "react-google-autocomplete";
+import useGetCollection from "../hooks/useGetCollection";
+
+import { Combobox } from "@headlessui/react";
+import { TiLocationArrow } from "react-icons/ti";
+import { BiSearch } from "react-icons/bi";
 
 const SearchForm = ({ className }) => {
-	const { handleSearch, setLocation, setAddress, address } = useAuthContext();
+	const { handleSearch, setLocation, setAddress, address, autocompleteRef } =
+		useAuthContext();
 
 	const {
 		getCurrentLocation,
@@ -15,13 +18,20 @@ const SearchForm = ({ className }) => {
 		setPositionLatLng,
 	} = useCurrentLocation();
 
-	const { ref } = usePlacesWidget({
-		apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-		onPlaceSelected: (place) => console.log(place),
-	});
-
 	const [searchInput, setSearchInput] = useState("");
 	const [placeholder, setPlaceholder] = useState("Sök...");
+
+	const { data: restaurants } = useGetCollection("restaurants");
+
+	const filteredRestaurants =
+		searchInput === ""
+			? restaurants
+			: restaurants.filter((restaurant) => {
+					return (
+						restaurant.city.toLowerCase().includes(searchInput.toLowerCase()) ||
+						restaurant.name.toLowerCase().includes(searchInput.toLowerCase())
+					);
+			  });
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -29,27 +39,29 @@ const SearchForm = ({ className }) => {
 		if (!searchInput.length) {
 			return;
 		}
+
 		setPositionLatLng(null);
 		handleSearch(searchInput);
 		setSearchInput("");
 	};
 
 	useEffect(() => {
+		// console.log("REF", autocompleteRef);
+
 		if (positionLatLng) {
+			console.log(positionLatLng);
 			setLocation(positionLatLng);
 			setAddress(positionAddress);
 		}
 
-		// setSearchInput(address);
 		if (address) {
 			setPlaceholder(address);
 		}
-	}, [positionLatLng, address]);
+	}, [positionLatLng, address, autocompleteRef]);
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className={`flex justify-center items-center gap-2 ${className}`}
+		<div
+			className={`flex justify-center items-center gap-2 relative ${className}`}
 		>
 			<TiLocationArrow
 				onClick={getCurrentLocation}
@@ -57,20 +69,39 @@ const SearchForm = ({ className }) => {
 				className="cursor-pointer"
 			/>
 
-			<div className="input-group">
-				<input
+			<Combobox
+				as="form"
+				className="input-group relative"
+				value={searchInput}
+				onChange={setSearchInput}
+				onSubmit={handleSubmit}
+			>
+				<Combobox.Input
 					type="text"
 					placeholder={placeholder}
 					onChange={(e) => setSearchInput(e.target.value)}
 					value={searchInput}
 					className="input input-sm input-bordered w-full"
+					ref={autocompleteRef}
 				/>
 
-				<button className="btn btn-sm btn-square">
+				<Combobox.Options className="absolute top-10 px-4 pb-2 bg-base-100 w-full z-10 rounded-b-md">
+					{filteredRestaurants.map((restaurant) => (
+						<Combobox.Option
+							key={restaurant.id}
+							value={`${restaurant.address}, ${restaurant.city}`}
+							className="cursor-pointer hover:bg-base-300 p-2"
+						>
+							{restaurant.name}, {restaurant.city}
+						</Combobox.Option>
+					))}
+				</Combobox.Options>
+
+				<Combobox.Button className="btn btn-sm btn-square">
 					<BiSearch size={20} />
-				</button>
-			</div>
-		</form>
+				</Combobox.Button>
+			</Combobox>
+		</div>
 	);
 };
 

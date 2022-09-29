@@ -131,9 +131,17 @@ const AuthContextProvider = ({ children }) => {
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
 
+		console.log(
+			"Address Response",
+			addressResponse.results[0].geometry.location
+		);
+
 		setLocation(addressResponse.results[0].geometry.location);
 		setAddress(addressResponse.results[0].formatted_address);
 	};
+
+	// ref for autocomplete
+	const [autocompleteRef, setAutocompleteRef] = useState(null);
 
 	// Show and hide
 	const [showTips, setShowTips] = useState(false);
@@ -152,6 +160,8 @@ const AuthContextProvider = ({ children }) => {
 		setLocation,
 		address,
 		setAddress,
+		autocompleteRef,
+		setAutocompleteRef,
 		showTips,
 		setShowTips,
 		updateAdmin,

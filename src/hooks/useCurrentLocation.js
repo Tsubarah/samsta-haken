@@ -16,8 +16,6 @@ const useCurrentLocation = () => {
 
 					const geolocation = await getLocationWithLatLng(latitude, longitude);
 
-					console.log(geolocation)
-
 					setPositionAddress(geolocation.results[0].formatted_address);
 					setPositionLatLng({ lat: latitude, lng: longitude });
 				} catch (err) {
