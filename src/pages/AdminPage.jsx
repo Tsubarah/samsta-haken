@@ -21,37 +21,44 @@ const AdminPage = () => {
 	const { data: restaurants } = useGetCollection("restaurants");
 
 	return (
-		<div className="h-full flex flex-col overflow-hidden">
-			<div className="flex justify-center gap-4 py-4">
-				<h1 className="text-xl">
-					Välkommen till admin-sidan: {""}
-					<span className="font-semibold">
-						{currentUser.displayName
-							? currentUser.displayName
-							: currentUser.email}
-					</span>
-				</h1>
-			</div>
+    <div className="h-full flex flex-col overflow-hidden">
+      <div className="flex justify-center gap-4 py-4">
+        <h1 className="text-xl">
+          Välkommen till admin-sidan: {""}
+          <span className="font-semibold">
+            {currentUser.displayName
+              ? currentUser.displayName
+              : currentUser.email}
+          </span>
+        </h1>
+      </div>
 
-			<button
-				className="btn btn-block btn-primary btn-sm"
-				onClick={handleShowUsersTable}
-			>
-				Användare
-			</button>
-			{showUsersTable && <UserTable users={users} />}
+      <button
+        className="btn btn-block btn-primary btn-sm"
+        onClick={handleShowUsersTable}>
+        Användare
+      </button>
+      {showUsersTable && <UserTable users={users} />}
 
-			<div className="divider"></div>
+      <div className="divider"></div>
 
-			<button
-				className="btn btn-block btn-primary btn-sm"
-				onClick={handleShowRestaurantsTable}
-			>
-				Restauranger
-			</button>
-			{showRestaurantsTable && <RestaurantsTable restaurants={restaurants} />}
-		</div>
-	);
+      <button
+        className="btn btn-block btn-primary btn-sm"
+        onClick={handleShowRestaurantsTable}>
+        Restauranger
+      </button>
+      {showRestaurantsTable && <RestaurantsTable restaurants={restaurants} />}
+
+      <div className="divider"></div>
+
+      <button
+        className="btn btn-block btn-primary btn-sm"
+        onClick={handleShowAdminForm}>
+        Restauranger
+      </button>
+      {showAdminForm && <AdminForm />}
+    </div>
+  );
 };
 
 export default AdminPage;

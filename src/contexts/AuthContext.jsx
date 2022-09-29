@@ -150,31 +150,33 @@ const AuthContextProvider = ({ children }) => {
 	// Show and hide
 	const [showTips, setShowTips] = useState(false);
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+	const [showAdminForm, setShowAdminForm] = useState(false);
 
 	const contextValues = {
-		currentUser,
-		signup,
-		login,
-		logout,
-		reloadUser,
-		setLoginSwipe,
-		loginSwipe,
-		handleSearch,
-		location,
-		setLocation,
-		address,
-		setAddress,
-		searchedCity,
-		showTips,
-		setShowTips,
-		updateAdmin,
-		drawerIsOpen,
-		setDrawerIsOpen,
-		isAdmin,
-		updateRestaurantStatus,
-		userName,
-		userImageUrl,
-	};
+    currentUser,
+    signup,
+    login,
+    logout,
+    reloadUser,
+    setLoginSwipe,
+    loginSwipe,
+    handleSearch,
+    location,
+    setLocation,
+    address,
+    setAddress,
+    showTips,
+    setShowTips,
+    showAdminForm,
+    setShowAdminForm,
+    updateAdmin,
+    drawerIsOpen,
+    setDrawerIsOpen,
+    isAdmin,
+    updateRestaurantStatus,
+    userName,
+    userImageUrl,
+  };
 
 	return (
 		<AuthContext.Provider value={contextValues}>
