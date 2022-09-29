@@ -26,8 +26,6 @@ export const findSearchedCity = (adressResponse) => {
 			(location) => location.address_components
 		);
 
-		console.log("adressComponents", adressComponents[0]);
-
 		const postalTownIndex = adressComponents[0]
 			.map((location) => location.types)
 			.findIndex((location) => location == "postal_town");
@@ -43,9 +41,6 @@ export const findSearchedCity = (adressResponse) => {
 			city =
 				adressResponse.results[0].address_components[localityIndex].long_name;
 		}
-
-		console.log("postalTownIndex", postalTownIndex);
-		console.log("localityIndex", localityIndex);
 	}
 
 	return city;

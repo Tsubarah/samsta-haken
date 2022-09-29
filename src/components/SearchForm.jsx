@@ -49,7 +49,6 @@ const SearchForm = ({ className }) => {
 
 	useEffect(() => {
 		if (positionLatLng) {
-			console.log(positionLatLng);
 			setLocation(positionLatLng);
 			setAddress(positionAddress);
 		}
