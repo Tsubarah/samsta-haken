@@ -1,4 +1,10 @@
-import { MdOutlineCancel, MdAddPhotoAlternate } from "react-icons/md";
+import { useAuthContext } from "../contexts/AuthContext";
+import { useState } from "react";
+import useUploadImage from "../hooks/useUploadImage";
+
+import Carousel from "./Carousel";
+import placeholder from "../assets/images/placeholder-image.webp";
+import { MdAddPhotoAlternate } from "react-icons/md";
 import {
 	AiFillFacebook,
 	AiOutlineGlobal,
@@ -8,17 +14,11 @@ import {
 	AiOutlineCloudUpload,
 } from "react-icons/ai";
 
-import { useAuthContext } from "../contexts/AuthContext";
-import { useState } from "react";
-
 const RestaurantCard = ({ restaurant }) => {
-	// const [showRestaurantCard, setShowRestaurantCard] = useState(false);
-	// console.log(restaurant);
 	let icon;
 	const { currentUser } = useAuthContext();
 	const [image, setImage] = useState(null);
-
-	console.log("current user", currentUser);
+	const { uploadImage, uploadProgress, error, isSuccess } = useUploadImage();
 
 	const handleFileChange = (e) => {
 		if (!e.target.files.length) {
@@ -34,20 +34,17 @@ const RestaurantCard = ({ restaurant }) => {
 		if (!currentUser) {
 			return alert("Du måste vara inloggad för att skicka in bild");
 		}
+
+		uploadImage(image, restaurant);
 	};
 
 	return (
 		<div className="card card-compact rounded-none lg:w-96 bg-base-100 shadow-xl scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
-			{/* <div className="col-span-full lg:hidden grid grid-rows-2 p-2">
-				<MdOutlineCancel
-					size={20}
-					className="cursor-pointer justify-self-end text-base-content hover:text-error"
-				/>
-			</div> */}
-
-			<figure>
-				<img src="https://placeimg.com/400/225/arch" alt="Restaurant" />
-			</figure>
+			{restaurant.photos.length !== 0 ? (
+				<Carousel restaurant={restaurant} />
+			) : (
+				<img src={placeholder} alt="placeholder" />
+			)}
 
 			<div className="card-body">
 				<h2 className="card-title">{restaurant.name}</h2>
@@ -78,11 +75,20 @@ const RestaurantCard = ({ restaurant }) => {
 					</label>
 
 					{image && (
-						<button className="btn btn-circle">
+						<button className="btn btn-circle" onClick={handleUpload}>
 							<AiOutlineCloudUpload size={25} />
 						</button>
 					)}
 				</div>
+
+				{uploadProgress !== null && (
+					<progress
+						className="progress progress-warning border border-base-content mt-4 w-full"
+						value={uploadProgress}
+						max="100"
+					></progress>
+				)}
+
 				<div className="divider"></div>
 
 				<div className="flex">

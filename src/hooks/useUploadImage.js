@@ -1,95 +1,85 @@
-import { useState } from 'react'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
-import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
-import { useAuthContext } from '../contexts/AuthContext'
-import { db, storage } from '../firebase'
-import uuid from 'react-uuid'
-
+import { useState } from "react";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { useAuthContext } from "../contexts/AuthContext";
+import { db, storage } from "../firebase";
+import { getFileExtension } from "../utils/helpers";
+import uuid from "react-uuid";
 
 const useUploadImage = () => {
-  const [error, setError] = useState(null)
-  const [isError, setIsError] = useState(null)
-  const [isSuccess, setIsSuccess] = useState(null)
-  const [isUploading, setIsUploading] = useState(null)
-  const [progress, setProgress] = useState(null)
-  
-  const { currentUser } = useAuthContext()
+	const [error, setError] = useState(null);
+	const [isError, setIsError] = useState(false);
+	const [uploadProgress, setUploadProgress] = useState(null);
 
-  const fileExtension = (image) => {
-    const fileName = image.name
-    const extension = fileName.substr(fileName.lastIndexOf('.'))
+	const { currentUser } = useAuthContext();
 
-    return extension
-  }
-  
-  const upload = async (image) => {
-    setError(null)
-    setIsError(null)
-    setIsSuccess(null)
-    setIsUploading(null)
+	const uploadImage = async (image, restaurant) => {
+		setError(null);
+		setIsError(null);
 
-    try {
+		setUploadProgress(null);
 
-      const uniqueId = uuid()
-      
-      // construct reference to storage
-      const storageRef = ref(storage, `Users/${currentUser.uid}/${uniqueId + fileExtension(image)}`)
+		try {
+			const uniqueId = uuid();
 
-      // start upload of image
-      const uploadTask = uploadBytesResumable(storageRef, image)
+			// construct reference to storage
+			const storageRef = ref(
+				storage,
+				`restaurants/${restaurant.name}/${uniqueId + getFileExtension(image)}`
+			);
 
-      // attach upload observer
-      uploadTask.on('state_changed', (uploadTaskSnapshot) => {
-        // update progress
-        setProgress(
-          Math.round(
-            (uploadTaskSnapshot.bytesTransferred / uploadTaskSnapshot.totalBytes) * 1000
-          ) / 10
-        )
-      })
+			// start upload of image
+			const uploadTask = uploadBytesResumable(storageRef, image);
 
-      // wait for upload to be complete
-      await uploadTask.then()
+			// attach upload observer
+			uploadTask.on("state_changed", (uploadTaskSnapshot) => {
+				// update progress
+				setUploadProgress(
+					Math.round(
+						(uploadTaskSnapshot.bytesTransferred /
+							uploadTaskSnapshot.totalBytes) *
+							1000
+					) / 10
+				);
+			});
 
-      // get download url to uploaded image
-      const url = await getDownloadURL(storageRef)
+			// wait for upload to be complete
+			await uploadTask.then();
 
-      // create reference to db collection 'images'
-      const collectionRef = collection(db, 'images')
+			// get download url to uploaded image
+			const url = await getDownloadURL(storageRef);
 
-      // create document in db for the uploaded image
-      await addDoc(collectionRef, {
-        created: serverTimestamp(),
-        // This will prevent the user from adding docs with the same filename
-        name: uniqueId + fileExtension(image),
-        type: image.type,
-        size: image.size,
-        path: `images/${currentUser.uid}/${uniqueId + fileExtension(image)}`,
-        user: currentUser.uid,
-        url,
-      })
+			const uploadRef = doc(db, "restaurants", restaurant.id);
 
-      setProgress(null)
-      setIsSuccess(true)
+			// create document in db for the uploaded image
+			await updateDoc(uploadRef, {
+				photos: arrayUnion({
+					accepted: false,
+					// This will prevent the user from adding docs with the same filename
+					name: uniqueId + getFileExtension(image),
+					type: image.type,
+					size: image.size,
+					path: storageRef.fullPath,
+					uploaded_by_user: currentUser.displayName,
+					url: url,
+				}),
+			});
 
-    } catch (e) {
-      setError(e)
-      setIsError(true)
+			setUploadProgress(null);
+		} catch (e) {
+			setError(e);
+			setIsError(true);
+		} finally {
+			setUploadProgress(null);
+		}
+	};
 
-    } finally {
-      setIsUploading(false)
-    }
-  }
+	return {
+		error,
+		isError,
+		uploadProgress,
+		uploadImage,
+	};
+};
 
-
-  return {
-    error,
-    isError,
-    isSuccess,
-    isUploading,
-    progress,
-    upload,
-  }
-}
-
-export default useUploadImage
+export default useUploadImage;

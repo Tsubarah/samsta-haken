@@ -13,8 +13,6 @@ export const findCity = (geolocation) => {
 	const city =
 		geolocation.results[postalTownIndex].address_components[0].long_name;
 
-	console.log("CurrentCity", city);
-
 	return city;
 };
 
@@ -44,4 +42,11 @@ export const findSearchedCity = (adressResponse) => {
 	}
 
 	return city;
+};
+
+export const getFileExtension = (image) => {
+	const fileName = image.name;
+	const extension = fileName.substr(fileName.lastIndexOf("."));
+
+	return extension;
 };
