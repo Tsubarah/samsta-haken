@@ -39,14 +39,14 @@ const RestaurantCard = ({ restaurant }) => {
         <div className="divider"></div>
 
         <ul>
-          {restaurant.socials.map((element) => {
+          {restaurant.socials.map((element, i) => {
             console.log("ELment: ", element.value);
             if (element.value != "") {
               icon = element.title;
               switch (icon) {
                 case "hemsida":
                   return (
-                    <li className="p-2">
+                    <li className="p-2" key={i}>
                       <p className="text-xs inline-flex">
                         <AiOutlineGlobal
                           size={20}
@@ -59,7 +59,7 @@ const RestaurantCard = ({ restaurant }) => {
                   break;
                 case "e-post":
                   return (
-                    <li className="p-2">
+                    <li className="p-2" key={i}>
                       <p className="text-xs inline-flex">
                         <AiOutlineMail
                           size={20}
@@ -72,7 +72,7 @@ const RestaurantCard = ({ restaurant }) => {
                   break;
                 case "tel":
                   return (
-                    <li className="p-2">
+                    <li className="p-2" key={i}>
                       <p className="text-xs inline-flex">
                         <AiFillPhone
                           size={20}
@@ -85,7 +85,7 @@ const RestaurantCard = ({ restaurant }) => {
                   break;
                 case "facebook":
                   return (
-                    <li className="p-2">
+                    <li className="p-2" key={i}>
                       <p className="text-xs inline-flex">
                         <AiFillFacebook
                           size={20}
@@ -98,7 +98,7 @@ const RestaurantCard = ({ restaurant }) => {
                   break;
                 case "instagram":
                   return (
-                    <li className="p-2">
+                    <li className="p-2" key={i}>
                       <p className="text-xs inline-flex">
                         <AiFillInstagram
                           size={20}
