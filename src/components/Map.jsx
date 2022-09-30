@@ -35,6 +35,8 @@ const Map = ({ position }) => {
 	}, []);
 
 	useEffect(() => {
+		// console.log(restaurants)
+		// console.log(searchedCity)
 		if (!position) {
 			setNewLocation(defaultLocation);
 		} else {
@@ -60,7 +62,9 @@ const Map = ({ position }) => {
 		>
 			<Marker position={newLocation} />
 			{restaurants
-				.filter((restaurant) => restaurant.city === searchedCity)
+				.filter((restaurant) => 
+					restaurant.city === searchedCity &&
+					restaurant.accepted === true)
 				.map((restaurant) => (
 					<Marker
 						key={restaurant.id}

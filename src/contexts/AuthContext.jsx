@@ -173,6 +173,7 @@ const AuthContextProvider = ({ children }) => {
 		updateRestaurantStatus,
 		userName,
 		userImageUrl,
+		searchedCity,
 	};
 
 	return (

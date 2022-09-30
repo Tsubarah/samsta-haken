@@ -12,6 +12,7 @@ const Drawer = ({ children }) => {
   const [showRestaurantCard, setShowRestaurantCard] = useState(false)
   const [restaurantData, setRestaurantData] = useState(null)
   let restaurant;
+  console.log(restaurantQuery)
 
   const handleClick = async (e) => {
     restaurant = restaurantQuery.data?.find(restaurant => restaurant.id === e.currentTarget.id)
@@ -39,11 +40,19 @@ const Drawer = ({ children }) => {
       <div className="drawer-side">
         <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
         <ul className="menu overflow-y-auto w-96 bg-base-100 text-base-content">
-          {restaurantQuery.data?.map((restaurant) => (
-            <li id={restaurant.id} key={restaurant.id} onClick={handleClick}>
+          {restaurantQuery?.data
+            .filter(restaurant => restaurant.accepted === true)
+            .map((restaurant) => (
+            <li 
+              id={restaurant.id} 
+              key={restaurant.id} 
+              onClick={handleClick}
+            >
               <div className="flex justify-between p-6">
                 {restaurant.name}
-                <p className="text-xs opacity-50">{restaurant.city}</p>
+                <p className="text-xs opacity-50">
+                  {restaurant.city}
+                </p>
               </div>
             </li>
           ))}
