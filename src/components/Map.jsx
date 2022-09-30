@@ -2,20 +2,26 @@ import {
 	GoogleMap,
 	useJsApiLoader,
 	Marker,
-	InfoWindow,
+	InfoWindowF,
 } from "@react-google-maps/api";
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const Map = ({ position }) => {
+	const restaurantQuery = useGetRestaurants()
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
 	////////
-	const { searchedCity } = useAuthContext();
+	const { searchedCity, 
+					setShowRestaurantCard, 
+					showRestaurantCard, 
+					setRestaurantData 
+				} = useAuthContext();
 	//////////
-	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
 	const [newLocation, setNewLocation] = useState(null);
+	let restaurant;
+	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
@@ -23,10 +29,16 @@ const Map = ({ position }) => {
 	});
 
 	const handleActiveMarker = (marker) => {
+		setActiveMarker(null)
+		setShowRestaurantCard(!showRestaurantCard)
+
 		if (marker === activeMarker) {
 			return;
-		}
+		} 
+		
 		setActiveMarker(marker);
+		restaurant = restaurantQuery.data?.find(restaurant => restaurant.id === marker)
+		setRestaurantData(restaurant)
 	};
 
 	const onLoad = useCallback((map) => {
@@ -47,7 +59,7 @@ const Map = ({ position }) => {
 			mapContainerClassName="w-full h-full"
 			center={newLocation}
 			onLoad={onLoad}
-			onClick={() => setActiveMarker(null)}
+			onClick={handleActiveMarker}
 			options={{
 				styles: [
 					{
@@ -60,7 +72,9 @@ const Map = ({ position }) => {
 		>
 			<Marker position={newLocation} />
 			{restaurants
-				.filter((restaurant) => restaurant.city === searchedCity)
+				.filter((restaurant) => 
+					restaurant.city === searchedCity &&
+					restaurant.accepted === true)
 				.map((restaurant) => (
 					<Marker
 						key={restaurant.id}
@@ -68,9 +82,9 @@ const Map = ({ position }) => {
 						onClick={() => handleActiveMarker(restaurant.id)}
 					>
 						{activeMarker === restaurant.id ? (
-							<InfoWindow onCloseClick={() => setActiveMarker(null)}>
+							<InfoWindowF onCloseClick={handleActiveMarker}>
 								<div>{restaurant.name}</div>
-							</InfoWindow>
+							</InfoWindowF>
 						) : null}
 					</Marker>
 				))}

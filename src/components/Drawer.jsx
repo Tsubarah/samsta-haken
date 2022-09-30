@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
+=======
+import { useState } from "react";
+>>>>>>> dev
 import { useAuthContext } from "../contexts/AuthContext";
 import useGetCollection from "../hooks/useGetCollection";
 import useGetDocument from "../hooks/useGetDocument";
@@ -15,6 +19,7 @@ const Drawer = ({ children }) => {
   const [showRestaurantCard, setShowRestaurantCard] = useState(false);
   const [restaurantData, setRestaurantData] = useState(null);
   let restaurant;
+  console.log(restaurantQuery)
 
   const handleClick = async (e) => {
     restaurant = restaurantQuery.data?.find(
