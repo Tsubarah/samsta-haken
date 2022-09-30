@@ -9,13 +9,19 @@ import useGetRestaurants from "../hooks/useGetRestaurants";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const Map = ({ position }) => {
+	const restaurantQuery = useGetRestaurants()
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
 	////////
-	const { searchedCity } = useAuthContext();
+	const { searchedCity, 
+					setShowRestaurantCard, 
+					showRestaurantCard, 
+					setRestaurantData 
+				} = useAuthContext();
 	//////////
-	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
 	const [newLocation, setNewLocation] = useState(null);
+	let restaurant;
+	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
@@ -27,6 +33,9 @@ const Map = ({ position }) => {
 			return;
 		}
 		setActiveMarker(marker);
+		restaurant = restaurantQuery.data?.find(restaurant => restaurant.id)
+    setRestaurantData(restaurant)
+    setShowRestaurantCard(!showRestaurantCard)
 	};
 
 	const onLoad = useCallback((map) => {

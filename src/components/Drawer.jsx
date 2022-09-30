@@ -8,9 +8,14 @@ import { MdPlace } from "react-icons/md";
 
 const Drawer = ({ children }) => {
   const restaurantQuery = useGetRestaurants()
-  const { drawerIsOpen, setDrawerIsOpen } = useAuthContext()
-  const [showRestaurantCard, setShowRestaurantCard] = useState(false)
-  const [restaurantData, setRestaurantData] = useState(null)
+  const { drawerIsOpen, 
+          setDrawerIsOpen,
+          restaurantData,
+          setRestaurantData, 
+          showRestaurantCard, 
+          setShowRestaurantCard } = useAuthContext()
+  // const [showRestaurantCard, setShowRestaurantCard] = useState(false)
+  // const [restaurantData, setRestaurantData] = useState(null)
   let restaurant;
   console.log(restaurantQuery)
 
@@ -58,9 +63,11 @@ const Drawer = ({ children }) => {
           ))}
         </ul>
       </div>
-      <div className="overflow-y-auto bg-primary flex absolute lg:right-96 lg:top-auto z-50">
-        {showRestaurantCard && <RestaurantCard restaurant={restaurantData} />}
-      </div>
+      {showRestaurantCard && (
+        <div className="overflow-y-auto bg-primary flex absolute lg:right-96 lg:top-auto z-50">
+          {showRestaurantCard && <RestaurantCard restaurant={restaurantData} />}
+        </div>
+      )}
     </div>
   );
 }

@@ -27,6 +27,7 @@ const AuthContextProvider = ({ children }) => {
 	const [loginSwipe, setLoginSwipe] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [isAdmin, setIsAdmin] = useState(null);
+	const [restaurantData, setRestaurantData] = useState(null)
 
 	const signup = async (email, password, name, image) => {
 		// create the user
@@ -148,6 +149,7 @@ const AuthContextProvider = ({ children }) => {
 	const [showTips, setShowTips] = useState(false);
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 	const [showAdminForm, setShowAdminForm] = useState(false);
+	const [showRestaurantCard, setShowRestaurantCard] = useState(false)
 
 	const contextValues = {
 		currentUser,
@@ -174,6 +176,10 @@ const AuthContextProvider = ({ children }) => {
 		userName,
 		userImageUrl,
 		searchedCity,
+		setRestaurantData,
+		restaurantData,
+		setShowRestaurantCard,
+		showRestaurantCard,
 	};
 
 	return (
