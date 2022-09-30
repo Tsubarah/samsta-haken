@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { TiLocationArrow } from "react-icons/ti";
-import { BiSearch } from "react-icons/bi";
 import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
+import useGetCollection from "../hooks/useGetCollection";
+
+import { TiLocationArrow } from "react-icons/ti";
+import { BiSearch } from "react-icons/bi";
 
 const SearchForm = ({ className }) => {
-	const { handleSearch, setLocation, setAddress, address } = useAuthContext();
+	const { handleSearch, setLocation, setAddress, address, searchedCity } =
+		useAuthContext();
 
 	const {
 		getCurrentLocation,
@@ -16,6 +19,19 @@ const SearchForm = ({ className }) => {
 
 	const [searchInput, setSearchInput] = useState("");
 	const [placeholder, setPlaceholder] = useState("Sök...");
+	const [city, setCity] = useState(null);
+
+	const { data: restaurants } = useGetCollection("restaurants");
+
+	const filteredRestaurants =
+		searchInput === ""
+			? restaurants
+			: restaurants.filter((restaurant) => {
+					return (
+						restaurant.city.toLowerCase().includes(searchInput.toLowerCase()) ||
+						restaurant.name.toLowerCase().includes(searchInput.toLowerCase())
+					);
+			  });
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -23,7 +39,10 @@ const SearchForm = ({ className }) => {
 		if (!searchInput.length) {
 			return;
 		}
+
 		setPositionLatLng(null);
+		//* HÄr ska city name från search i context
+		setCity(searchedCity);
 		handleSearch(searchInput);
 		setSearchInput("");
 	};
@@ -34,11 +53,10 @@ const SearchForm = ({ className }) => {
 			setAddress(positionAddress);
 		}
 
-		// setSearchInput(address);
 		if (address) {
 			setPlaceholder(address);
 		}
-	}, [positionLatLng, address]);
+	}, [positionLatLng, address, city]);
 
 	return (
 		<form
@@ -64,6 +82,22 @@ const SearchForm = ({ className }) => {
 					<BiSearch size={20} />
 				</button>
 			</div>
+
+			{searchInput.length > 0 && filteredRestaurants.length > 0 && (
+				<ul className="absolute top-12 px-2 py-4 z-10 bg-base-100 w-4/6 lg:w-5/12 h-1/5 overflow-scroll scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
+					{filteredRestaurants.map((restaurant) => (
+						<li
+							key={restaurant.id}
+							className="cursor-pointer hover:bg-base-300 p-2"
+							onClick={() =>
+								setSearchInput(`${restaurant.address}, ${restaurant.city}`)
+							}
+						>
+							{restaurant.name}, {restaurant.city}
+						</li>
+					))}
+				</ul>
+			)}
 		</form>
 	);
 };

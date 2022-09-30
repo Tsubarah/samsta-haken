@@ -11,6 +11,7 @@ import { setDoc, doc, updateDoc, getDoc } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { findSearchedCity } from "../utils/helpers";
 
 const AuthContext = createContext();
 
@@ -54,6 +55,7 @@ const AuthContextProvider = ({ children }) => {
 	};
 
 	const logout = () => {
+		setIsAdmin(false);
 		return signOut(auth);
 	};
 
@@ -127,9 +129,16 @@ const AuthContextProvider = ({ children }) => {
 
 	const [location, setLocation] = useState(null);
 	const [address, setAddress] = useState(null);
+	const [searchedCity, setSearchedCity] = useState(null);
+
+	//* City borde vara global då den måste skickas till MAP
 
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
+
+		const city = findSearchedCity(addressResponse);
+
+		setSearchedCity(city);
 
 		setLocation(addressResponse.results[0].geometry.location);
 		setAddress(addressResponse.results[0].formatted_address);
@@ -141,30 +150,30 @@ const AuthContextProvider = ({ children }) => {
 	const [showAdminForm, setShowAdminForm] = useState(false);
 
 	const contextValues = {
-    currentUser,
-    signup,
-    login,
-    logout,
-    reloadUser,
-    setLoginSwipe,
-    loginSwipe,
-    handleSearch,
-    location,
-    setLocation,
-    address,
-    setAddress,
-    showTips,
-    setShowTips,
-    showAdminForm,
-    setShowAdminForm,
-    updateAdmin,
-    drawerIsOpen,
-    setDrawerIsOpen,
-    isAdmin,
-    updateRestaurantStatus,
-    userName,
-    userImageUrl,
-  };
+		currentUser,
+		signup,
+		login,
+		logout,
+		reloadUser,
+		setLoginSwipe,
+		loginSwipe,
+		handleSearch,
+		location,
+		setLocation,
+		address,
+		setAddress,
+		showTips,
+		setShowTips,
+		showAdminForm,
+		setShowAdminForm,
+		updateAdmin,
+		drawerIsOpen,
+		setDrawerIsOpen,
+		isAdmin,
+		updateRestaurantStatus,
+		userName,
+		userImageUrl,
+	};
 
 	return (
 		<AuthContext.Provider value={contextValues}>
