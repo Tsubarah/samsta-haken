@@ -62,12 +62,12 @@ const Drawer = ({ children }) => {
             </li>
           ))}
         </ul>
+        {showRestaurantCard && restaurantData && (
+          <div className="overflow-y-auto bg-primary flex absolute lg:right-96 lg:top-auto z-50">
+            <RestaurantCard restaurant={restaurantData} />
+          </div>
+        )}
       </div>
-      {showRestaurantCard && restaurantData && (
-        <div className="overflow-y-auto bg-primary flex absolute lg:right-96 lg:top-auto z-50">
-          <RestaurantCard restaurant={restaurantData} />
-        </div>
-      )}
     </div>
   );
 }

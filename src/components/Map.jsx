@@ -2,7 +2,7 @@ import {
 	GoogleMap,
 	useJsApiLoader,
 	Marker,
-	InfoWindow,
+	InfoWindowF,
 } from "@react-google-maps/api";
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
@@ -82,9 +82,9 @@ const Map = ({ position }) => {
 						onClick={() => handleActiveMarker(restaurant.id)}
 					>
 						{activeMarker === restaurant.id ? (
-							<InfoWindow onCloseClick={handleActiveMarker}>
+							<InfoWindowF onCloseClick={handleActiveMarker}>
 								<div>{restaurant.name}</div>
-							</InfoWindow>
+							</InfoWindowF>
 						) : null}
 					</Marker>
 				))}
