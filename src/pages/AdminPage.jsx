@@ -48,15 +48,6 @@ const AdminPage = () => {
         Restauranger
       </button>
       {showRestaurantsTable && <RestaurantsTable restaurants={restaurants} />}
-
-      <div className="divider"></div>
-
-      <button
-        className="btn btn-block btn-primary btn-sm"
-        onClick={handleShowAdminForm}>
-        Restauranger
-      </button>
-      {showAdminForm && <AdminForm />}
     </div>
   );
 };

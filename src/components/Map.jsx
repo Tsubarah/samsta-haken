@@ -29,13 +29,16 @@ const Map = ({ position }) => {
 	});
 
 	const handleActiveMarker = (marker) => {
+		setActiveMarker(null)
+		setShowRestaurantCard(!showRestaurantCard)
+
 		if (marker === activeMarker) {
 			return;
-		}
+		} 
+		
 		setActiveMarker(marker);
-		restaurant = restaurantQuery.data?.find(restaurant => restaurant.id)
-    setRestaurantData(restaurant)
-    setShowRestaurantCard(!showRestaurantCard)
+		restaurant = restaurantQuery.data?.find(restaurant => restaurant.id === marker)
+		setRestaurantData(restaurant)
 	};
 
 	const onLoad = useCallback((map) => {
@@ -44,8 +47,6 @@ const Map = ({ position }) => {
 	}, []);
 
 	useEffect(() => {
-		// console.log(restaurants)
-		// console.log(searchedCity)
 		if (!position) {
 			setNewLocation(defaultLocation);
 		} else {
@@ -58,7 +59,7 @@ const Map = ({ position }) => {
 			mapContainerClassName="w-full h-full"
 			center={newLocation}
 			onLoad={onLoad}
-			onClick={() => setActiveMarker(null)}
+			onClick={handleActiveMarker}
 			options={{
 				styles: [
 					{
@@ -81,7 +82,7 @@ const Map = ({ position }) => {
 						onClick={() => handleActiveMarker(restaurant.id)}
 					>
 						{activeMarker === restaurant.id ? (
-							<InfoWindow onCloseClick={() => setActiveMarker(null)}>
+							<InfoWindow onCloseClick={handleActiveMarker}>
 								<div>{restaurant.name}</div>
 							</InfoWindow>
 						) : null}

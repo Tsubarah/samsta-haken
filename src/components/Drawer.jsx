@@ -63,9 +63,9 @@ const Drawer = ({ children }) => {
           ))}
         </ul>
       </div>
-      {showRestaurantCard && (
+      {showRestaurantCard && restaurantData && (
         <div className="overflow-y-auto bg-primary flex absolute lg:right-96 lg:top-auto z-50">
-          {showRestaurantCard && <RestaurantCard restaurant={restaurantData} />}
+          <RestaurantCard restaurant={restaurantData} />
         </div>
       )}
     </div>
