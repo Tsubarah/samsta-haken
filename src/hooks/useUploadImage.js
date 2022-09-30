@@ -9,6 +9,7 @@ import uuid from "react-uuid";
 const useUploadImage = () => {
 	const [error, setError] = useState(null);
 	const [isError, setIsError] = useState(false);
+	const [isSuccess, setIsSuccess] = useState(false);
 	const [uploadProgress, setUploadProgress] = useState(null);
 
 	const { currentUser } = useAuthContext();
@@ -16,7 +17,7 @@ const useUploadImage = () => {
 	const uploadImage = async (image, restaurant) => {
 		setError(null);
 		setIsError(null);
-
+		setIsSuccess(false);
 		setUploadProgress(null);
 
 		try {
@@ -65,6 +66,7 @@ const useUploadImage = () => {
 				}),
 			});
 
+			setIsSuccess(true);
 			setUploadProgress(null);
 		} catch (e) {
 			setError(e);
@@ -77,6 +79,7 @@ const useUploadImage = () => {
 	return {
 		error,
 		isError,
+		isSuccess,
 		uploadProgress,
 		uploadImage,
 	};

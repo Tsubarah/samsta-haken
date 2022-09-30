@@ -3,6 +3,7 @@ import { useState } from "react";
 import useUploadImage from "../hooks/useUploadImage";
 
 import Carousel from "./Carousel";
+import Alert from "./Alert";
 import placeholder from "../assets/images/placeholder-image.webp";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import {
@@ -18,7 +19,8 @@ const RestaurantCard = ({ restaurant }) => {
 	let icon;
 	const { currentUser } = useAuthContext();
 	const [image, setImage] = useState(null);
-	const { uploadImage, uploadProgress, error, isSuccess } = useUploadImage();
+	const { uploadImage, uploadProgress, error, isSuccess, isError } =
+		useUploadImage();
 
 	const handleFileChange = (e) => {
 		if (!e.target.files.length) {
@@ -89,6 +91,15 @@ const RestaurantCard = ({ restaurant }) => {
 					></progress>
 				)}
 
+				{isError && <Alert variant={"alert-error"} message={error.message} />}
+
+				{isSuccess && (
+					<Alert
+						variant={"alert-success"}
+						message={"Bilden har laddats upp!"}
+					/>
+				)}
+
 				<div className="divider"></div>
 
 				<div className="flex">
@@ -117,7 +128,7 @@ const RestaurantCard = ({ restaurant }) => {
 												<AiOutlineGlobal
 													size={20}
 													className="mr-2 cursor-pointer text-primary hover:text-error"
-												/>{" "}
+												/>
 												{element.value}
 											</p>
 										</li>
@@ -141,7 +152,7 @@ const RestaurantCard = ({ restaurant }) => {
 												<AiFillPhone
 													size={20}
 													className="mr-2 cursor-pointer text-primary hover:text-error"
-												/>{" "}
+												/>
 												{element.value}
 											</p>
 										</li>
