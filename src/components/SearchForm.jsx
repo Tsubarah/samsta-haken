@@ -7,7 +7,7 @@ import { TiLocationArrow } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
 
 const SearchForm = ({ className }) => {
-	const { handleSearch, setLocation, setAddress, address, searchedCity } =
+	const { handleSearch, setLocation, setAddress, address, searchedCity, setSearchedCity } =
 		useAuthContext();
 
 	const {
@@ -42,21 +42,23 @@ const SearchForm = ({ className }) => {
 
 		setPositionLatLng(null);
 		//* HÄr ska city name från search i context
+		setLocation(positionLatLng)
 		setCity(searchedCity);
 		handleSearch(searchInput);
 		setSearchInput("");
 	};
 
-	useEffect(() => {
-		if (positionLatLng) {
-			setLocation(positionLatLng);
-			setAddress(positionAddress);
-		}
 
-		if (address) {
-			setPlaceholder(address);
-		}
-	}, [positionLatLng, address, city]);
+	// useEffect(() => {
+	// 	if (positionLatLng) {
+	// 		setLocation(positionLatLng);
+	// 		setAddress(positionAddress);
+	// 	}
+
+	// 	if (address) {
+	// 		setPlaceholder(address);
+	// 	}
+	// }, [positionLatLng, address, city]);
 
 	return (
 		<form
@@ -64,7 +66,10 @@ const SearchForm = ({ className }) => {
 			className={`flex justify-center items-center gap-2 ${className}`}
 		>
 			<TiLocationArrow
-				onClick={getCurrentLocation}
+				onClick={() => {
+					setSearchedCity(null)
+					setLocation(positionLatLng)
+				}}
 				size={25}
 				className="cursor-pointer"
 			/>

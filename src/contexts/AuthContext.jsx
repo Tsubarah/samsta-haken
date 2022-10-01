@@ -175,6 +175,7 @@ const AuthContextProvider = ({ children }) => {
 		updateRestaurantStatus,
 		userName,
 		userImageUrl,
+		setSearchedCity,
 		searchedCity,
 		setRestaurantData,
 		restaurantData,

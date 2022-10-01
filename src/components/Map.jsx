@@ -7,11 +7,12 @@ import {
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 import { useAuthContext } from "../contexts/AuthContext";
+import useCurrentLocation from "../hooks/useCurrentLocation";
 
 const Map = ({ position }) => {
-	const restaurantQuery = useGetRestaurants()
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
+	const { currentCityName } = useCurrentLocation()
 	////////
 	const { searchedCity, 
 					setShowRestaurantCard, 
@@ -37,15 +38,20 @@ const Map = ({ position }) => {
 		} 
 		
 		setActiveMarker(marker);
-		restaurant = restaurantQuery.data?.find(restaurant => restaurant.id === marker)
+		restaurant = restaurants?.find(restaurant => restaurant.id === marker)
 		setRestaurantData(restaurant)
 	};
+
+	const getFilteredRestaurants = (restaurants) => {
+		
+	}
 
 	const onLoad = useCallback((map) => {
 		const zoom = 18;
 		map.setZoom(zoom);
 	}, []);
 
+	console.log("currentCityName", currentCityName)
 	useEffect(() => {
 		if (!position) {
 			setNewLocation(defaultLocation);
@@ -72,8 +78,9 @@ const Map = ({ position }) => {
 		>
 			<Marker position={newLocation} />
 			{restaurants
+			// LÄGG I FUNKTION
 				.filter((restaurant) => 
-					restaurant.city === searchedCity &&
+					restaurant.city === searchedCity || currentCityName &&
 					restaurant.accepted === true)
 				.map((restaurant) => (
 					<Marker
