@@ -69,8 +69,6 @@ const Map = ({ position }) => {
 		map.setZoom(zoom);
 	}, []);
 
-	console.log("currentCityName", currentCityName)
-
 	useEffect(() => {
 		if (!position) {
 			setNewLocation(defaultLocation);

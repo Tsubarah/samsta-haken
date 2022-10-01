@@ -18,8 +18,6 @@ const useCurrentLocation = () => {
 
 					const geolocation = await getLocationWithLatLng(latitude, longitude);
 
-					console.log("GEOLOCATION", geolocation);
-
 					const currentCity = findCity(geolocation);
 
 					setCurrentCityName(currentCity);

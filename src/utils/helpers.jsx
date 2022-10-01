@@ -13,8 +13,6 @@ export const findCity = (geolocation) => {
 	const city =
 		geolocation.results[postalTownIndex].address_components[0].long_name;
 
-	console.log("CurrentCity", city);
-
 	return city;
 };
 
