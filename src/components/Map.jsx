@@ -11,10 +11,11 @@ import useCurrentLocation from "../hooks/useCurrentLocation";
 
 const Map = ({ position }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
+	const [filteredRestaurants, setFilteredRestaurants] = useState(null)
 	const { data: restaurants, loading } = useGetRestaurants();
 	const { currentCityName, setCurrentCityName } = useCurrentLocation()
 	////////
-	const { searchedCity, 
+	const { searchedCity,
 					setShowRestaurantCard, 
 					showRestaurantCard, 
 					setRestaurantData 
@@ -44,31 +45,35 @@ const Map = ({ position }) => {
 
 	// DENNA SKA ANVÄNDAS ISTÄLLET FÖR ATT MAPA UT DÄR NERE (EJ KLAR)
 	const getFilteredRestaurants = (restaurants) => {
-		if (currentCityName) {
-			const filteredRestaurantsByLoc = 
-			restaurants.filter((restaurant) => 
-					restaurant.city === currentCityName &&
-					restaurant.accepted === true)
-
-			return filteredRestaurantsByLoc
-		}
-		setCurrentCityName(null)
+		setFilteredRestaurants(null)
 
 		if (searchedCity) {
 			const filteredRestaurantsBySearch = 
-			restaurants.filter((restaurant) => 
-					restaurant.city === currentCityName &&
-					restaurant.accepted === true)
-
-			return filteredRestaurantsBySearch
+				restaurants.filter((restaurant) => 
+						restaurant.city === searchedCity &&
+						restaurant.accepted)
+			
+			setFilteredRestaurants(filteredRestaurantsBySearch)
 		}
+
+		if (currentCityName) {
+			const filteredRestaurantsByLoc = 
+				restaurants.filter((restaurant) => 
+					restaurant.city === currentCityName &&
+					restaurant.accepted)
+			
+			setFilteredRestaurants(filteredRestaurantsByLoc)
+		}
+		setCurrentCityName(null)
+
 	}
 
+	
 	const onLoad = useCallback((map) => {
 		const zoom = 18;
 		map.setZoom(zoom);
 	}, []);
-
+	
 	useEffect(() => {
 		if (!position) {
 			setNewLocation(defaultLocation);
@@ -94,12 +99,7 @@ const Map = ({ position }) => {
 			}}
 		>
 			<Marker position={newLocation} />
-			{restaurants
-			// LÄGG I FUNKTION
-				.filter((restaurant) => 
-					restaurant.city === currentCityName &&
-					restaurant.accepted === true)
-				.map((restaurant) => (
+			{filteredRestaurants?.map((restaurant) => (
 					<Marker
 						key={restaurant.id}
 						position={restaurant.position}

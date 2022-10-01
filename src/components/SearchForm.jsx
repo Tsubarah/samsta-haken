@@ -23,7 +23,6 @@ const SearchForm = ({ className }) => {
 
 	const [searchInput, setSearchInput] = useState("");
 	// const [placeholder, setPlaceholder] = useState("Sök...");
-	const [city, setCity] = useState(null);
 
 	const { data: restaurants } = useGetCollection("restaurants");
 
@@ -47,7 +46,6 @@ const SearchForm = ({ className }) => {
 		setPositionLatLng(null);
 		setLocation(positionLatLng)
 		setAddress(positionAddress)
-		setCity(searchedCity);
 		handleSearch(searchInput);
 		setSearchInput("");
 	};

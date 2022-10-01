@@ -35,7 +35,6 @@ const useCurrentLocation = () => {
 	}, [])
 
 	return {
-		getCurrentLocation,
 		positionLatLng,
 		positionAddress,
 		setPositionLatLng,
