@@ -42,7 +42,7 @@ const Map = ({ position }) => {
 		setRestaurantData(restaurant)
 	};
 
-	// DENNA SKA ANVÄNDAS ISTÄLLET FÖR ATT MAPA UT DÄR NERE
+	// DENNA SKA ANVÄNDAS ISTÄLLET FÖR ATT MAPA UT DÄR NERE (EJ KLAR)
 	const getFilteredRestaurants = (restaurants) => {
 		if (currentCityName) {
 			const filteredRestaurantsByLoc = 
@@ -70,7 +70,7 @@ const Map = ({ position }) => {
 	}, []);
 
 	console.log("currentCityName", currentCityName)
-	
+
 	useEffect(() => {
 		if (!position) {
 			setNewLocation(defaultLocation);
