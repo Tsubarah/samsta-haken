@@ -12,7 +12,7 @@ import useCurrentLocation from "../hooks/useCurrentLocation";
 const Map = ({ position }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
-	const { currentCityName } = useCurrentLocation()
+	const { currentCityName, setCurrentCityName } = useCurrentLocation()
 	////////
 	const { searchedCity, 
 					setShowRestaurantCard, 
@@ -42,8 +42,26 @@ const Map = ({ position }) => {
 		setRestaurantData(restaurant)
 	};
 
+	// DENNA SKA ANVÄNDAS ISTÄLLET FÖR ATT MAPA UT DÄR NERE
 	const getFilteredRestaurants = (restaurants) => {
-		
+		if (currentCityName) {
+			const filteredRestaurantsByLoc = 
+			restaurants.filter((restaurant) => 
+					restaurant.city === currentCityName &&
+					restaurant.accepted === true)
+
+			return filteredRestaurantsByLoc
+		}
+		setCurrentCityName(null)
+
+		if (searchedCity) {
+			const filteredRestaurantsBySearch = 
+			restaurants.filter((restaurant) => 
+					restaurant.city === currentCityName &&
+					restaurant.accepted === true)
+
+			return filteredRestaurantsBySearch
+		}
 	}
 
 	const onLoad = useCallback((map) => {
@@ -52,6 +70,7 @@ const Map = ({ position }) => {
 	}, []);
 
 	console.log("currentCityName", currentCityName)
+	
 	useEffect(() => {
 		if (!position) {
 			setNewLocation(defaultLocation);
@@ -80,7 +99,7 @@ const Map = ({ position }) => {
 			{restaurants
 			// LÄGG I FUNKTION
 				.filter((restaurant) => 
-					restaurant.city === searchedCity || currentCityName &&
+					restaurant.city === currentCityName &&
 					restaurant.accepted === true)
 				.map((restaurant) => (
 					<Marker

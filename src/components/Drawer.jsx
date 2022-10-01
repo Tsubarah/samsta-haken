@@ -7,7 +7,7 @@ import RestaurantCard from "./RestaurantCard";
 import { MdPlace } from "react-icons/md";
 
 const Drawer = ({ children }) => {
-  const restaurantQuery = useGetRestaurants()
+  const restaurants = useGetRestaurants()
   const { drawerIsOpen, 
           setDrawerIsOpen,
           restaurantData,
@@ -17,10 +17,10 @@ const Drawer = ({ children }) => {
   // const [showRestaurantCard, setShowRestaurantCard] = useState(false)
   // const [restaurantData, setRestaurantData] = useState(null)
   let restaurant;
-  console.log(restaurantQuery)
+  console.log(restaurants)
 
 	const handleClick = async (e) => {
-		restaurant = restaurantQuery.data?.find(
+		restaurant = restaurants.data?.find(
 			(restaurant) => restaurant.id === e.currentTarget.id
 		);
 		setRestaurantData(restaurant);
@@ -58,7 +58,7 @@ const Drawer = ({ children }) => {
           </div>
 
           <ul className="menu w-full lg:w-96 text-base-content">
-            {restaurantQuery?.data
+            {restaurants?.data
               .filter(restaurant => restaurant.accepted === true)
               .map((restaurant) => (
               <li 

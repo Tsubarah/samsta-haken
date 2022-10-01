@@ -42,6 +42,7 @@ const useCurrentLocation = () => {
 		positionAddress,
 		setPositionLatLng,
 		currentCityName,
+		setCurrentCityName,
 	};
 };
 
