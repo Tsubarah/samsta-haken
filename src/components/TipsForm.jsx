@@ -6,7 +6,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { MdOutlineCancel } from "react-icons/md";
 import { getLocationWithAddress } from "../services/googleAPI";
 
-const TipsForm = ({ showTips, setShowTips }) => {
+const TipsForm = ({ showTips, setShowTips, isAdmin }) => {
 	const {
 		control,
 		register,
@@ -38,7 +38,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 		);
 
 		await addDoc(collectionRef, {
-			accepted: false,
+			accepted: isAdmin ? true : false,
 			name: data.name,
 			address: data.address,
 			city: data.city,
@@ -72,7 +72,7 @@ const TipsForm = ({ showTips, setShowTips }) => {
 					/>
 
 					<h2 className="text-center font-semibold text-2xl pb-4 text-primary">
-						Tipsa om det sämsta haket
+						{isAdmin ? "Registrera ett hak" : "Tipsa om det sämsta haket"}
 					</h2>
 				</div>
 
@@ -206,7 +206,9 @@ const TipsForm = ({ showTips, setShowTips }) => {
 				</div>
 
 				<div className="col-span-full flex px-4 mt-12">
-					<button className="btn btn-block bg-primary">Skicka in</button>
+					<button className="btn btn-block bg-primary">
+						{isAdmin ? "Registrera" : "Skicka in"}
+					</button>
 				</div>
 			</form>
 		</dialog>

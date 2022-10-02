@@ -13,7 +13,6 @@ import {
 	updateDoc,
 	getDoc,
 	arrayUnion,
-	arrayRemove,
 	deleteDoc,
 } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -175,7 +174,6 @@ const AuthContextProvider = ({ children }) => {
 	// Show and hide
 	const [showTips, setShowTips] = useState(false);
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
-	const [showAdminForm, setShowAdminForm] = useState(false);
 	const [showRestaurantCard, setShowRestaurantCard] = useState(false);
 
 	const contextValues = {
@@ -193,8 +191,6 @@ const AuthContextProvider = ({ children }) => {
 		setAddress,
 		showTips,
 		setShowTips,
-		showAdminForm,
-		setShowAdminForm,
 		updateAdmin,
 		drawerIsOpen,
 		setDrawerIsOpen,

@@ -10,8 +10,6 @@ const NavBar = () => {
 	const {
 		showTips,
 		setShowTips,
-		showAdminForm,
-		setShowAdminForm,
 		drawerIsOpen,
 		setDrawerIsOpen,
 		currentUser,
@@ -57,15 +55,14 @@ const NavBar = () => {
 				<button
 					className={`col-start-11 justify-self-end gap-2 ${hidden}`}
 					onClick={() => {
-						isAdmin ? setShowAdminForm(!showAdminForm) : setShowTips(!showTips);
+						setShowTips(!showTips);
 					}}
 				>
 					<HiOutlinePencil size={20} />
-					{isAdmin ? (
-						<span className="btm-nav-label">Registrera</span>
-					) : (
-						<span className="btm-nav-label">Tipsa</span>
-					)}
+
+					<span className="btm-nav-label">
+						{isAdmin ? "Registrera" : "Tipsa"}
+					</span>
 				</button>
 
 				<div className="dropdown dropdown-end col-start-12 justify-self-center">
