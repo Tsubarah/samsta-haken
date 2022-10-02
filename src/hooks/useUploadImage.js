@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, setDoc } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { useAuthContext } from "../contexts/AuthContext";
 import { db, storage } from "../firebase";
@@ -50,26 +50,30 @@ const useUploadImage = () => {
 			// get download url to uploaded image
 			const url = await getDownloadURL(storageRef);
 
-			const uploadRef = doc(db, "restaurants", restaurant.id);
+			const adminRef = doc(db, "restaurants", restaurant.id);
+			const userRef = doc(
+				db,
+				"image-requests",
+				uniqueId + getFileExtension(image)
+			);
 
 			if (!isAdmin) {
 				// create document in db for the uploaded image
-				await updateDoc(uploadRef, {
-					photos: arrayUnion({
-						accepted: false,
-						// This will prevent the user from adding docs with the same filename
-						name: uniqueId + getFileExtension(image),
-						type: image.type,
-						size: image.size,
-						path: storageRef.fullPath,
-						uploaded_by_user: currentUser.displayName,
-						restaurant: restaurant.name,
-						url: url,
-					}),
+				await setDoc(userRef, {
+					accepted: false,
+					// This will prevent the user from adding docs with the same filename
+					name: uniqueId + getFileExtension(image),
+					type: image.type,
+					size: image.size,
+					path: storageRef.fullPath,
+					uploaded_by_user: currentUser.displayName,
+					restaurant: restaurant.name,
+					restaurantId: restaurant.id,
+					url: url,
 				});
 			} else {
 				// create document in db for the uploaded image
-				await updateDoc(uploadRef, {
+				await updateDoc(adminRef, {
 					photos: arrayUnion({
 						accepted: true,
 						// This will prevent the user from adding docs with the same filename
@@ -79,6 +83,7 @@ const useUploadImage = () => {
 						path: storageRef.fullPath,
 						uploaded_by_user: currentUser.displayName,
 						restaurant: restaurant.name,
+						restaurantId: restaurant.id,
 						url: url,
 					}),
 				});

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { arrayRemove, doc, updateDoc } from "firebase/firestore";
+import { arrayRemove, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { db, storage } from "../firebase";
 
@@ -8,7 +8,7 @@ const useDeleteImage = () => {
 	const [error, setError] = useState(null);
 	const [isDeleting, setIsDeleting] = useState(false);
 
-	const deleteImage = async (image, restaurant) => {
+	const deleteImage = async (image) => {
 		setError(null);
 		setIsError(false);
 		setIsDeleting(true);
@@ -16,25 +16,14 @@ const useDeleteImage = () => {
 		try {
 			const storageRef = ref(
 				storage,
-				`restaurants/${restaurant.name}/${image.name}`
+				`restaurants/${image.restaurant}/${image.name}`
 			);
 
 			await deleteObject(storageRef);
 
-			const dbRef = doc(db, "restaurants", restaurant.id);
+			const dbRef = doc(db, "image-requests", image.id);
 
-			await updateDoc(dbRef, {
-				photos: arrayRemove({
-					accepted: image.accepted,
-					name: image.name,
-					type: image.type,
-					size: image.size,
-					path: image.path,
-					uploaded_by_user: image.uploaded_by_user,
-					restaurant: image.restaurant,
-					url: image.url,
-				}),
-			});
+			await deleteDoc(dbRef);
 		} catch (e) {
 			console.log(e);
 			setIsError(true);

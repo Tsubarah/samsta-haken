@@ -15,11 +15,11 @@ const Drawer = ({ children }) => {
 		setRestaurantData,
 		showRestaurantCard,
 		setShowRestaurantCard,
+		currentUser,
+		isAdmin,
 	} = useAuthContext();
-	// const [showRestaurantCard, setShowRestaurantCard] = useState(false)
-	// const [restaurantData, setRestaurantData] = useState(null)
+
 	let restaurant;
-	// console.log(restaurantQuery);
 
 	const handleClick = async (e) => {
 		restaurant = restaurantQuery.data?.find(
@@ -52,7 +52,11 @@ const Drawer = ({ children }) => {
 
 				<div className="flex flex-wrap relative bg-base-100 lg:col-span-full lg:col-end-4 scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
 					{showRestaurantCard && drawerIsOpen && (
-						<RestaurantCard restaurant={restaurantData} />
+						<RestaurantCard
+							restaurant={restaurantData}
+							currentUser={currentUser}
+							isAdmin={isAdmin}
+						/>
 					)}
 
 					<div className="px-2 font-semibold text-white text-lg lg:hidden bg-base-content w-full">
@@ -75,44 +79,10 @@ const Drawer = ({ children }) => {
 								</li>
 							))}
 					</ul>
-					{/* {showRestaurantCard && restaurantData && (
-          <div className="overflow-y-auto bg-primary flex absolute lg:right-96 lg:top-auto z-50">
-            <RestaurantCard restaurant={restaurantData} />
-          </div>
-        )} */}
 				</div>
 			</div>
 		</div>
 	);
 };
-{
-	/* 
-				<div className="flex flex-wrap relative bg-base-100 lg:col-span-full lg:col-end-4 scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
-					{showRestaurantCard && drawerIsOpen && (
-						<RestaurantCard restaurant={restaurantData} />
-					)}
-
-					<div className="px-2 font-semibold text-white text-lg lg:hidden bg-base-content w-full">
-						<div className="divider">Restauranger</div>
-					</div> */
-}
-
-{
-	/* <ul className="menu w-full lg:w-96 text-base-content">
-						{restaurantQuery.data?.map((restaurant) => (
-							<li id={restaurant.id} key={restaurant.id} onClick={handleClick}>
-								<div className="flex justify-between p-6">
-									{restaurant.name}
-									<p className="text-xs opacity-50">{restaurant.city}</p>
-								</div>
-							</li>
-						))}
-					</ul>
-				</div>
-			</div>
-		</div>
-	);
-}; */
-}
 
 export default Drawer;

@@ -14,6 +14,7 @@ import {
 	getDoc,
 	arrayUnion,
 	arrayRemove,
+	deleteDoc,
 } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
@@ -104,12 +105,12 @@ const AuthContextProvider = ({ children }) => {
 		});
 	};
 
-	const updateRestaurantPhoto = async (restaurantId, photo) => {
-		const ref = doc(db, "restaurants", restaurantId);
+	const updateRestaurantPhoto = async (photo) => {
+		const ref = doc(db, "restaurants", photo.restaurantId);
 
 		await updateDoc(ref, {
 			photos: arrayUnion({
-				accepted: !photo.accepted,
+				accepted: true,
 				name: photo.name,
 				type: photo.type,
 				size: photo.size,
@@ -120,18 +121,7 @@ const AuthContextProvider = ({ children }) => {
 			}),
 		});
 
-		await updateDoc(ref, {
-			photos: arrayRemove({
-				accepted: !photo.accepted,
-				name: photo.name,
-				type: photo.type,
-				size: photo.size,
-				path: photo.path,
-				uploaded_by_user: photo.uploaded_by_user,
-				restaurant: photo.restaurant,
-				url: photo.url,
-			}),
-		});
+		await deleteDoc(doc(db, "image-requests", photo.id));
 	};
 
 	const reloadUser = async () => {

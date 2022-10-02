@@ -48,7 +48,7 @@ const NavBar = () => {
 				<SearchForm className={`w-full col-start-4 col-end-10 ${hidden}`} />
 
 				<button
-					className="col-start-10 justify-self-center lg:justify-self-end"
+					className="col-start-10 justify-self-center"
 					onClick={() => setDrawerIsOpen(!drawerIsOpen)}
 				>
 					Lista

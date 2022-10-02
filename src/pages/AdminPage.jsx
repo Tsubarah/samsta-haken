@@ -52,9 +52,9 @@ const AdminPage = () => {
 				className="btn btn-block btn-primary btn-sm"
 				onClick={() => setShowImageGrid(!showImageGrid)}
 			>
-				Inskickade bilder
+				Ej godkända bilder
 			</button>
-			{showImageGrid && <ImageGrid restaurants={restaurants} />}
+			{showImageGrid && <ImageGrid />}
 		</div>
 	);
 };

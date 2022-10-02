@@ -15,9 +15,8 @@ import {
 	AiOutlineCloudUpload,
 } from "react-icons/ai";
 
-const RestaurantCard = ({ restaurant }) => {
+const RestaurantCard = ({ restaurant, currentUser, isAdmin }) => {
 	let icon;
-	const { currentUser } = useAuthContext();
 	const [image, setImage] = useState(null);
 	const { uploadImage, uploadProgress, error, isSuccess, isError } =
 		useUploadImage();
@@ -29,7 +28,6 @@ const RestaurantCard = ({ restaurant }) => {
 		}
 
 		setImage(e.target.files[0]);
-		console.log("File changed!", e.target.files[0]);
 	};
 
 	const handleUpload = () => {
@@ -93,11 +91,18 @@ const RestaurantCard = ({ restaurant }) => {
 
 				{isError && <Alert variant={"alert-error"} message={error.message} />}
 
-				{isSuccess && (
+				{isSuccess && isAdmin ? (
 					<Alert
 						variant={"alert-success"}
 						message={"Bilden har laddats upp!"}
 					/>
+				) : isSuccess && !isAdmin ? (
+					<Alert
+						variant={"alert-success"}
+						message={"Bilden kommer att granskas innan den visas!"}
+					/>
+				) : (
+					""
 				)}
 
 				<div className="divider"></div>
@@ -117,7 +122,6 @@ const RestaurantCard = ({ restaurant }) => {
 
 				<ul>
 					{restaurant.socials.map((element, i) => {
-						// console.log("ELment: ", element.value);
 						if (element.value != "") {
 							icon = element.title;
 							switch (icon) {
