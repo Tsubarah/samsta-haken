@@ -8,17 +8,20 @@ import {
 	TiArrowSortedUp,
 	TiArrowUnsorted,
 } from "react-icons/ti";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const ImagesTable = ({ restaurants }) => {
-	let newPhotos = [];
+	let filteredRestaurants = [];
 
-	restaurants.forEach((restaurant, i) => {
+	//* Iterates thru all objects and collects all photos into one array
+	restaurants.forEach((restaurant) => {
 		if (restaurant.photos.length) {
-			newPhotos.push(...restaurant.photos);
+			return filteredRestaurants.push(...restaurant.photos);
 		}
 	});
 
-	console.log("newPhotos", newPhotos);
+	// console.log("filteredRestaurants", filteredRestaurants);
 
 	const { updateRestaurantStatus } = useAuthContext();
 
@@ -27,76 +30,77 @@ const ImagesTable = ({ restaurants }) => {
 	// };
 
 	// Columns for user table
-	// const columns = useMemo(
-	// 	() => [
-	// 		{
-	// 			Header: "#",
-	// 			accessor: "id",
-	// 			disableSortBy: true,
-	// 			Cell: (row) => {
-	// 				return <span className="text-sm">{Number(row.row.id) + 1}</span>;
-	// 			},
-	// 		},
-	// 		{
-	// 			Header: "Profilbild",
-	// 			accessor: "imageURL",
-	// 			disableSortBy: true,
-	// 			Cell: (row) => {
-	// 				return (
-	// 					<div className="avatar">
-	// 						<div className="w-12 rounded-full">
-	// 							{row.row.original.imageURL ? (
-	// 								<img src={row.row.original.imageURL} />
-	// 							) : (
-	// 								<img src={placeholder} />
-	// 							)}
-	// 						</div>
-	// 					</div>
-	// 				);
-	// 			},
-	// 		},
-	// 		{ Header: "Användare", accessor: "name" },
-	// 		{ Header: "E-post", accessor: "email" },
-	// 		{
-	// 			Header: "Admin",
-	// 			accessor: "admin",
-	// 			Cell: (row) => {
-	// 				return (
-	// 					<>
-	// 						{row.row.original.admin ? (
-	// 							<button
-	// 								// onClick={() =>
-	// 								// 	handleUpdateAdmin(row.row.original.id, row.row.original)
-	// 								// }
-	// 								className="btn btn-success"
-	// 							>
-	// 								J
-	// 							</button>
-	// 						) : (
-	// 							<button
-	// 								// onClick={() =>
-	// 								// 	handleUpdateAdmin(row.row.original.id, row.row.original)
-	// 								// }
-	// 								className="btn btn-error"
-	// 							>
-	// 								N
-	// 							</button>
-	// 						)}
-	// 					</>
-	// 				);
-	// 			},
-	// 		},
-	// 	],
-	// 	[]
-	// );
+	const columns = useMemo(
+		() => [
+			{
+				Header: "#",
+				accessor: "id",
+				disableSortBy: true,
+				Cell: (row) => {
+					return <span className="text-sm">{Number(row.row.id) + 1}</span>;
+				},
+			},
+			{
+				Header: "Bild",
+				accessor: "url",
+				disableSortBy: true,
+				Cell: (row) => {
+					console.log(row.row.original.photos);
+
+					return (
+						<div className="avatar">
+							<div className="w-24 rounded">
+								{row.row.original.photos.length >= 0 &&
+									row.row.original.photos.map((photo) => (
+										<img src={photo.url} />
+									))}
+							</div>
+						</div>
+					);
+				},
+			},
+			{ Header: "Restaurang", accessor: "uploaded_by_user" },
+			{ Header: "Uppladdat av", accessor: "uploaded_by_user" },
+			{
+				Header: "Godkänd",
+				accessor: "accepted",
+				Cell: (row) => {
+					return (
+						<>
+							{row.row.original.photos.accepted ? (
+								<button
+									// onClick={() =>
+									// 	handleUpdateAdmin(row.row.original.id, row.row.original)
+									// }
+									className="btn btn-success"
+								>
+									J
+								</button>
+							) : (
+								<button
+									// onClick={() =>
+									// 	handleUpdateAdmin(row.row.original.id, row.row.original)
+									// }
+									className="btn btn-error"
+								>
+									N
+								</button>
+							)}
+						</>
+					);
+				},
+			},
+		],
+		[]
+	);
 
 	// React Table hook
-	// const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-	// 	useTable({ columns, data: users }, useSortBy);
+	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+		useTable({ columns, data: restaurants }, useSortBy);
 
 	return (
 		<div className="overflow-x-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-black">
-			{/* <table {...getTableProps()} className="table table-zebra w-full">
+			<table {...getTableProps()} className="table table-zebra w-full">
 				<thead className="sticky top-0 z-10">
 					{headerGroups.map((headerGroup) => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
@@ -134,7 +138,7 @@ const ImagesTable = ({ restaurants }) => {
 						);
 					})}
 				</tbody>
-			</table> */}
+			</table>
 		</div>
 	);
 };

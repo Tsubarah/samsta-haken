@@ -3,12 +3,12 @@ import useGetCollection from "../hooks/useGetCollection";
 import { useAuthContext } from "../contexts/AuthContext";
 import UserTable from "../components/UserTable";
 import RestaurantsTable from "../components/RestaurantsTable";
-import ImagesTable from "../components/ImagesTable";
+import ImageGrid from "../components/ImageGrid";
 
 const AdminPage = () => {
 	const [showUsersTable, setShowUsersTable] = useState(false);
 	const [showRestaurantsTable, setShowRestaurantsTable] = useState(false);
-	const [showImagesTable, setShowImagesTable] = useState(false);
+	const [showImageGrid, setShowImageGrid] = useState(false);
 
 	const { currentUser } = useAuthContext();
 
@@ -50,11 +50,11 @@ const AdminPage = () => {
 
 			<button
 				className="btn btn-block btn-primary btn-sm"
-				onClick={() => setShowImagesTable(!showImagesTable)}
+				onClick={() => setShowImageGrid(!showImageGrid)}
 			>
 				Inskickade bilder
 			</button>
-			{showImagesTable && <ImagesTable restaurants={restaurants} />}
+			{showImageGrid && <ImageGrid restaurants={restaurants} />}
 		</div>
 	);
 };

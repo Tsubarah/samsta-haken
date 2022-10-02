@@ -12,7 +12,7 @@ const useUploadImage = () => {
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [uploadProgress, setUploadProgress] = useState(null);
 
-	const { currentUser } = useAuthContext();
+	const { currentUser, isAdmin } = useAuthContext();
 
 	const uploadImage = async (image, restaurant) => {
 		setError(null);
@@ -52,19 +52,37 @@ const useUploadImage = () => {
 
 			const uploadRef = doc(db, "restaurants", restaurant.id);
 
-			// create document in db for the uploaded image
-			await updateDoc(uploadRef, {
-				photos: arrayUnion({
-					accepted: false,
-					// This will prevent the user from adding docs with the same filename
-					name: uniqueId + getFileExtension(image),
-					type: image.type,
-					size: image.size,
-					path: storageRef.fullPath,
-					uploaded_by_user: currentUser.displayName,
-					url: url,
-				}),
-			});
+			if (!isAdmin) {
+				// create document in db for the uploaded image
+				await updateDoc(uploadRef, {
+					photos: arrayUnion({
+						accepted: false,
+						// This will prevent the user from adding docs with the same filename
+						name: uniqueId + getFileExtension(image),
+						type: image.type,
+						size: image.size,
+						path: storageRef.fullPath,
+						uploaded_by_user: currentUser.displayName,
+						restaurant: restaurant.name,
+						url: url,
+					}),
+				});
+			} else {
+				// create document in db for the uploaded image
+				await updateDoc(uploadRef, {
+					photos: arrayUnion({
+						accepted: true,
+						// This will prevent the user from adding docs with the same filename
+						name: uniqueId + getFileExtension(image),
+						type: image.type,
+						size: image.size,
+						path: storageRef.fullPath,
+						uploaded_by_user: currentUser.displayName,
+						restaurant: restaurant.name,
+						url: url,
+					}),
+				});
+			}
 
 			setIsSuccess(true);
 			setUploadProgress(null);
