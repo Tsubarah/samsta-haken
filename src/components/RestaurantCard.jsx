@@ -1,4 +1,3 @@
-import { useAuthContext } from "../contexts/AuthContext";
 import { useState } from "react";
 import useUploadImage from "../hooks/useUploadImage";
 

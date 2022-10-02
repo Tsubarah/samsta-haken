@@ -1,10 +1,6 @@
-import { useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
-import useGetCollection from "../hooks/useGetCollection";
-import useGetDocument from "../hooks/useGetDocument";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 import RestaurantCard from "./RestaurantCard";
-import { MdPlace } from "react-icons/md";
 
 const Drawer = ({ children }) => {
 	const restaurantQuery = useGetRestaurants();
