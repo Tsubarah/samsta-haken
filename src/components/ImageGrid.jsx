@@ -14,7 +14,7 @@ const ImageGrid = () => {
 
 	return (
 		<div className="flex flex-col items-center gap-4 py-4 overflow-x-auto overflow-y-auto scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-black lg:grid lg:grid-cols-4 lg:items-stretch lg:px-4">
-			{imageRequests.length > 0 &&
+			{imageRequests.length > 0 ? (
 				imageRequests.map((photo) => (
 					<div
 						key={photo.id}
@@ -47,7 +47,10 @@ const ImageGrid = () => {
 							</div>
 						</div>
 					</div>
-				))}
+				))
+			) : (
+				<h3 className="text-center col-span-full">Inga bilder att godkänna</h3>
+			)}
 		</div>
 	);
 };
