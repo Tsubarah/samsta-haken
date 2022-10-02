@@ -39,7 +39,7 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin }) => {
 	};
 
 	return (
-		<div className="card card-compact rounded-none lg:w-96 bg-base-100 shadow-xl scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
+		<div className="card card-compact rounded-none w-full lg:w-96 bg-base-100 shadow-xl scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
 			{restaurant.photos.length !== 0 ? (
 				<Carousel restaurant={restaurant} />
 			) : (
