@@ -1,5 +1,6 @@
 import { useAuthContext } from "../contexts/AuthContext";
 import useGetRestaurants from "../hooks/useGetRestaurants";
+import { getDistance } from "../utils/helpers";
 import RestaurantCard from "./RestaurantCard";
 
 const Drawer = ({ children }) => {
@@ -13,7 +14,23 @@ const Drawer = ({ children }) => {
 		setShowRestaurantCard,
 		currentUser,
 		isAdmin,
+		location,
 	} = useAuthContext();
+
+	const showDistance = (restaurantCoords) => {
+		if (!location) {
+			return;
+		}
+
+		const distance = getDistance(
+			location.lat,
+			location.lng,
+			restaurantCoords?.position?.lat,
+			restaurantCoords?.position?.lng
+		);
+
+		return distance;
+	};
 
 	let restaurant;
 
@@ -52,6 +69,7 @@ const Drawer = ({ children }) => {
 							restaurant={restaurantData}
 							currentUser={currentUser}
 							isAdmin={isAdmin}
+							location={location}
 						/>
 					)}
 
@@ -62,18 +80,28 @@ const Drawer = ({ children }) => {
 					<ul className="menu w-full lg:w-96 text-base-content">
 						{restaurantQuery?.data
 							.filter((restaurant) => restaurant.accepted === true)
-							.map((restaurant) => (
-								<li
-									id={restaurant.id}
-									key={restaurant.id}
-									onClick={handleClick}
-								>
-									<div className="flex justify-between p-6">
-										{restaurant.name}
-										<p className="text-xs opacity-50">{restaurant.city}</p>
-									</div>
-								</li>
-							))}
+							.map((restaurant) => {
+								const dist = showDistance(restaurant);
+
+								return (
+									<li
+										id={restaurant.id}
+										key={restaurant.id}
+										onClick={handleClick}
+									>
+										<div className="flex justify-between p-6">
+											{restaurant.name}
+
+											<p className="text-xs opacity-50">
+												{restaurant.city}
+												<span className="cursor-ponter">
+													{dist && `, ${Math.floor(dist)} km`}
+												</span>
+											</p>
+										</div>
+									</li>
+								);
+							})}
 					</ul>
 				</div>
 			</div>

@@ -13,8 +13,9 @@ import {
 	AiFillInstagram,
 	AiOutlineCloudUpload,
 } from "react-icons/ai";
+import { getDistance } from "../utils/helpers";
 
-const RestaurantCard = ({ restaurant, currentUser, isAdmin }) => {
+const RestaurantCard = ({ restaurant, currentUser, isAdmin, location }) => {
 	let icon;
 	const [image, setImage] = useState(null);
 	const { uploadImage, uploadProgress, error, isSuccess, isError } =
@@ -37,6 +38,15 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin }) => {
 		uploadImage(image, restaurant);
 	};
 
+	const distance = getDistance(
+		location.lat,
+		location.lng,
+		restaurant?.position?.lat,
+		restaurant?.position?.lng
+	);
+
+	console.log("distance", distance);
+
 	return (
 		<div className="card card-compact rounded-none w-full lg:w-96 bg-base-100 shadow-xl scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
 			{restaurant.photos.length !== 0 ? (
@@ -46,7 +56,12 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin }) => {
 			)}
 
 			<div className="card-body">
-				<h2 className="card-title">{restaurant.name}</h2>
+				<div className="flex gap-4 items-center">
+					<h2 className="card-title">{restaurant.name}</h2>
+					<span className="text-xs opacity-70 font-light">{`${Math.floor(
+						distance
+					)} km från vald postion`}</span>
+				</div>
 
 				<div className="upload-photo flex items-center justify-between">
 					<label
