@@ -6,10 +6,8 @@ const Carousel = ({ restaurant }) => {
 			{restaurant &&
 				restaurant.photos.map((photo, i) => (
 					<div key={i} className="carousel-item relative">
-						{photo.accepted ? (
+						{photo.accepted && (
 							<img src={photo.url} className="rounded-box" alt="photo" />
-						) : (
-							<img src={placeholder} alt="placeholder" />
 						)}
 					</div>
 				))}
