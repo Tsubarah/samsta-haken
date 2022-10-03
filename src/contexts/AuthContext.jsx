@@ -175,6 +175,7 @@ const AuthContextProvider = ({ children }) => {
 	const [showTips, setShowTips] = useState(false);
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 	const [showRestaurantCard, setShowRestaurantCard] = useState(false);
+	const [filterType, setFilterType] = useState(null)
 
 	const contextValues = {
 		currentUser,
@@ -204,6 +205,8 @@ const AuthContextProvider = ({ children }) => {
 		restaurantData,
 		setShowRestaurantCard,
 		showRestaurantCard,
+		filterType, 
+		setFilterType
 	};
 
 	return (
