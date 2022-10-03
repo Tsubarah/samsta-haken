@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
+import { current } from "daisyui/src/colors";
 
 const Map = ({ position }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
@@ -18,6 +19,7 @@ const Map = ({ position }) => {
 	const { searchedCity,
 					setShowRestaurantCard, 
 					showRestaurantCard, 
+					restaurantData,
 					setRestaurantData 
 				} = useAuthContext();
 	//////////
@@ -46,8 +48,8 @@ const Map = ({ position }) => {
 	// DENNA SKA ANVÄNDAS ISTÄLLET FÖR ATT MAPA UT DÄR NERE (EJ KLAR)
 	const getFilteredRestaurants = (restaurants) => {
 		setFilteredRestaurants(null)
-
 		if (searchedCity) {
+			console.log("searched", searchedCity)
 			const filteredRestaurantsBySearch = 
 				restaurants.filter((restaurant) => 
 						restaurant.city === searchedCity &&
@@ -57,15 +59,15 @@ const Map = ({ position }) => {
 		}
 
 		if (currentCityName) {
+			console.log("IF",currentCityName)
 			const filteredRestaurantsByLoc = 
-				restaurants.filter((restaurant) => 
-					restaurant.city === currentCityName &&
-					restaurant.accepted)
+			restaurants.filter((restaurant) => 
+			restaurant.city === currentCityName &&
+			restaurant.accepted)
 			
 			setFilteredRestaurants(filteredRestaurantsByLoc)
+			setCurrentCityName(null)
 		}
-		setCurrentCityName(null)
-
 	}
 
 	
@@ -75,11 +77,13 @@ const Map = ({ position }) => {
 	}, []);
 	
 	useEffect(() => {
+		console.log("CITY", currentCityName)
 		if (!position) {
 			setNewLocation(defaultLocation);
 		} else {
 			setNewLocation(position);
 		}
+		getFilteredRestaurants(restaurants)
 	}, [position]);
 
 	return isLoaded ? (

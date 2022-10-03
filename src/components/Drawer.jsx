@@ -17,6 +17,7 @@ const Drawer = ({ children }) => {
   // const [showRestaurantCard, setShowRestaurantCard] = useState(false)
   // const [restaurantData, setRestaurantData] = useState(null)
   let restaurant;
+  // console.log("DATA", restaurantData)
 
 	const handleClick = async (e) => {
 		restaurant = restaurants.data?.find(

@@ -19,6 +19,8 @@ const SearchForm = ({ className }) => {
 		positionLatLng,
 		positionAddress,
 		setPositionLatLng,
+		setCurrentCityName,
+		currentCityName,
 	} = useCurrentLocation();
 
 	const [searchInput, setSearchInput] = useState("");
@@ -38,11 +40,12 @@ const SearchForm = ({ className }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
+		
 		if (!searchInput.length) {
 			return;
 		}
-
+		
+		console.log(currentCityName)
 		setPositionLatLng(null);
 		setLocation(positionLatLng)
 		setAddress(positionAddress)
@@ -60,6 +63,7 @@ const SearchForm = ({ className }) => {
 	// 		setPlaceholder(address);
 	// 	}
 	// }, [positionLatLng, address, city]);
+
 
 	return (
 		<form
@@ -92,7 +96,7 @@ const SearchForm = ({ className }) => {
 
 			{searchInput.length > 0 && filteredRestaurants.length > 0 && (
 				<ul className="absolute top-12 px-2 py-4 z-10 bg-base-100 w-4/6 lg:w-5/12 h-1/5 overflow-scroll scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
-					{filteredRestaurants.map((restaurant) => (
+					{filteredRestaurants?.map((restaurant) => (
 						<li
 							key={restaurant.id}
 							className="cursor-pointer hover:bg-base-300 p-2"
