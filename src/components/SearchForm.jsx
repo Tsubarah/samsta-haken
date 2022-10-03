@@ -7,12 +7,13 @@ import { TiLocationArrow } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
 
 const SearchForm = ({ className }) => {
-	const { handleSearch, 
-					setLocation, 
-					setAddress, 
-					address, 
-					searchedCity, 
-					setSearchedCity 
+	const {
+		handleSearch,
+		setLocation,
+		setAddress,
+		address,
+		searchedCity,
+		setSearchedCity,
 	} = useAuthContext();
 
 	const {
@@ -21,6 +22,7 @@ const SearchForm = ({ className }) => {
 		setPositionLatLng,
 		setCurrentCityName,
 		currentCityName,
+		getCurrentLocation,
 	} = useCurrentLocation();
 
 	const [searchInput, setSearchInput] = useState("");
@@ -40,30 +42,31 @@ const SearchForm = ({ className }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		
+
 		if (!searchInput.length) {
 			return;
 		}
-		
-		console.log(currentCityName)
+
+		// console.log(currentCityName);
 		setPositionLatLng(null);
-		setLocation(positionLatLng)
-		setAddress(positionAddress)
+		setLocation(positionLatLng);
+		setAddress(positionAddress);
 		handleSearch(searchInput);
 		setSearchInput("");
 	};
 
-	// useEffect(() => {
-	// 	if (positionLatLng) {
-	// 		setLocation(positionLatLng);
-	// 		setAddress(positionAddress);
-	// 	}
+	const handleCurrentLocation = () => {
+		// setSearchedCity(null);
+		getCurrentLocation();
+	};
 
-	// 	if (address) {
-	// 		setPlaceholder(address);
-	// 	}
-	// }, [positionLatLng, address, city]);
-
+	useEffect(() => {
+		if (positionLatLng) {
+			setSearchedCity(null);
+			setLocation(positionLatLng);
+			setAddress(positionAddress);
+		}
+	}, [positionLatLng, address]);
 
 	return (
 		<form
@@ -71,11 +74,7 @@ const SearchForm = ({ className }) => {
 			className={`flex justify-center items-center gap-2 ${className}`}
 		>
 			<TiLocationArrow
-				onClick={() => {
-					setSearchedCity(null)
-					setLocation(positionLatLng)
-					setAddress(positionAddress)
-				}}
+				onClick={handleCurrentLocation}
 				size={25}
 				className="cursor-pointer"
 			/>

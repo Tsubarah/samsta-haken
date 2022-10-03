@@ -158,6 +158,8 @@ const AuthContextProvider = ({ children }) => {
 	const [address, setAddress] = useState(null);
 	const [searchedCity, setSearchedCity] = useState(null);
 
+	console.log("location", location);
+
 	//* City borde vara global då den måste skickas till MAP
 
 	const handleSearch = async (address) => {
