@@ -8,20 +8,22 @@ import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
-import { current } from "daisyui/src/colors";
+// import { current } from "daisyui/src/colors";
+import marker from "../assets/images/marker.png";
 
 const Map = ({ position }) => {
 	const [activeMarker, setActiveMarker] = useState(null);
-	const [filteredRestaurants, setFilteredRestaurants] = useState(null)
+	const [filteredRestaurants, setFilteredRestaurants] = useState(null);
 	const { data: restaurants, loading } = useGetRestaurants();
-	const { currentCityName, setCurrentCityName } = useCurrentLocation()
+	const { currentCityName, setCurrentCityName } = useCurrentLocation();
 	////////
-	const { searchedCity,
-					setShowRestaurantCard, 
-					showRestaurantCard, 
-					restaurantData,
-					setRestaurantData 
-				} = useAuthContext();
+	const {
+		searchedCity,
+		setShowRestaurantCard,
+		showRestaurantCard,
+		restaurantData,
+		setRestaurantData,
+	} = useAuthContext();
 	//////////
 	const [newLocation, setNewLocation] = useState(null);
 	let restaurant;
@@ -33,57 +35,55 @@ const Map = ({ position }) => {
 	});
 
 	const handleActiveMarker = (marker) => {
-		setActiveMarker(null)
-		setShowRestaurantCard(!showRestaurantCard)
+		setActiveMarker(null);
+		setShowRestaurantCard(!showRestaurantCard);
 
 		if (marker === activeMarker) {
 			return;
-		} 
-		
+		}
+
 		setActiveMarker(marker);
-		restaurant = restaurants?.find(restaurant => restaurant.id === marker)
-		setRestaurantData(restaurant)
+		restaurant = restaurants?.find((restaurant) => restaurant.id === marker);
+		setRestaurantData(restaurant);
 	};
 
 	// DENNA SKA ANVÄNDAS ISTÄLLET FÖR ATT MAPA UT DÄR NERE (EJ KLAR)
 	const getFilteredRestaurants = (restaurants) => {
-		setFilteredRestaurants(null)
+		setFilteredRestaurants(null);
 		if (searchedCity) {
-			console.log("searched", searchedCity)
-			const filteredRestaurantsBySearch = 
-				restaurants.filter((restaurant) => 
-						restaurant.city === searchedCity &&
-						restaurant.accepted)
-			
-			setFilteredRestaurants(filteredRestaurantsBySearch)
+			console.log("searched", searchedCity);
+			const filteredRestaurantsBySearch = restaurants.filter(
+				(restaurant) => restaurant.city === searchedCity && restaurant.accepted
+			);
+
+			setFilteredRestaurants(filteredRestaurantsBySearch);
 		}
 
 		if (currentCityName) {
-			console.log("IF",currentCityName)
-			const filteredRestaurantsByLoc = 
-			restaurants.filter((restaurant) => 
-			restaurant.city === currentCityName &&
-			restaurant.accepted)
-			
-			setFilteredRestaurants(filteredRestaurantsByLoc)
-			setCurrentCityName(null)
-		}
-	}
+			console.log("IF", currentCityName);
+			const filteredRestaurantsByLoc = restaurants.filter(
+				(restaurant) =>
+					restaurant.city === currentCityName && restaurant.accepted
+			);
 
-	
+			setFilteredRestaurants(filteredRestaurantsByLoc);
+			setCurrentCityName(null);
+		}
+	};
+
 	const onLoad = useCallback((map) => {
 		const zoom = 18;
 		map.setZoom(zoom);
 	}, []);
-	
+
 	useEffect(() => {
-		console.log("CITY", currentCityName)
+		console.log("CITY", currentCityName);
 		if (!position) {
 			setNewLocation(defaultLocation);
 		} else {
 			setNewLocation(position);
 		}
-		getFilteredRestaurants(restaurants)
+		getFilteredRestaurants(restaurants);
 	}, [position]);
 
 	return isLoaded ? (
@@ -104,18 +104,21 @@ const Map = ({ position }) => {
 		>
 			<Marker position={newLocation} />
 			{filteredRestaurants?.map((restaurant) => (
-					<Marker
-						key={restaurant.id}
-						position={restaurant.position}
-						onClick={() => handleActiveMarker(restaurant.id)}
-					>
-						{activeMarker === restaurant.id ? (
-							<InfoWindowF onCloseClick={handleActiveMarker}>
-								<div>{restaurant.name}</div>
-							</InfoWindowF>
-						) : null}
-					</Marker>
-				))}
+				<Marker
+					key={restaurant.id}
+					position={restaurant.position}
+					icon={{
+						url: marker,
+					}}
+					onClick={() => handleActiveMarker(restaurant.id)}
+				>
+					{activeMarker === restaurant.id ? (
+						<InfoWindowF onCloseClick={handleActiveMarker}>
+							<div>{restaurant.name}</div>
+						</InfoWindowF>
+					) : null}
+				</Marker>
+			))}
 		</GoogleMap>
 	) : (
 		<></>
