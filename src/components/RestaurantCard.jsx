@@ -13,6 +13,7 @@ import {
 	AiFillInstagram,
 	AiOutlineCloudUpload,
 } from "react-icons/ai";
+import Directions from "./Directions";
 
 const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
 	let icon;
@@ -53,6 +54,8 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
 						{showDistance(restaurant) &&
 							`${Math.floor(showDistance(restaurant))} km från vald postion`}
 					</span>
+
+					<Directions restaurant={restaurant} />
 				</div>
 
 				<div className="upload-photo flex items-center justify-between">
