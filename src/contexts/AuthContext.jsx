@@ -7,7 +7,14 @@ import {
 	updateProfile,
 } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
-import { setDoc, doc, updateDoc, getDoc } from "firebase/firestore";
+import {
+	setDoc,
+	doc,
+	updateDoc,
+	getDoc,
+	arrayUnion,
+	deleteDoc,
+} from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { getLocationWithAddress } from "../services/googleAPI";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
@@ -27,7 +34,7 @@ const AuthContextProvider = ({ children }) => {
 	const [loginSwipe, setLoginSwipe] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [isAdmin, setIsAdmin] = useState(null);
-	const [restaurantData, setRestaurantData] = useState(null)
+	const [restaurantData, setRestaurantData] = useState(null);
 
 	const signup = async (email, password, name, image) => {
 		// create the user
@@ -97,6 +104,25 @@ const AuthContextProvider = ({ children }) => {
 		});
 	};
 
+	const updateRestaurantPhoto = async (photo) => {
+		const ref = doc(db, "restaurants", photo.restaurantId);
+
+		await updateDoc(ref, {
+			photos: arrayUnion({
+				accepted: true,
+				name: photo.name,
+				type: photo.type,
+				size: photo.size,
+				path: photo.path,
+				uploaded_by_user: photo.uploaded_by_user,
+				restaurant: photo.restaurant,
+				url: photo.url,
+			}),
+		});
+
+		await deleteDoc(doc(db, "image-requests", photo.id));
+	};
+
 	const reloadUser = async () => {
 		await auth.currentUser.reload();
 		setCurrentUser(auth.currentUser);
@@ -148,8 +174,7 @@ const AuthContextProvider = ({ children }) => {
 	// Show and hide
 	const [showTips, setShowTips] = useState(false);
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
-	const [showAdminForm, setShowAdminForm] = useState(false);
-	const [showRestaurantCard, setShowRestaurantCard] = useState(false)
+	const [showRestaurantCard, setShowRestaurantCard] = useState(false);
 
 	const contextValues = {
 		currentUser,
@@ -166,13 +191,12 @@ const AuthContextProvider = ({ children }) => {
 		setAddress,
 		showTips,
 		setShowTips,
-		showAdminForm,
-		setShowAdminForm,
 		updateAdmin,
 		drawerIsOpen,
 		setDrawerIsOpen,
 		isAdmin,
 		updateRestaurantStatus,
+		updateRestaurantPhoto,
 		userName,
 		userImageUrl,
 		setSearchedCity,

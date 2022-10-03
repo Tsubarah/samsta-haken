@@ -9,7 +9,7 @@ const useCurrentLocation = () => {
 
 	const getCurrentLocation = () => {
 		if (!navigator.geolocation) {
-			console.log("Geolocation is not supported by your browser!");
+			alert("Geolocation is not supported by your browser!");
 		} else {
 			navigator.geolocation.getCurrentPosition(async (position) => {
 				try {
@@ -24,7 +24,7 @@ const useCurrentLocation = () => {
 					setPositionAddress(geolocation.results[0].formatted_address);
 					setPositionLatLng({ lat: latitude, lng: longitude });
 				} catch (err) {
-					console.log("Unable to retrieve your location");
+					alert("Unable to retrieve your location");
 				}
 			});
 		}

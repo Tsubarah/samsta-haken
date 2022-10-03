@@ -10,8 +10,6 @@ import {
 } from "react-icons/ti";
 
 const UserTable = ({ users }) => {
-	console.log(users);
-
 	const { updateAdmin } = useAuthContext();
 
 	// Updates user's admin role

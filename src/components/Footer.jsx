@@ -12,7 +12,10 @@ const Footer = () => {
 			<div className="btm-nav my-2 relative lg:hidden">
 				<button onClick={() => setShowTips(!showTips)}>
 					<HiOutlinePencil size={25} />
-					<span className="btm-nav-label">Tipsa</span>
+
+					<span className="btm-nav-label">
+						{isAdmin ? "Registrera" : "Tipsa"}
+					</span>
 				</button>
 				<Link to="/">
 					<MdOutlineExplore size={25} />

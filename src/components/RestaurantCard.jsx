@@ -1,4 +1,10 @@
-import { MdOutlineCancel, MdAddPhotoAlternate } from "react-icons/md";
+import { useState } from "react";
+import useUploadImage from "../hooks/useUploadImage";
+
+import Carousel from "./Carousel";
+import Alert from "./Alert";
+import placeholder from "../assets/images/placeholder-image.webp";
+import { MdAddPhotoAlternate } from "react-icons/md";
 import {
 	AiFillFacebook,
 	AiOutlineGlobal,
@@ -7,18 +13,13 @@ import {
 	AiFillInstagram,
 	AiOutlineCloudUpload,
 } from "react-icons/ai";
+import Directions from "./Directions";
 
-import { useAuthContext } from "../contexts/AuthContext";
-import { useState } from "react";
-
-const RestaurantCard = ({ restaurant }) => {
-	// const [showRestaurantCard, setShowRestaurantCard] = useState(false);
-	// console.log(restaurant);
+const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
 	let icon;
-	const { currentUser } = useAuthContext();
 	const [image, setImage] = useState(null);
-
-	console.log("current user", currentUser);
+	const { uploadImage, uploadProgress, error, isSuccess, isError } =
+		useUploadImage();
 
 	const handleFileChange = (e) => {
 		if (!e.target.files.length) {
@@ -27,30 +28,35 @@ const RestaurantCard = ({ restaurant }) => {
 		}
 
 		setImage(e.target.files[0]);
-		console.log("File changed!", e.target.files[0]);
 	};
 
 	const handleUpload = () => {
 		if (!currentUser) {
 			return alert("Du måste vara inloggad för att skicka in bild");
 		}
+
+		uploadImage(image, restaurant);
 	};
 
 	return (
-		<div className="card card-compact rounded-none lg:w-96 bg-base-100 shadow-xl scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
-			{/* <div className="col-span-full lg:hidden grid grid-rows-2 p-2">
-				<MdOutlineCancel
-					size={20}
-					className="cursor-pointer justify-self-end text-base-content hover:text-error"
-				/>
-			</div> */}
-
-			<figure>
-				<img src="https://placeimg.com/400/225/arch" alt="Restaurant" />
-			</figure>
+		<div className="card card-compact rounded-none w-full lg:w-96 bg-base-100 shadow-xl scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
+			{restaurant?.photos?.length !== 0 ? (
+				<Carousel restaurant={restaurant} />
+			) : (
+				<img src={placeholder} alt="placeholder" />
+			)}
 
 			<div className="card-body">
-				<h2 className="card-title">{restaurant.name}</h2>
+				<div className="flex gap-4 items-center">
+					<h2 className="card-title">{restaurant?.name}</h2>
+
+					<span className="text-xs opacity-70 font-light">
+						{showDistance(restaurant) &&
+							`${Math.floor(showDistance(restaurant))} km från vald postion`}
+					</span>
+
+					<Directions restaurant={restaurant} />
+				</div>
 
 				<div className="upload-photo flex items-center justify-between">
 					<label
@@ -78,29 +84,53 @@ const RestaurantCard = ({ restaurant }) => {
 					</label>
 
 					{image && (
-						<button className="btn btn-circle">
+						<button className="btn btn-circle" onClick={handleUpload}>
 							<AiOutlineCloudUpload size={25} />
 						</button>
 					)}
 				</div>
+
+				{uploadProgress !== null && (
+					<progress
+						className="progress progress-warning border border-base-content mt-4 w-full"
+						value={uploadProgress}
+						max="100"
+					></progress>
+				)}
+
+				{isError && <Alert variant={"alert-error"} message={error.message} />}
+
+				{isSuccess && isAdmin ? (
+					<Alert
+						variant={"alert-success"}
+						message={"Bilden har laddats upp!"}
+					/>
+				) : isSuccess && !isAdmin ? (
+					<Alert
+						variant={"alert-success"}
+						message={"Bilden kommer att granskas innan den visas!"}
+					/>
+				) : (
+					""
+				)}
+
 				<div className="divider"></div>
 
 				<div className="flex">
-					<div className="badge">{restaurant.type_of_place}</div>
-					<div className="badge">{restaurant.offers_food}</div>
-					<div className="badge">{restaurant.cuisine}</div>
+					<div className="badge">{restaurant?.type_of_place}</div>
+					<div className="badge">{restaurant?.offers_food}</div>
+					<div className="badge">{restaurant?.cuisine}</div>
 				</div>
 
 				<div className="pt-4">
 					<h3 className="font-bold">Recension</h3>
-					<p>{restaurant.description}</p>
+					<p>{restaurant?.description}</p>
 				</div>
 
 				<div className="divider"></div>
 
 				<ul>
-					{restaurant.socials.map((element, i) => {
-						// console.log("ELment: ", element.value);
+					{restaurant?.socials?.map((element, i) => {
 						if (element.value != "") {
 							icon = element.title;
 							switch (icon) {
@@ -111,7 +141,7 @@ const RestaurantCard = ({ restaurant }) => {
 												<AiOutlineGlobal
 													size={20}
 													className="mr-2 cursor-pointer text-primary hover:text-error"
-												/>{" "}
+												/>
 												{element.value}
 											</p>
 										</li>
@@ -135,7 +165,7 @@ const RestaurantCard = ({ restaurant }) => {
 												<AiFillPhone
 													size={20}
 													className="mr-2 cursor-pointer text-primary hover:text-error"
-												/>{" "}
+												/>
 												{element.value}
 											</p>
 										</li>
