@@ -13,9 +13,8 @@ import {
 	AiFillInstagram,
 	AiOutlineCloudUpload,
 } from "react-icons/ai";
-import { getDistance } from "../utils/helpers";
 
-const RestaurantCard = ({ restaurant, currentUser, isAdmin, location }) => {
+const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
 	let icon;
 	const [image, setImage] = useState(null);
 	const { uploadImage, uploadProgress, error, isSuccess, isError } =
@@ -38,18 +37,9 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin, location }) => {
 		uploadImage(image, restaurant);
 	};
 
-	const distance = getDistance(
-		location.lat,
-		location.lng,
-		restaurant?.position?.lat,
-		restaurant?.position?.lng
-	);
-
-	console.log("distance", distance);
-
 	return (
 		<div className="card card-compact rounded-none w-full lg:w-96 bg-base-100 shadow-xl scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
-			{restaurant.photos.length !== 0 ? (
+			{restaurant?.photos?.length !== 0 ? (
 				<Carousel restaurant={restaurant} />
 			) : (
 				<img src={placeholder} alt="placeholder" />
@@ -57,10 +47,12 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin, location }) => {
 
 			<div className="card-body">
 				<div className="flex gap-4 items-center">
-					<h2 className="card-title">{restaurant.name}</h2>
-					<span className="text-xs opacity-70 font-light">{`${Math.floor(
-						distance
-					)} km från vald postion`}</span>
+					<h2 className="card-title">{restaurant?.name}</h2>
+
+					<span className="text-xs opacity-70 font-light">
+						{showDistance(restaurant) &&
+							`${Math.floor(showDistance(restaurant))} km från vald postion`}
+					</span>
 				</div>
 
 				<div className="upload-photo flex items-center justify-between">
@@ -122,20 +114,20 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin, location }) => {
 				<div className="divider"></div>
 
 				<div className="flex">
-					<div className="badge">{restaurant.type_of_place}</div>
-					<div className="badge">{restaurant.offers_food}</div>
-					<div className="badge">{restaurant.cuisine}</div>
+					<div className="badge">{restaurant?.type_of_place}</div>
+					<div className="badge">{restaurant?.offers_food}</div>
+					<div className="badge">{restaurant?.cuisine}</div>
 				</div>
 
 				<div className="pt-4">
 					<h3 className="font-bold">Recension</h3>
-					<p>{restaurant.description}</p>
+					<p>{restaurant?.description}</p>
 				</div>
 
 				<div className="divider"></div>
 
 				<ul>
-					{restaurant.socials.map((element, i) => {
+					{restaurant?.socials?.map((element, i) => {
 						if (element.value != "") {
 							icon = element.title;
 							switch (icon) {

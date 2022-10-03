@@ -69,7 +69,7 @@ const Drawer = ({ children }) => {
 							restaurant={restaurantData}
 							currentUser={currentUser}
 							isAdmin={isAdmin}
-							location={location}
+							showDistance={showDistance}
 						/>
 					)}
 
