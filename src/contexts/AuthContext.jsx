@@ -200,6 +200,7 @@ const AuthContextProvider = ({ children }) => {
 		updateRestaurantPhoto,
 		userName,
 		userImageUrl,
+		setSearchedCity,
 		searchedCity,
 		setRestaurantData,
 		restaurantData,

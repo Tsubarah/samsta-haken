@@ -7,15 +7,19 @@ import {
 import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 import { useAuthContext } from "../contexts/AuthContext";
+import useCurrentLocation from "../hooks/useCurrentLocation";
+import { current } from "daisyui/src/colors";
 
 const Map = ({ position }) => {
-	const restaurantQuery = useGetRestaurants()
 	const [activeMarker, setActiveMarker] = useState(null);
+	const [filteredRestaurants, setFilteredRestaurants] = useState(null)
 	const { data: restaurants, loading } = useGetRestaurants();
+	const { currentCityName, setCurrentCityName } = useCurrentLocation()
 	////////
-	const { searchedCity, 
+	const { searchedCity,
 					setShowRestaurantCard, 
 					showRestaurantCard, 
+					restaurantData,
 					setRestaurantData 
 				} = useAuthContext();
 	//////////
@@ -37,21 +41,49 @@ const Map = ({ position }) => {
 		} 
 		
 		setActiveMarker(marker);
-		restaurant = restaurantQuery.data?.find(restaurant => restaurant.id === marker)
+		restaurant = restaurants?.find(restaurant => restaurant.id === marker)
 		setRestaurantData(restaurant)
 	};
 
+	// DENNA SKA ANVÄNDAS ISTÄLLET FÖR ATT MAPA UT DÄR NERE (EJ KLAR)
+	const getFilteredRestaurants = (restaurants) => {
+		setFilteredRestaurants(null)
+		if (searchedCity) {
+			console.log("searched", searchedCity)
+			const filteredRestaurantsBySearch = 
+				restaurants.filter((restaurant) => 
+						restaurant.city === searchedCity &&
+						restaurant.accepted)
+			
+			setFilteredRestaurants(filteredRestaurantsBySearch)
+		}
+
+		if (currentCityName) {
+			console.log("IF",currentCityName)
+			const filteredRestaurantsByLoc = 
+			restaurants.filter((restaurant) => 
+			restaurant.city === currentCityName &&
+			restaurant.accepted)
+			
+			setFilteredRestaurants(filteredRestaurantsByLoc)
+			setCurrentCityName(null)
+		}
+	}
+
+	
 	const onLoad = useCallback((map) => {
 		const zoom = 18;
 		map.setZoom(zoom);
 	}, []);
-
+	
 	useEffect(() => {
+		console.log("CITY", currentCityName)
 		if (!position) {
 			setNewLocation(defaultLocation);
 		} else {
 			setNewLocation(position);
 		}
+		getFilteredRestaurants(restaurants)
 	}, [position]);
 
 	return isLoaded ? (
@@ -71,11 +103,7 @@ const Map = ({ position }) => {
 			}}
 		>
 			<Marker position={newLocation} />
-			{restaurants
-				.filter((restaurant) => 
-					restaurant.city === searchedCity &&
-					restaurant.accepted === true)
-				.map((restaurant) => (
+			{filteredRestaurants?.map((restaurant) => (
 					<Marker
 						key={restaurant.id}
 						position={restaurant.position}

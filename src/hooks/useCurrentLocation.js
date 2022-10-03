@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getLocationWithLatLng } from "../services/googleAPI";
 import { findCity } from "../utils/helpers";
 
@@ -30,12 +30,16 @@ const useCurrentLocation = () => {
 		}
 	};
 
+	useEffect(() => {
+		getCurrentLocation()
+	}, [])
+
 	return {
-		getCurrentLocation,
 		positionLatLng,
 		positionAddress,
 		setPositionLatLng,
 		currentCityName,
+		setCurrentCityName,
 	};
 };
 

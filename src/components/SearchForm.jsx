@@ -7,19 +7,24 @@ import { TiLocationArrow } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
 
 const SearchForm = ({ className }) => {
-	const { handleSearch, setLocation, setAddress, address, searchedCity } =
-		useAuthContext();
+	const { handleSearch, 
+					setLocation, 
+					setAddress, 
+					address, 
+					searchedCity, 
+					setSearchedCity 
+	} = useAuthContext();
 
 	const {
-		getCurrentLocation,
 		positionLatLng,
 		positionAddress,
 		setPositionLatLng,
+		setCurrentCityName,
+		currentCityName,
 	} = useCurrentLocation();
 
 	const [searchInput, setSearchInput] = useState("");
-	const [placeholder, setPlaceholder] = useState("Sök...");
-	const [city, setCity] = useState(null);
+	// const [placeholder, setPlaceholder] = useState("Sök...");
 
 	const { data: restaurants } = useGetCollection("restaurants");
 
@@ -35,28 +40,30 @@ const SearchForm = ({ className }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
+		
 		if (!searchInput.length) {
 			return;
 		}
-
+		
+		console.log(currentCityName)
 		setPositionLatLng(null);
-		//* HÄr ska city name från search i context
-		setCity(searchedCity);
+		setLocation(positionLatLng)
+		setAddress(positionAddress)
 		handleSearch(searchInput);
 		setSearchInput("");
 	};
 
-	useEffect(() => {
-		if (positionLatLng) {
-			setLocation(positionLatLng);
-			setAddress(positionAddress);
-		}
+	// useEffect(() => {
+	// 	if (positionLatLng) {
+	// 		setLocation(positionLatLng);
+	// 		setAddress(positionAddress);
+	// 	}
 
-		if (address) {
-			setPlaceholder(address);
-		}
-	}, [positionLatLng, address, city]);
+	// 	if (address) {
+	// 		setPlaceholder(address);
+	// 	}
+	// }, [positionLatLng, address, city]);
+
 
 	return (
 		<form
@@ -64,7 +71,11 @@ const SearchForm = ({ className }) => {
 			className={`flex justify-center items-center gap-2 ${className}`}
 		>
 			<TiLocationArrow
-				onClick={getCurrentLocation}
+				onClick={() => {
+					setSearchedCity(null)
+					setLocation(positionLatLng)
+					setAddress(positionAddress)
+				}}
 				size={25}
 				className="cursor-pointer"
 			/>
@@ -72,7 +83,7 @@ const SearchForm = ({ className }) => {
 			<div className="input-group">
 				<input
 					type="text"
-					placeholder={placeholder}
+					placeholder={address ? address : "Sök..."}
 					onChange={(e) => setSearchInput(e.target.value)}
 					value={searchInput}
 					className="input input-sm input-bordered w-full"
@@ -85,7 +96,7 @@ const SearchForm = ({ className }) => {
 
 			{searchInput.length > 0 && filteredRestaurants.length > 0 && (
 				<ul className="absolute top-12 px-2 py-4 z-10 bg-base-100 w-4/6 lg:w-5/12 h-1/5 overflow-scroll scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
-					{filteredRestaurants.map((restaurant) => (
+					{filteredRestaurants?.map((restaurant) => (
 						<li
 							key={restaurant.id}
 							className="cursor-pointer hover:bg-base-300 p-2"
