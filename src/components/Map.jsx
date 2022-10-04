@@ -60,6 +60,12 @@ const Map = ({ position }) => {
 				(restaurant) => restaurant.city === searchedCity && restaurant.accepted
 			);
 
+				// if (filterType.type !== null) {
+				// 	const filteredBySearchAndType = restaurants.filter(restaurant => restaurant.city === searchedCity && restaurant.cuisine || restaurant.offers_food === filterType.type)
+
+				// 	setFilteredRestaurants(filteredBySearchAndType)
+				// }
+
 			setFilteredRestaurants(filteredRestaurantsBySearch);
 		}
 
