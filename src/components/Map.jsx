@@ -86,14 +86,16 @@ const Map = ({ position }) => {
 			setNewLocation(position);
 		}
 		getFilteredRestaurants(restaurants);
-	}, [position]);
+	}, [position, restaurants]);
 
 	return isLoaded ? (
 		<GoogleMap
 			mapContainerClassName="w-full h-full"
 			center={newLocation}
 			onLoad={onLoad}
-			onClick={handleActiveMarker}
+			onClick={() => {
+				handleActiveMarker
+				setDrawerIsOpen(false)}}
 			options={{
 				styles: [
 					{
