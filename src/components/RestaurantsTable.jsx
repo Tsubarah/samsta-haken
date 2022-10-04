@@ -9,6 +9,7 @@ import {
 	TiArrowUnsorted,
 } from "react-icons/ti";
 import { useAuthContext } from "../contexts/AuthContext";
+import useDeleteRestaurant from "../hooks/useDeleteRestaurant";
 
 const RestaurantsTable = ({ restaurants }) => {
 	const { updateRestaurantStatus } = useAuthContext();
@@ -16,6 +17,8 @@ const RestaurantsTable = ({ restaurants }) => {
 	const handleRestaurantStatus = (restaurantId, restaurant) => {
 		updateRestaurantStatus(restaurantId, restaurant);
 	};
+
+	const { deleteRestaurant } = useDeleteRestaurant();
 
 	const columns = useMemo(
 		() => [
@@ -119,6 +122,18 @@ const RestaurantsTable = ({ restaurants }) => {
 							</button>
 						)}
 					</>
+				),
+			},
+			{
+				Header: "Radera",
+				disableSortBy: true,
+				Cell: (row) => (
+					<button
+						className="btn btn-error btn-sm"
+						onClick={() => deleteRestaurant(row.row.original)}
+					>
+						Radera
+					</button>
 				),
 			},
 		],

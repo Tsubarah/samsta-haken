@@ -3,25 +3,25 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { db, storage } from "../firebase";
 
-const useDeleteImage = () => {
+const useDeleteRestaurant = () => {
 	const [isError, setIsError] = useState(false);
 	const [error, setError] = useState(null);
 	const [isDeleting, setIsDeleting] = useState(false);
 
-	const deleteImage = async (image) => {
+	const deleteRestaurant = async (restaurant) => {
 		setError(null);
 		setIsError(false);
 		setIsDeleting(true);
 
 		try {
-			const storageRef = ref(
-				storage,
-				`restaurants/${image.restaurant}/${image.name}`
-			);
+			// const storageRef = ref(
+			// 	storage,
+			// 	`restaurants/${image.restaurant}/${image.name}`
+			// );
 
-			await deleteObject(storageRef);
+			// await deleteObject(storageRef);
 
-			const dbRef = doc(db, "image-requests", image.id);
+			const dbRef = doc(db, "restaurants", restaurant.id);
 
 			await deleteDoc(dbRef);
 		} catch (e) {
@@ -37,8 +37,8 @@ const useDeleteImage = () => {
 		error,
 		isError,
 		isDeleting,
-		deleteImage,
+		deleteRestaurant,
 	};
 };
 
-export default useDeleteImage;
+export default useDeleteRestaurant;
