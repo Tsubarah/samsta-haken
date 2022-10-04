@@ -3,7 +3,7 @@ import { collection, query, onSnapshot, where, orderBy } from 'firebase/firestor
 import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
 
-const useStreamCollection = (col) => {
+const useStreamCollection = (col, isAdmin) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -12,12 +12,20 @@ const useStreamCollection = (col) => {
   useEffect(() => {
     // get reference to collection
     const colRef = collection(db, col)
+    let queryRef;
 
-    //create query ref if Filtertype exists
-    const queryRef = filterType
+    if(filterType) {
+      queryRef = isAdmin 
       ? query(colRef, where(filterType.type, "==", filterType.value))
-      : query(colRef, orderBy("name", "desc"));
-
+      : query(colRef, where(filterType.type, "==", filterType.value), where("accepted", "==", true))
+    } else {
+      queryRef = isAdmin 
+      ? query(
+        colRef)
+      : query(
+        colRef,
+        where("accepted", "==", true))
+    }
 
     // subscribe to changes in collection
     const unsubscribe = onSnapshot(queryRef, (snapshot) => {

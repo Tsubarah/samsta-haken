@@ -1,7 +1,8 @@
+import { useAuthContext } from "../contexts/AuthContext"
 import useStreamCollection from "./useStreamCollection"
 
-const useGetRestaurants = () => {
-  return useStreamCollection('restaurants')
+const useGetRestaurants = (isAdmin) => {
+  return useStreamCollection('restaurants', isAdmin)
 }
 
 export default useGetRestaurants
