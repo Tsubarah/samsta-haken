@@ -1,55 +1,85 @@
-import { useEffect, useState } from 'react'
-import { collection, query, onSnapshot, where, orderBy } from 'firebase/firestore'
-import { db } from '../firebase'
-import { useAuthContext } from '../contexts/AuthContext'
+import { useEffect, useState } from "react";
+import {
+	collection,
+	query,
+	onSnapshot,
+	where,
+	orderBy,
+} from "firebase/firestore";
+import { db } from "../firebase";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const useStreamCollection = (col, isAdmin) => {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
+	const [data, setData] = useState([]);
+	const [loading, setLoading] = useState(true);
 
-  const { filterType } = useAuthContext()
-  
-  useEffect(() => {
-    // get reference to collection
-    const colRef = collection(db, col)
-    let queryRef;
+	const { filterType, currentCity, searchedCity } = useAuthContext();
 
-    if(filterType) {
-      queryRef = isAdmin 
-      ? query(colRef, where(filterType.type, "==", filterType.value))
-      : query(colRef, where(filterType.type, "==", filterType.value), where("accepted", "==", true))
-    } else {
-      queryRef = isAdmin 
-      ? query(
-        colRef)
-      : query(
-        colRef,
-        where("accepted", "==", true))
-    }
+	useEffect(() => {
+		// get reference to collection
+		const colRef = collection(db, col);
+		let queryRef;
 
-    // subscribe to changes in collection
-    const unsubscribe = onSnapshot(queryRef, (snapshot) => {
+		if ((searchedCity || currentCity) && filterType === null) {
+			console.log("city");
+			queryRef = isAdmin
+				? query(colRef, where("city", "==", searchedCity || currentCity))
+				: query(
+						colRef,
+						where("accepted", "==", true),
+						where("city", "==", searchedCity || currentCity)
+				  );
+		} else if (filterType !== null && (currentCity || searchedCity)) {
+			console.log("filter & city");
+			queryRef = isAdmin
+				? query(
+						colRef,
+						where(filterType.type, "==", filterType.value),
+						where("city", "==", searchedCity || currentCity)
+				  )
+				: query(
+						colRef,
+						where(filterType.type, "==", filterType.value),
+						where("accepted", "==", true),
+						where("city", "==", searchedCity || currentCity)
+				  );
+		} else if (filterType) {
+			console.log("filter");
+			queryRef = isAdmin
+				? query(colRef, where(filterType.type, "==", filterType.value))
+				: query(
+						colRef,
+						where(filterType.type, "==", filterType.value),
+						where("accepted", "==", true)
+				  );
+		} else {
+			console.log("default");
+			queryRef = isAdmin
+				? query(colRef)
+				: query(colRef, where("accepted", "==", true));
+		}
 
-      const docs = snapshot.docs.map(doc => {
-        return {
-          id: doc.id,
-          ...doc.data(),
-        }
-      })
+		// subscribe to changes in collection
+		const unsubscribe = onSnapshot(queryRef, (snapshot) => {
+			const docs = snapshot.docs.map((doc) => {
+				return {
+					id: doc.id,
+					...doc.data(),
+				};
+			});
 
-      //save the data
-      setData(docs)
-      setLoading(false)
+			//save the data
+			setData(docs);
+			setLoading(false);
+		});
 
-    })
+		return unsubscribe;
+	}, [filterType, searchedCity, currentCity]);
 
-    return unsubscribe
-  }, [filterType])
+	return {
+		data,
+		loading,
+	};
+};
 
-  return {
-    data,
-    loading,
-  }
-}
-
-export default useStreamCollection
+export default useStreamCollection;

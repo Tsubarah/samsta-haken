@@ -26,7 +26,7 @@ const Map = ({ position }) => {
 		currentCity,
 		filterType,
 		drawerIsOpen,
-		setDrawerIsOpen
+		setDrawerIsOpen,
 	} = useAuthContext();
 	//////////
 	const [newLocation, setNewLocation] = useState(null);
@@ -41,7 +41,6 @@ const Map = ({ position }) => {
 	const handleActiveMarker = (marker) => {
 		setActiveMarker(null);
 		setShowRestaurantCard(!showRestaurantCard);
-
 
 		if (marker === activeMarker) {
 			return;
@@ -78,7 +77,6 @@ const Map = ({ position }) => {
 		map.setZoom(zoom);
 	}, []);
 
-	console.log('filterType', filterType)
 	useEffect(() => {
 		if (!position) {
 			setNewLocation(defaultLocation);
@@ -94,8 +92,9 @@ const Map = ({ position }) => {
 			center={newLocation}
 			onLoad={onLoad}
 			onClick={() => {
-				handleActiveMarker
-				setDrawerIsOpen(false)}}
+				handleActiveMarker;
+				setDrawerIsOpen(false);
+			}}
 			options={{
 				styles: [
 					{
@@ -114,8 +113,10 @@ const Map = ({ position }) => {
 					icon={{
 						url: marker,
 					}}
-					onClick={() => {handleActiveMarker(restaurant.id)
-					setDrawerIsOpen(!showRestaurantCard)}}
+					onClick={() => {
+						handleActiveMarker(restaurant.id);
+						setDrawerIsOpen(!showRestaurantCard);
+					}}
 				>
 					{activeMarker === restaurant.id ? (
 						<InfoWindowF onCloseClick={handleActiveMarker}>
