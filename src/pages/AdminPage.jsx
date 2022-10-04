@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useGetCollection from "../hooks/useGetCollection";
+import useGetRestaurants from '../hooks/useGetRestaurants'
 import { useAuthContext } from "../contexts/AuthContext";
 import UserTable from "../components/UserTable";
 import RestaurantsTable from "../components/RestaurantsTable";
@@ -10,10 +11,10 @@ const AdminPage = () => {
 	const [showRestaurantsTable, setShowRestaurantsTable] = useState(false);
 	const [showImageGrid, setShowImageGrid] = useState(false);
 
-	const { currentUser } = useAuthContext();
+	const { currentUser, isAdmin } = useAuthContext();
 
 	const { data: users } = useGetCollection("users");
-	const { data: restaurants } = useGetCollection("restaurants");
+	const { data: restaurants } = useGetRestaurants("restaurants", isAdmin);
 
 	return (
 		<div className="h-full flex flex-col overflow-hidden">
