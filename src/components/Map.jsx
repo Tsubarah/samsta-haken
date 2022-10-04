@@ -24,6 +24,9 @@ const Map = ({ position }) => {
 		restaurantData,
 		setRestaurantData,
 		currentCity,
+		filterType,
+		drawerIsOpen,
+		setDrawerIsOpen
 	} = useAuthContext();
 	//////////
 	const [newLocation, setNewLocation] = useState(null);
@@ -39,6 +42,7 @@ const Map = ({ position }) => {
 		setActiveMarker(null);
 		setShowRestaurantCard(!showRestaurantCard);
 
+
 		if (marker === activeMarker) {
 			return;
 		}
@@ -53,7 +57,7 @@ const Map = ({ position }) => {
 		setFilteredRestaurants(null);
 		if (searchedCity) {
 			const filteredRestaurantsBySearch = restaurants.filter(
-				(restaurant) => restaurant.city === searchedCity && restaurant.accepted
+				(restaurant) => restaurant.city === searchedCity
 			);
 
 			setFilteredRestaurants(filteredRestaurantsBySearch);
@@ -61,7 +65,7 @@ const Map = ({ position }) => {
 
 		if (currentCity) {
 			const filteredRestaurantsByLoc = restaurants.filter(
-				(restaurant) => restaurant.city === currentCity && restaurant.accepted
+				(restaurant) => restaurant.city === currentCity
 			);
 
 			setFilteredRestaurants(filteredRestaurantsByLoc);
@@ -74,6 +78,7 @@ const Map = ({ position }) => {
 		map.setZoom(zoom);
 	}, []);
 
+	console.log('filterType', filterType)
 	useEffect(() => {
 		if (!position) {
 			setNewLocation(defaultLocation);
@@ -81,14 +86,16 @@ const Map = ({ position }) => {
 			setNewLocation(position);
 		}
 		getFilteredRestaurants(restaurants);
-	}, [position]);
+	}, [position, restaurants]);
 
 	return isLoaded ? (
 		<GoogleMap
 			mapContainerClassName="w-full h-full"
 			center={newLocation}
 			onLoad={onLoad}
-			onClick={handleActiveMarker}
+			onClick={() => {
+				handleActiveMarker
+				setDrawerIsOpen(false)}}
 			options={{
 				styles: [
 					{
@@ -107,7 +114,8 @@ const Map = ({ position }) => {
 					icon={{
 						url: marker,
 					}}
-					onClick={() => handleActiveMarker(restaurant.id)}
+					onClick={() => {handleActiveMarker(restaurant.id)
+					setDrawerIsOpen(!showRestaurantCard)}}
 				>
 					{activeMarker === restaurant.id ? (
 						<InfoWindowF onCloseClick={handleActiveMarker}>
