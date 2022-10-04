@@ -82,7 +82,7 @@ const Drawer = ({ children }) => {
           </div>
 
           <div className="flex flex-col">
-            <button className="btn" onClick={() => setShowFilters(!showFilters)}>
+            <button className="btn font-display text-lg" onClick={() => setShowFilters(!showFilters)}>
               Filtrera
             </button>
             {showFilters && (

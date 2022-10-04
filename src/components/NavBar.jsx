@@ -38,7 +38,7 @@ const NavBar = () => {
       {/* Desktop view */}
       <div className="navbar bg-base-100 hidden lg:grid grid-cols-12">
         <Link to={"/"}>
-          <h1 className="btn btn-ghost normal-case text-xl col-span-2">
+          <h1 className="font-display btn btn-ghost normal-case text-xl col-span-2">
             Sämsta Haken
           </h1>
         </Link>
@@ -46,7 +46,7 @@ const NavBar = () => {
         <SearchForm className={`w-full col-start-4 col-end-10 ${hidden}`} />
 
         <button
-          className={`col-start-10 justify-self-center ${hidden}`}
+          className={`font-display col-start-10 justify-self-center ${hidden}`}
           onClick={() => setDrawerIsOpen(!drawerIsOpen)}>
           Lista
         </button>
@@ -58,7 +58,7 @@ const NavBar = () => {
           }}>
           <HiOutlinePencil size={20} />
 
-          <span className="btm-nav-label">
+          <span className="btm-nav-label font-display">
             {isAdmin ? "Registrera" : "Tipsa"}
           </span>
         </button>
