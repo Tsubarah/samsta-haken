@@ -24,58 +24,54 @@ const UserTable = ({ users }) => {
 				Header: "#",
 				accessor: "id",
 				disableSortBy: true,
-				Cell: (row) => {
-					return <span className="text-sm">{Number(row.row.id) + 1}</span>;
-				},
+				Cell: (row) => (
+					<span className="text-sm">{Number(row.row.id) + 1}</span>
+				),
 			},
 			{
 				Header: "Profilbild",
 				accessor: "imageURL",
 				disableSortBy: true,
-				Cell: (row) => {
-					return (
-						<div className="avatar">
-							<div className="w-12 rounded-full">
-								{row.row.original.imageURL ? (
-									<img src={row.row.original.imageURL} />
-								) : (
-									<img src={placeholder} />
-								)}
-							</div>
+				Cell: (row) => (
+					<div className="avatar">
+						<div className="w-12 rounded-full">
+							{row.row.original.imageURL ? (
+								<img src={row.row.original.imageURL} />
+							) : (
+								<img src={placeholder} />
+							)}
 						</div>
-					);
-				},
+					</div>
+				),
 			},
 			{ Header: "Användare", accessor: "name" },
 			{ Header: "E-post", accessor: "email" },
 			{
 				Header: "Admin",
 				accessor: "admin",
-				Cell: (row) => {
-					return (
-						<>
-							{row.row.original.admin ? (
-								<button
-									onClick={() =>
-										handleUpdateAdmin(row.row.original.id, row.row.original)
-									}
-									className="btn btn-success"
-								>
-									J
-								</button>
-							) : (
-								<button
-									onClick={() =>
-										handleUpdateAdmin(row.row.original.id, row.row.original)
-									}
-									className="btn btn-error"
-								>
-									N
-								</button>
-							)}
-						</>
-					);
-				},
+				Cell: (row) => (
+					<>
+						{row.row.original.admin ? (
+							<button
+								onClick={() =>
+									handleUpdateAdmin(row.row.original.id, row.row.original)
+								}
+								className="btn btn-success"
+							>
+								J
+							</button>
+						) : (
+							<button
+								onClick={() =>
+									handleUpdateAdmin(row.row.original.id, row.row.original)
+								}
+								className="btn btn-error"
+							>
+								N
+							</button>
+						)}
+					</>
+				),
 			},
 		],
 		[]

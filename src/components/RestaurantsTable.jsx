@@ -26,13 +26,9 @@ const RestaurantsTable = ({ restaurants }) => {
 				Header: "#",
 				accessor: "id",
 				disableSortBy: true,
-				Cell: (row) => {
-					row.row.original.photos.forEach((photo) =>
-						console.log("photo", photo.name)
-					);
-
-					return <span className="text-sm">{Number(row.row.id) + 1}</span>;
-				},
+				Cell: (row) => (
+					<span className="text-sm">{Number(row.row.id) + 1}</span>
+				),
 			},
 			{
 				Header: "Namn",
