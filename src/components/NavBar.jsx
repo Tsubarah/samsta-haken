@@ -14,7 +14,6 @@ const NavBar = () => {
 		setDrawerIsOpen,
 		currentUser,
 		isAdmin,
-		location,
 	} = useAuthContext();
 
 	const urlLocation = useLocation();
@@ -46,14 +45,12 @@ const NavBar = () => {
 
 				<SearchForm className={`w-full col-start-4 col-end-10 ${hidden}`} />
 
-				{location && (
-					<button
-						className="col-start-10 justify-self-center"
-						onClick={() => setDrawerIsOpen(!drawerIsOpen)}
-					>
-						Lista
-					</button>
-				)}
+				<button
+					className="col-start-10 justify-self-center"
+					onClick={() => setDrawerIsOpen(!drawerIsOpen)}
+				>
+					Lista
+				</button>
 
 				<button
 					className={`col-start-11 justify-self-end gap-2 ${hidden}`}
