@@ -7,8 +7,6 @@ const RestaurantPage = () => {
 
 	const { data: restaurant } = useGetDocument("restaurants", id);
 
-	console.log(restaurant);
-
 	return (
 		<div className="h-full flex items-center justify-center bg-neutral overflow-hidden">
 			<RestaurantEditCard restaurant={restaurant} />

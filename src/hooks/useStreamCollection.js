@@ -21,7 +21,6 @@ const useStreamCollection = (col, isAdmin) => {
 		let queryRef;
 
 		if ((searchedCity || currentCity) && filterType === null) {
-			console.log("city");
 			queryRef = isAdmin
 				? query(colRef, where("city", "==", searchedCity || currentCity))
 				: query(
@@ -30,7 +29,6 @@ const useStreamCollection = (col, isAdmin) => {
 						where("city", "==", searchedCity || currentCity)
 				  );
 		} else if (filterType !== null && (currentCity || searchedCity)) {
-			console.log("filter & city");
 			queryRef = isAdmin
 				? query(
 						colRef,
@@ -44,7 +42,6 @@ const useStreamCollection = (col, isAdmin) => {
 						where("city", "==", searchedCity || currentCity)
 				  );
 		} else if (filterType) {
-			console.log("filter");
 			queryRef = isAdmin
 				? query(colRef, where(filterType.type, "==", filterType.value))
 				: query(
@@ -53,7 +50,6 @@ const useStreamCollection = (col, isAdmin) => {
 						where("accepted", "==", true)
 				  );
 		} else {
-			console.log("default");
 			queryRef = isAdmin
 				? query(colRef)
 				: query(colRef, where("accepted", "==", true));

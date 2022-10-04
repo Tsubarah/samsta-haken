@@ -69,3 +69,12 @@ export const getDistance = (lat1, lon1, lat2, lon2) => {
 	const d = R * c; // Distance in km
 	return d;
 };
+
+//Only change if there is a new value
+export const checkValue = (newValue, oldValue) => {
+	if (newValue == "") {
+		return oldValue;
+	} else {
+		return newValue;
+	}
+};
