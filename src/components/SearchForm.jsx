@@ -12,7 +12,6 @@ const SearchForm = ({ className }) => {
 		setLocation,
 		setAddress,
 		address,
-		searchedCity,
 		setSearchedCity,
 		setCurrentCity,
 	} = useAuthContext();
@@ -21,13 +20,11 @@ const SearchForm = ({ className }) => {
 		positionLatLng,
 		positionAddress,
 		setPositionLatLng,
-		setCurrentCityName,
 		currentCityName,
 		getCurrentLocation,
 	} = useCurrentLocation();
 
 	const [searchInput, setSearchInput] = useState("");
-	// const [placeholder, setPlaceholder] = useState("Sök...");
 
 	const { data: restaurants } = useGetCollection("restaurants");
 
