@@ -13,9 +13,9 @@ const useStreamCollection = (col) => {
     // get reference to collection
     const colRef = collection(db, col)
 
-    //create query ref
+    //create query ref if Filtertype exists
     const queryRef = filterType
-      ? query(colRef, where("cuisine", "==", filterType))
+      ? query(colRef, where(filterType.type, "==", filterType.value))
       : query(colRef, orderBy("name", "desc"));
 
 

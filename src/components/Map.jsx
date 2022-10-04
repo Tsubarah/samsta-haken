@@ -57,21 +57,15 @@ const Map = ({ position }) => {
 		setFilteredRestaurants(null);
 		if (searchedCity) {
 			const filteredRestaurantsBySearch = restaurants.filter(
-				(restaurant) => restaurant.city === searchedCity && restaurant.accepted
+				(restaurant) => restaurant.city === searchedCity
 			);
-
-				// if (filterType.type !== null) {
-				// 	const filteredBySearchAndType = restaurants.filter(restaurant => restaurant.city === searchedCity && restaurant.cuisine || restaurant.offers_food === filterType.type)
-
-				// 	setFilteredRestaurants(filteredBySearchAndType)
-				// }
 
 			setFilteredRestaurants(filteredRestaurantsBySearch);
 		}
 
 		if (currentCity) {
 			const filteredRestaurantsByLoc = restaurants.filter(
-				(restaurant) => restaurant.city === currentCity && restaurant.accepted
+				(restaurant) => restaurant.city === currentCity
 			);
 
 			setFilteredRestaurants(filteredRestaurantsByLoc);

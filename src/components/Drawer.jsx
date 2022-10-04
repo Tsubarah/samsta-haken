@@ -3,40 +3,41 @@ import useGetRestaurants from "../hooks/useGetRestaurants";
 import { getDistance } from "../utils/helpers";
 import RestaurantCard from "./RestaurantCard";
 import { food } from "../db/food";
+import { useState } from "react";
 
 const Drawer = ({ children }) => {
+  const [showFilters, setShowFilters] = useState(false)
+  const restaurantQuery = useGetRestaurants();
 
-	const restaurantQuery = useGetRestaurants();
-
-	const {
-		drawerIsOpen,
-		setDrawerIsOpen,
-		restaurantData,
-		setRestaurantData,
-		showRestaurantCard,
-		setShowRestaurantCard,
-		currentUser,
-		isAdmin,
-		location,
+  const {
+    drawerIsOpen,
+    setDrawerIsOpen,
+    restaurantData,
+    setRestaurantData,
+    showRestaurantCard,
+    setShowRestaurantCard,
+    currentUser,
+    isAdmin,
+    location,
     setFilterType,
-	} = useAuthContext();
+  } = useAuthContext();
 
-	const showDistance = (restaurantCoords) => {
-		if (!location) {
-			return;
-		}
+  const showDistance = (restaurantCoords) => {
+    if (!location) {
+      return;
+    }
 
-		const distance = getDistance(
-			location.lat,
-			location.lng,
-			restaurantCoords?.position?.lat,
-			restaurantCoords?.position?.lng
-		);
+    const distance = getDistance(
+      location.lat,
+      location.lng,
+      restaurantCoords?.position?.lat,
+      restaurantCoords?.position?.lng
+    );
 
-		return distance;
-	};
+    return distance;
+  };
 
-	let restaurant;
+  let restaurant;
 
 	const handleClick = async (e) => {
 		restaurant = restaurantQuery.data?.find(
@@ -45,8 +46,7 @@ const Drawer = ({ children }) => {
 		setRestaurantData(restaurant);
 	};
 
-
-	return (
+  return (
     <div className="drawer h-full drawer-end relative">
       <input
         id="my-drawer-4"
@@ -80,13 +80,21 @@ const Drawer = ({ children }) => {
             <div className="divider">Restauranger</div>
           </div>
 
-          <ul className="menu w-full lg:w-96 text-base-content">
-            <div className="dropdown dropdown-hover">
-              <div className="col-span-full grid grid-rows-2 px-4">
+          <div className="flex flex-col">
+            <button className="btn" onClick={() => setShowFilters(!showFilters)}>
+              Filtrera
+            </button>
+            {showFilters && (
+              <div className="col-span-full grid gap-1 grid-rows-2 px-4 py-4">
                 <select
                   className="select select-bordered select-sm indent-1 font-normal bg-primary"
                   defaultValue="Filtrera på kök"
-                  onChange={(e) => setFilterType(e.target.value)}>
+                  onChange={(e) =>
+                    setFilterType({
+                      type: "cuisine",
+                      value: e.target.value,
+                    })
+                  }>
                   <option disabled>Filtrera på kök</option>
                   {food &&
                     food.cuisine.map((type, i) => (
@@ -95,36 +103,57 @@ const Drawer = ({ children }) => {
                       </option>
                     ))}
                 </select>
+                <select
+                  className="select select-bordered select-sm indent-1 font-normal bg-primary"
+                  defaultValue="Filtrera på typ"
+                  onChange={(e) =>
+                    setFilterType({
+                      type: "offers_food",
+                      value: e.target.value,
+                    })
+                  }>
+                  <option disabled>Filtrera på typ</option>
+                  {food &&
+                    food.offers_food.map((type, i) => (
+                      <option key={i} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                </select>
               </div>
-            </div>
-
-            {restaurantQuery?.data.length ? (
-              // .filter((restaurant) => restaurant.accepted === true)
-              restaurantQuery.data.map((restaurant) => {
-                const dist = showDistance(restaurant);
-
-                return (
-                  <li
-                    id={restaurant.id}
-                    key={restaurant.id}
-                    onClick={handleClick}>
-                    <div className="flex justify-between p-6">
-                      {restaurant.name}
-
-                      <p className="text-xs opacity-50">
-                        {restaurant.city}
-                        <span className="cursor-ponter">
-                          {dist && `, ${Math.floor(dist)} km`}
-                        </span>
-                      </p>
-                    </div>
-                  </li>
-                );
-              })
-            ) : (
-              <h1 className="text-center">Sorry, no bad restaurants in that category yet😿</h1>
             )}
-          </ul>
+
+            <ul className="menu w-full lg:w-96 text-base-content">
+              {restaurantQuery?.data.length ? (
+                // .filter((restaurant) => restaurant.accepted === true)
+                restaurantQuery.data.map((restaurant) => {
+                  const dist = showDistance(restaurant);
+
+                  return (
+                    <li
+                      id={restaurant.id}
+                      key={restaurant.id}
+                      onClick={handleClick}>
+                      <div className="flex justify-between p-6">
+                        {restaurant.name}
+
+                        <p className="text-xs opacity-50">
+                          {restaurant.city}
+                          <span className="cursor-ponter">
+                            {dist && `, ${Math.floor(dist)} km`}
+                          </span>
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })
+              ) : (
+                <h1 className="text-center">
+                  Sorry, no bad restaurants in that category yet😿
+                </h1>
+              )}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
