@@ -157,8 +157,7 @@ const AuthContextProvider = ({ children }) => {
 	const [location, setLocation] = useState(null);
 	const [address, setAddress] = useState(null);
 	const [searchedCity, setSearchedCity] = useState(null);
-
-	console.log("location", location);
+	const [currentCity, setCurrentCity] = useState(null);
 
 	//* City borde vara global då den måste skickas till MAP
 
@@ -167,6 +166,7 @@ const AuthContextProvider = ({ children }) => {
 
 		const city = findSearchedCity(addressResponse);
 
+		setCurrentCity(null);
 		setSearchedCity(city);
 
 		setLocation(addressResponse.results[0].geometry.location);
@@ -177,7 +177,7 @@ const AuthContextProvider = ({ children }) => {
 	const [showTips, setShowTips] = useState(false);
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 	const [showRestaurantCard, setShowRestaurantCard] = useState(false);
-	const [filterType, setFilterType] = useState(null)
+	const [filterType, setFilterType] = useState(null);
 
 	const contextValues = {
 		currentUser,
@@ -204,12 +204,14 @@ const AuthContextProvider = ({ children }) => {
 		userImageUrl,
 		setSearchedCity,
 		searchedCity,
+		currentCity,
+		setCurrentCity,
 		setRestaurantData,
 		restaurantData,
 		setShowRestaurantCard,
 		showRestaurantCard,
-		filterType, 
-		setFilterType
+		filterType,
+		setFilterType,
 	};
 
 	return (

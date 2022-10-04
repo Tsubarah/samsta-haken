@@ -23,6 +23,7 @@ const Map = ({ position }) => {
 		showRestaurantCard,
 		restaurantData,
 		setRestaurantData,
+		currentCity,
 	} = useAuthContext();
 	//////////
 	const [newLocation, setNewLocation] = useState(null);
@@ -51,7 +52,6 @@ const Map = ({ position }) => {
 	const getFilteredRestaurants = (restaurants) => {
 		setFilteredRestaurants(null);
 		if (searchedCity) {
-			console.log("searched", searchedCity);
 			const filteredRestaurantsBySearch = restaurants.filter(
 				(restaurant) => restaurant.city === searchedCity && restaurant.accepted
 			);
@@ -59,11 +59,9 @@ const Map = ({ position }) => {
 			setFilteredRestaurants(filteredRestaurantsBySearch);
 		}
 
-		if (currentCityName) {
-			console.log("IF", currentCityName);
+		if (currentCity) {
 			const filteredRestaurantsByLoc = restaurants.filter(
-				(restaurant) =>
-					restaurant.city === currentCityName && restaurant.accepted
+				(restaurant) => restaurant.city === currentCity && restaurant.accepted
 			);
 
 			setFilteredRestaurants(filteredRestaurantsByLoc);
@@ -77,7 +75,6 @@ const Map = ({ position }) => {
 	}, []);
 
 	useEffect(() => {
-		console.log("CITY", currentCityName);
 		if (!position) {
 			setNewLocation(defaultLocation);
 		} else {

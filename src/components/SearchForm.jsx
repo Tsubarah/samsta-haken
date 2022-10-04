@@ -14,6 +14,7 @@ const SearchForm = ({ className }) => {
 		address,
 		searchedCity,
 		setSearchedCity,
+		setCurrentCity,
 	} = useAuthContext();
 
 	const {
@@ -47,7 +48,6 @@ const SearchForm = ({ className }) => {
 			return;
 		}
 
-		// console.log(currentCityName);
 		setPositionLatLng(null);
 		setLocation(positionLatLng);
 		setAddress(positionAddress);
@@ -56,13 +56,13 @@ const SearchForm = ({ className }) => {
 	};
 
 	const handleCurrentLocation = () => {
-		// setSearchedCity(null);
 		getCurrentLocation();
 	};
 
 	useEffect(() => {
 		if (positionLatLng) {
 			setSearchedCity(null);
+			setCurrentCity(currentCityName);
 			setLocation(positionLatLng);
 			setAddress(positionAddress);
 		}
