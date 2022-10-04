@@ -30,9 +30,9 @@ const useCurrentLocation = () => {
 		}
 	};
 
-	useEffect(() => {
-		getCurrentLocation()
-	}, [])
+	// useEffect(() => {
+	// 	getCurrentLocation();
+	// }, []);
 
 	return {
 		positionLatLng,
@@ -40,6 +40,7 @@ const useCurrentLocation = () => {
 		setPositionLatLng,
 		currentCityName,
 		setCurrentCityName,
+		getCurrentLocation,
 	};
 };
 
