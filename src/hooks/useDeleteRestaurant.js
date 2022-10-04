@@ -14,16 +14,20 @@ const useDeleteRestaurant = () => {
 		setIsDeleting(true);
 
 		try {
-			// const storageRef = ref(
-			// 	storage,
-			// 	`restaurants/${image.restaurant}/${image.name}`
-			// );
-
-			// await deleteObject(storageRef);
-
 			const dbRef = doc(db, "restaurants", restaurant.id);
 
 			await deleteDoc(dbRef);
+
+			if (restaurant.photos.length) {
+				restaurant.photos.forEach(async (photo) => {
+					const storageRef = ref(
+						storage,
+						`restaurants/${restaurant.name}/${photo.name}`
+					);
+
+					await deleteObject(storageRef);
+				});
+			}
 		} catch (e) {
 			console.log(e);
 			setIsError(true);

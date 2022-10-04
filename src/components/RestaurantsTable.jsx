@@ -27,6 +27,10 @@ const RestaurantsTable = ({ restaurants }) => {
 				accessor: "id",
 				disableSortBy: true,
 				Cell: (row) => {
+					row.row.original.photos.forEach((photo) =>
+						console.log("photo", photo.name)
+					);
+
 					return <span className="text-sm">{Number(row.row.id) + 1}</span>;
 				},
 			},
@@ -51,51 +55,51 @@ const RestaurantsTable = ({ restaurants }) => {
 			{
 				Header: "Hemsida",
 				accessor: "socials.hemsida",
-				Cell: (row) => {
-					return findSocialsValue(row.row.original.socials, "hemsida");
-				},
+				Cell: (row) => findSocialsValue(row.row.original.socials, "hemsida"),
 			},
 			{
 				Header: "E-post",
 				accessor: "socials.e-post",
-				Cell: (row) => {
-					return findSocialsValue(row.row.original.socials, "e-post");
-				},
+				Cell: (row) => findSocialsValue(row.row.original.socials, "e-post"),
 			},
 			{
 				Header: "Tel",
 				accessor: "socials.tel",
-				Cell: (row) => {
-					return findSocialsValue(row.row.original.socials, "tel");
-				},
+				Cell: (row) => findSocialsValue(row.row.original.socials, "tel"),
 			},
 			{
 				Header: "Facebook",
 				accessor: "socials.facebook",
-				Cell: (row) => {
-					return findSocialsValue(row.row.original.socials, "facebook");
-				},
+				Cell: (row) => findSocialsValue(row.row.original.socials, "facebook"),
 			},
 			{
 				Header: "Instagram",
 				accessor: "socials.instagram",
-				Cell: (row) => {
-					return findSocialsValue(row.row.original.socials, "instagram");
-				},
+				Cell: (row) => findSocialsValue(row.row.original.socials, "instagram"),
 			},
 			{
 				Header: "Redigera",
 				disableSortBy: true,
-				Cell: (row) => {
-					return (
-						<button
-							className="btn btn-sm btn-info"
-							onClick={() => navigate(`/restaurants/${row.row.original.id}`)}
-						>
-							Redigera
-						</button>
-					);
-				},
+				Cell: (row) => (
+					<button
+						className="btn btn-sm btn-info"
+						onClick={() => navigate(`/restaurants/${row.row.original.id}`)}
+					>
+						Redigera
+					</button>
+				),
+			},
+			{
+				Header: "Radera",
+				disableSortBy: true,
+				Cell: (row) => (
+					<button
+						className="btn btn-error btn-sm"
+						onClick={() => deleteRestaurant(row.row.original)}
+					>
+						Radera
+					</button>
+				),
 			},
 			{
 				Header: "Godkänd",
@@ -122,18 +126,6 @@ const RestaurantsTable = ({ restaurants }) => {
 							</button>
 						)}
 					</>
-				),
-			},
-			{
-				Header: "Radera",
-				disableSortBy: true,
-				Cell: (row) => (
-					<button
-						className="btn btn-error btn-sm"
-						onClick={() => deleteRestaurant(row.row.original)}
-					>
-						Radera
-					</button>
 				),
 			},
 		],
