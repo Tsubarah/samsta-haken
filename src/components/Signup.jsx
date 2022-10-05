@@ -56,81 +56,104 @@ const Signup = () => {
 	};
 
 	return (
-		<>
-			<div>
-				<form onSubmit={handleSubmit}>
-					<div className="bg-grey-lighter flex flex-col">
-						<div className="container max-w-xs mx-auto flex-1 flex flex-col items-center justify-center px-2">
-							<div className="flex justify-center flex-col bg-white px-6 py-8 rounded shadow-md text-black w-full">
-								<h1 className="mb-8 text-3xl text-center">Sign up</h1>
+    <>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div className="bg-grey-lighter flex flex-col">
+            <div className="container max-w-xs mx-auto flex-1 flex flex-col items-center justify-center px-2">
+              <div className="flex justify-center flex-col bg-white px-6 py-8 rounded shadow-md text-black w-full">
+                <h1 className="mb-8 text-3xl text-center">Sign up</h1>
 
-								<input
-									type="text"
-									className="block border border-grey-light p-3 rounded mb-4"
-									name="username"
-									ref={displayNameRef}
-									required
-									placeholder="Username"
-								/>
+                <input
+                  type="text"
+                  className="block border border-grey-light p-3 rounded mb-4"
+                  name="username"
+                  ref={displayNameRef}
+                  required
+                  placeholder="Username"
+                />
 
-								<label className="block border border-grey-light p-3 rounded">
-									Image:
-									<input
-										type="file"
-										id="image"
-										onChange={handleFileChange}
-										className="mt-2"
-									/>
-								</label>
+                <label className="block border border-grey-light p-3 rounded">
+                  Image:
+                  <input
+                    type="file"
+                    id="image"
+                    onChange={handleFileChange}
+                    className="mt-2"
+                  />
+                </label>
 
-								<input
-									type="text"
-									className="block border border-grey-light p-3 rounded mb-4"
-									name="email"
-									ref={emailRef}
-									required
-									placeholder="Email"
-								/>
+                <input
+                  type="text"
+                  className="block border border-grey-light p-3 rounded mb-4"
+                  name="email"
+                  ref={emailRef}
+                  required
+                  placeholder="Email"
+                />
 
-								<input
-									type="password"
-									className="block border border-grey-light p-3 rounded mb-4"
-									name="password"
-									ref={passwordRef}
-									required
-									placeholder="Password"
-								/>
+                <input
+                  type="password"
+                  className="block border border-grey-light p-3 rounded mb-4"
+                  name="password"
+                  ref={passwordRef}
+                  required
+                  placeholder="Password"
+                />
 
-								<input
-									type="password"
-									className="block border border-grey-light p-3 rounded mb-4"
-									name="confirm_password"
-									ref={passwordConfirmRef}
-									required
-									placeholder="Confirm Password"
-								/>
+                <input
+                  type="password"
+                  className="block border border-grey-light p-3 rounded mb-4"
+                  name="confirm_password"
+                  ref={passwordConfirmRef}
+                  required
+                  placeholder="Confirm Password"
+                />
 
-								<button className="block border border-grey-light p-3 rounded">
-									Create Account
-								</button>
-							</div>
-						</div>
-					</div>
-				</form>
-				<div className="flex flex-col justify-center text-grey-dark w-full">
-					<p className="m-auto py-4">Already have an account?</p>
-					<button
-						className="px-8 h-8"
-						onClick={() => {
-							setLoginSwipe(false);
-						}}
-					>
-						Login
-					</button>
-				</div>
-			</div>
-		</>
-	);
+                <button className="block border border-grey-light p-3 rounded">
+                  Create Account
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {/* Show error message */}
+        {error && (
+          <div className="pt-2">
+            <div className="alert alert-error shadow-lg">
+              <div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current flex-shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{error}</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="flex flex-col justify-center text-grey-dark w-full">
+          <p className="m-auto py-4">Already have an account?</p>
+          <button
+            className="px-8 h-8"
+            onClick={() => {
+              setLoginSwipe(false);
+            }}>
+            Login
+          </button>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Signup;
