@@ -4,7 +4,8 @@ import classNames from "classnames";
 
 import SearchForm from "./SearchForm";
 import { HiOutlinePencil } from "react-icons/hi";
-import { AiOutlineUser } from "react-icons/ai";
+import { MdOutlineClose } from "react-icons/md";
+import { AiOutlineUser, AiOutlineUnorderedList } from "react-icons/ai";
 
 const NavBar = () => {
 	const {
@@ -21,6 +22,7 @@ const NavBar = () => {
 
 	const hidden = classNames(urlLocation.pathname !== "/" ? "hidden" : "");
 
+
 	return (
     <>
       {/* Mobile view */}
@@ -31,7 +33,11 @@ const NavBar = () => {
         <button
           className={`col-start-12 justify-self-end ${hidden}`}
           onClick={() => setDrawerIsOpen(!drawerIsOpen)}>
-          Lista
+          {drawerIsOpen ? (
+            <MdOutlineClose size={25} />
+          ) : (
+            <AiOutlineUnorderedList size={25} />
+          )}
         </button>
       </div>
 
@@ -48,7 +54,11 @@ const NavBar = () => {
         <button
           className={`font-display col-start-10 justify-self-center ${hidden}`}
           onClick={() => setDrawerIsOpen(!drawerIsOpen)}>
-          Lista
+          {drawerIsOpen ? (
+            <MdOutlineClose size={25} />
+          ) : (
+            <AiOutlineUnorderedList size={25} />
+          )}
         </button>
 
         <button
