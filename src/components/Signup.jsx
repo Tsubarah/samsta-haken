@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Signup = () => {
 	const displayNameRef = useRef();
@@ -57,6 +58,12 @@ const Signup = () => {
 
 	return (
     <>
+      {loading && (
+        <div className="flex justify-center p-4">
+          <ClipLoader color="#FFFF" />
+        </div>
+      )}
+
       <div>
         <form onSubmit={handleSubmit}>
           <div className="bg-grey-lighter flex flex-col">
@@ -73,8 +80,7 @@ const Signup = () => {
                   placeholder="Username"
                 />
 
-                <label className="block border border-grey-light p-3 rounded">
-                  Image:
+                <label className="block border border-grey-light p-3 rounded mb-4">
                   <input
                     type="file"
                     id="image"
@@ -142,9 +148,9 @@ const Signup = () => {
         )}
 
         <div className="flex flex-col justify-center text-grey-dark w-full">
-          <p className="m-auto py-4">Already have an account?</p>
+          <p className="m-auto pt-4 text-md">Already have an account?</p>
           <button
-            className="px-8 h-8"
+            className="px-8 h-8 text-sm underline"
             onClick={() => {
               setLoginSwipe(false);
             }}>

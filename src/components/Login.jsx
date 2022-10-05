@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Login = () => {
   const emailRef = useRef();
@@ -28,7 +29,11 @@ const Login = () => {
 
   return (
     <>
-      {loading && <div>Loading..</div>}
+      {loading && (
+        <div className="flex justify-center p-4">
+          <ClipLoader color="#FFFF" />
+        </div>
+      )}
 
       <form onSubmit={handleSubmit}>
         <div className="bg-grey-lighter flex flex-col">
@@ -84,9 +89,9 @@ const Login = () => {
       )}
 
       <div className="text-grey-dark mb-5 flex flex-col justify-center">
-        <p className="m-auto pt-4 text-sm">Don't have an account?</p>
+        <p className="m-auto pt-4 text-md">Don't have an account?</p>
         <button
-          className="px-8 h-8 underline text-xs"
+          className="px-8 h-8 underline text-sm"
           onClick={() => {
             setLoginSwipe(true);
           }}>
