@@ -154,7 +154,7 @@ const Signup = () => {
             onClick={() => {
               setLoginSwipe(false);
             }}>
-            Login
+            Sign in
           </button>
         </div>
       </div>

@@ -39,7 +39,7 @@ const Login = () => {
         <div className="bg-grey-lighter flex flex-col">
           <div className="container max-w-xs mx-auto flex-1 flex flex-col items-center justify-center px-2">
             <div className="flex justify-center flex-col bg-white px-6 py-8 rounded shadow-md text-black w-full">
-              <h1 className="mb-8 text-3xl text-center">Login</h1>
+              <h1 className="mb-8 text-3xl text-center">Sign in</h1>
 
               <input
                 type="text"
@@ -58,7 +58,7 @@ const Login = () => {
               />
 
               <button className="block border border-grey-light p-3 mb-5 rounded">
-                Login
+                Sign in
               </button>
             </div>
           </div>
