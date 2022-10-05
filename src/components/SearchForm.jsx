@@ -9,11 +9,11 @@ import { BiSearch } from "react-icons/bi";
 const SearchForm = ({ className }) => {
 	const {
 		handleSearch,
-		setLocation,
 		setAddress,
 		address,
 		setSearchedCity,
 		setCurrentCity,
+		setSearchParams,
 	} = useAuthContext();
 
 	const {
@@ -46,7 +46,7 @@ const SearchForm = ({ className }) => {
 		}
 
 		setPositionLatLng(null);
-		setLocation(positionLatLng);
+
 		setAddress(positionAddress);
 		handleSearch(searchInput);
 		setSearchInput("");
@@ -60,7 +60,11 @@ const SearchForm = ({ className }) => {
 		if (positionLatLng) {
 			setSearchedCity(null);
 			setCurrentCity(currentCityName);
-			setLocation(positionLatLng);
+			setSearchParams({
+				city: currentCityName,
+				lat: positionLatLng.lat,
+				lng: positionLatLng.lng,
+			});
 			setAddress(positionAddress);
 		}
 	}, [positionLatLng, address]);

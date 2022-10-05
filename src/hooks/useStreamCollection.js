@@ -4,7 +4,6 @@ import {
 	query,
 	onSnapshot,
 	where,
-	orderBy,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
@@ -13,35 +12,43 @@ const useStreamCollection = (col, isAdmin) => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 
-	const { filterType, currentCity, searchedCity } = useAuthContext();
+	const { 
+					filterType, 
+					currentCity, 
+					searchedCity, 
+					searchParams 
+				} =
+	useAuthContext();
+
+	const city = searchParams.get("city");
 
 	useEffect(() => {
 		// get reference to collection
 		const colRef = collection(db, col);
 		let queryRef;
 
-		if ((searchedCity || currentCity) && filterType === null) {
+		if (city && filterType === null) {
 			queryRef = isAdmin
-				? query(colRef, where("city", "==", searchedCity || currentCity))
+				? query(colRef, where("city", "==", city))
 				: query(
 						colRef,
 						where("accepted", "==", true),
-						where("city", "==", searchedCity || currentCity)
+						where("city", "==", city)
 				  );
-		} else if (filterType !== null && (currentCity || searchedCity)) {
+		} else if (filterType !== null && city) {
 			queryRef = isAdmin
 				? query(
 						colRef,
 						where(filterType.type, "==", filterType.value),
-						where("city", "==", searchedCity || currentCity)
+						where("city", "==", city)
 				  )
 				: query(
 						colRef,
 						where(filterType.type, "==", filterType.value),
 						where("accepted", "==", true),
-						where("city", "==", searchedCity || currentCity)
+						where("city", "==", city)
 				  );
-		} else if (filterType) {
+		} else if (filterType && !city) {
 			queryRef = isAdmin
 				? query(colRef, where(filterType.type, "==", filterType.value))
 				: query(

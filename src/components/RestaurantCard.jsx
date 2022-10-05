@@ -21,7 +21,7 @@ import {
 import { useAuthContext } from '../contexts/AuthContext'
 import Directions from "./Directions";
 
-const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
+const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance, lat, lng }) => {
 
   const { showRestaurantCard, setShowRestaurantCard} = useAuthContext()
 	let icon;
@@ -71,7 +71,7 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
               `${Math.floor(showDistance(restaurant))} km från vald postion`}
           </span>
 
-          <Directions restaurant={restaurant} />
+          <Directions restaurant={restaurant} lat={lat} lng={lng} />
         </div>
 
         <div className="upload-photo flex items-center justify-between">
