@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import useGetCollection from "../hooks/useGetCollection";
+import { useSearchParams } from "react-router-dom";
 
 import { TiLocationArrow } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
 
 const SearchForm = ({ className }) => {
+	let [searchParams, setSearchParams] = useSearchParams()
+
 	const {
 		handleSearch,
 		setLocation,
@@ -49,6 +52,7 @@ const SearchForm = ({ className }) => {
 		setLocation(positionLatLng);
 		setAddress(positionAddress);
 		handleSearch(searchInput);
+		setSearchParams(searchInput)
 		setSearchInput("");
 	};
 
@@ -60,6 +64,7 @@ const SearchForm = ({ className }) => {
 		if (positionLatLng) {
 			setSearchedCity(null);
 			setCurrentCity(currentCityName);
+			setSearchParams(currentCityName);
 			setLocation(positionLatLng);
 			setAddress(positionAddress);
 		}
