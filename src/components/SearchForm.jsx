@@ -12,11 +12,11 @@ const SearchForm = ({ className }) => {
 
 	const {
 		handleSearch,
-		setLocation,
 		setAddress,
 		address,
 		setSearchedCity,
 		setCurrentCity,
+		setSearchParams,
 	} = useAuthContext();
 
 	const {
@@ -49,7 +49,7 @@ const SearchForm = ({ className }) => {
 		}
 
 		setPositionLatLng(null);
-		setLocation(positionLatLng);
+
 		setAddress(positionAddress);
 		handleSearch(searchInput);
 		setSearchParams(searchInput)
@@ -64,8 +64,11 @@ const SearchForm = ({ className }) => {
 		if (positionLatLng) {
 			setSearchedCity(null);
 			setCurrentCity(currentCityName);
-			setSearchParams(currentCityName);
-			setLocation(positionLatLng);
+			setSearchParams({
+				city: currentCityName,
+				lat: positionLatLng.lat,
+				lng: positionLatLng.lng,
+			});
 			setAddress(positionAddress);
 		}
 	}, [positionLatLng, address]);
