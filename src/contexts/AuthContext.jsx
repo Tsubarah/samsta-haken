@@ -155,7 +155,6 @@ const AuthContextProvider = ({ children }) => {
 
 	// Location functions
 
-	const [location, setLocation] = useState(null);
 	const [address, setAddress] = useState(null);
 	const [searchedCity, setSearchedCity] = useState(null);
 	const [currentCity, setCurrentCity] = useState(null);
@@ -173,7 +172,6 @@ const AuthContextProvider = ({ children }) => {
 
 		setCurrentCity(null);
 		setSearchedCity(city);
-		setLocation(addressResponse.results[0].geometry.location);
 
 		setSearchParams({ city: city, lat: lat, lng: lng });
 		setAddress(addressResponse.results[0].formatted_address);
@@ -194,8 +192,6 @@ const AuthContextProvider = ({ children }) => {
 		setLoginSwipe,
 		loginSwipe,
 		handleSearch,
-		location,
-		setLocation,
 		address,
 		setAddress,
 		showTips,

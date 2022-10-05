@@ -5,10 +5,13 @@ import RestaurantCard from "./RestaurantCard";
 import { food } from "../db/food";
 import { useState } from "react";
 import { FaWindowRestore } from "react-icons/fa";
+import { useEffect } from "react";
 
 const Drawer = ({ children }) => {
 	const [showFilters, setShowFilters] = useState(false);
-	const restaurantQuery = useGetRestaurants();
+	const [lat, setLat] = useState(null)
+	const [lng, setLng] = useState(null)
+	const restaurants = useGetRestaurants();
 
 	const {
 		drawerIsOpen,
@@ -19,19 +22,17 @@ const Drawer = ({ children }) => {
 		setShowRestaurantCard,
 		currentUser,
 		isAdmin,
-		location,
 		setFilterType,
 		filterType,
 	} = useAuthContext();
 
+
 	const showDistance = (restaurantCoords) => {
-		if (!location) {
-			return;
-		}
+		if (!lat && !lng) return
 
 		const distance = getDistance(
-			location.lat,
-			location.lng,
+			lat,
+			lng,
 			restaurantCoords?.position?.lat,
 			restaurantCoords?.position?.lng
 		);
@@ -50,7 +51,7 @@ const Drawer = ({ children }) => {
 	let restaurant;
 
 	const handleClick = async (e) => {
-		restaurant = restaurantQuery.data?.find(
+		restaurant = restaurants.data?.find(
 			(restaurant) => restaurant.id === e.currentTarget.id
 		);
 		setRestaurantData(restaurant);
@@ -59,6 +60,16 @@ const Drawer = ({ children }) => {
 		//scroll to top
 		scrollToTop();
 	};
+
+	useEffect(() => {
+		navigator.geolocation.getCurrentPosition(position => {
+			let latitude = position.coords.latitude;
+			let longitude = position.coords.longitude;
+
+			setLat(latitude)
+			setLng(longitude)
+		})
+	}, [lat, lng])
 
 	return (
 		<div className="drawer h-full drawer-end relative">
@@ -88,6 +99,8 @@ const Drawer = ({ children }) => {
 							currentUser={currentUser}
 							isAdmin={isAdmin}
 							showDistance={showDistance}
+							lat={lat}
+							lng={lng}
 						/>
 					)}
 
@@ -161,11 +174,9 @@ const Drawer = ({ children }) => {
 							<div className="text-sm pr-2 opacity-60 text-right">
 								{filterType && <h1>Filtrerar efter: {filterType.value}</h1>}
 							</div>
-							{restaurantQuery?.data.length ? (
-								// .filter((restaurant) => restaurant.accepted === true)
-								restaurantQuery.data.map((restaurant) => {
+							{restaurants?.data.length ? (
+								restaurants.data.map((restaurant) => {
 									const dist = showDistance(restaurant);
-
 									return (
 										<li
 											id={restaurant.id}

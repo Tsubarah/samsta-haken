@@ -1,33 +1,29 @@
 import { useEffect, useState } from "react";
-import { useAuthContext } from "../contexts/AuthContext";
 import { FaDirections } from "react-icons/fa";
 
-const Directions = ({ restaurant }) => {
-	const { location } = useAuthContext();
+const Directions = ({ restaurant, lat, lng }) => {
 
 	const [link, setLink] = useState(null);
 
 	const showDirections = () => {
-		if (!location) {
+		if (!lat && !lng) {
 			return;
 		}
 
 		setLink(
-			`https://www.google.com/maps/dir/${location.lat},${location.lng}/${restaurant?.position?.lat},${restaurant?.position?.lng}`
+			`https://www.google.com/maps/dir/${lat},${lng}/${restaurant?.position?.lat},${restaurant?.position?.lng}`
 		);
 	};
 
 	useEffect(() => {
 		showDirections();
-	}, [location]);
+	}, [lat, lng]);
 
 	return (
-		location && (
 			<a href={link} target="_blank" className="link">
 				<FaDirections size={20} />
 			</a>
 		)
-	);
 };
 
 export default Directions;

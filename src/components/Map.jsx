@@ -21,6 +21,7 @@ const Map = () => {
 		searchParams,
 		filterType,
 	} = useAuthContext();
+
 	//////////
 	const [newLocation, setNewLocation] = useState(null);
 	let restaurant;
