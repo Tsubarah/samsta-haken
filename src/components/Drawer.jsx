@@ -82,7 +82,7 @@ const Drawer = ({ children }) => {
             <div className="divider">Restauranger</div>
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
             <button
               className="btn font-display text-lg"
               onClick={() => setShowFilters(!showFilters)}>
