@@ -65,11 +65,6 @@ const RestaurantEditCard = ({ restaurant }) => {
 							defaultValue={restaurant.name}
 							className="label-desc input input-bordered input-sm indent-2 bg-primary"
 						/>
-						{errors.name && (
-							<div className="text-red-600 text-xs font-light py-2">
-								{errors.name.message}
-							</div>
-						)}
 					</div>
 
 					<div className="col-span-full grid grid-rows-2 px-4">
@@ -80,11 +75,6 @@ const RestaurantEditCard = ({ restaurant }) => {
 							defaultValue={restaurant.address}
 							className="label-desc input input-bordered input-sm indent-2 bg-primary"
 						/>
-						{errors.address && (
-							<div className="text-red-600 text-xs font-light py-2">
-								{errors.address.message}
-							</div>
-						)}
 					</div>
 
 					<div className="col-span-full grid grid-rows-2 px-4">
@@ -95,11 +85,6 @@ const RestaurantEditCard = ({ restaurant }) => {
 							defaultValue={restaurant.city}
 							className="label-desc input input-bordered input-sm indent-2 bg-primary"
 						/>
-						{errors.city && (
-							<div className="text-red-600 text-xs font-light py-2">
-								{errors.city.message}
-							</div>
-						)}
 					</div>
 
 					<div className="col-span-full flex flex-wrap gap-1 px-4">
