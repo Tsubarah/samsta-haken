@@ -6,11 +6,18 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const Footer = () => {
-	const { setShowTips, showTips, currentUser, isAdmin } = useAuthContext();
+	const { setShowTips, showTips, currentUser, isAdmin, setDrawerIsOpen } = useAuthContext();
+
+	const handleToggleTips = () => {
+		setShowTips(!showTips)
+		setDrawerIsOpen(false)
+	}
+
+
 	return (
 		<>
 			<div className="btm-nav my-2 relative lg:hidden">
-				<button onClick={() => setShowTips(!showTips)}>
+				<button onClick={handleToggleTips}>
 					<HiOutlinePencil size={25} />
 
 					<span className="btm-nav-label">

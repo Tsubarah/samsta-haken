@@ -4,6 +4,7 @@ import { getDistance } from "../utils/helpers";
 import RestaurantCard from "./RestaurantCard";
 import { food } from "../db/food";
 import { useState } from "react";
+import { FaWindowRestore } from "react-icons/fa";
 
 const Drawer = ({ children }) => {
 	const [showFilters, setShowFilters] = useState(false);
@@ -20,6 +21,7 @@ const Drawer = ({ children }) => {
 		isAdmin,
 		location,
 		setFilterType,
+		filterType,
 	} = useAuthContext();
 
 	const showDistance = (restaurantCoords) => {
@@ -37,6 +39,14 @@ const Drawer = ({ children }) => {
 		return distance;
 	};
 
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0,
+			left: 0,
+			behavior: "smooth",
+		});
+	};
+
 	let restaurant;
 
 	const handleClick = async (e) => {
@@ -44,7 +54,10 @@ const Drawer = ({ children }) => {
 			(restaurant) => restaurant.id === e.currentTarget.id
 		);
 		setRestaurantData(restaurant);
-		setShowRestaurantCard(!showRestaurantCard);
+		setShowRestaurantCard(true);
+
+		//scroll to top
+		scrollToTop();
 	};
 
 	return (
@@ -82,7 +95,7 @@ const Drawer = ({ children }) => {
 						<div className="divider">Restauranger</div>
 					</div>
 
-					<div className="flex flex-col w-full">
+					<div className="flex flex-col w-full lg:w-96">
 						<button
 							className="btn font-display text-lg"
 							onClick={() => setShowFilters(!showFilters)}
@@ -145,7 +158,11 @@ const Drawer = ({ children }) => {
 						)}
 
 						<ul className="menu w-full lg:w-96 text-base-content">
+							<div className="text-sm pr-2 opacity-60 text-right">
+								{filterType && <h1>Filtrerar efter: {filterType.value}</h1>}
+							</div>
 							{restaurantQuery?.data.length ? (
+								// .filter((restaurant) => restaurant.accepted === true)
 								restaurantQuery.data.map((restaurant) => {
 									const dist = showDistance(restaurant);
 
