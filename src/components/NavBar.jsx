@@ -16,8 +16,7 @@ const NavBar = () => {
 		currentUser,
 		isAdmin,
 		setFilterType,
-		showRestaurantCard,
-		setShowRestaurantCard,
+		setSearchParams,
 	} = useAuthContext();
 
 	const urlLocation = useLocation();
@@ -58,9 +57,7 @@ const NavBar = () => {
 				<Link to={"/"}>
 					<h1
 						className="font-display btn btn-ghost normal-case text-xl col-span-2"
-						onClick={() => {
-							setFilterType(null);
-						}}
+						onClick={() => setFilterType(null)}
 					>
 						Sämsta Haken
 					</h1>
