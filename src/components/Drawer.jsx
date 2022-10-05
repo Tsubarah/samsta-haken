@@ -48,6 +48,7 @@ const Drawer = ({ children }) => {
 		setShowRestaurantCard(!showRestaurantCard);
 	};
 
+
 	return (
     <div className="drawer h-full drawer-end relative">
       <input
@@ -82,7 +83,7 @@ const Drawer = ({ children }) => {
             <div className="divider">Restauranger</div>
           </div>
 
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full lg:w-96">
             <button
               className="btn font-display text-lg"
               onClick={() => setShowFilters(!showFilters)}>

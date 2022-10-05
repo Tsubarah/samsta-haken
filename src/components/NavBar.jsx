@@ -22,6 +22,10 @@ const NavBar = () => {
 
 	const hidden = classNames(urlLocation.pathname !== "/" ? "hidden" : "");
 
+	const handleToggleDrawer = () => {
+		setDrawerIsOpen(!drawerIsOpen)
+	};
+
 
 	return (
     <>
@@ -32,7 +36,7 @@ const NavBar = () => {
 
         <button
           className={`col-start-12 justify-self-end ${hidden}`}
-          onClick={() => setDrawerIsOpen(!drawerIsOpen)}>
+          onClick={handleToggleDrawer}>
           {drawerIsOpen ? (
             <MdOutlineClose size={25} />
           ) : (
@@ -53,7 +57,7 @@ const NavBar = () => {
 
         <button
           className={`font-display col-start-10 justify-self-center ${hidden}`}
-          onClick={() => setDrawerIsOpen(!drawerIsOpen)}>
+          onClick={handleToggleDrawer}>
           {drawerIsOpen ? (
             <MdOutlineClose size={25} />
           ) : (
