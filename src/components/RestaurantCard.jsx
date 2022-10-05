@@ -4,7 +4,7 @@ import useUploadImage from "../hooks/useUploadImage";
 import Carousel from "./Carousel";
 import Alert from "./Alert";
 import placeholder from "../assets/images/placeholder-image.webp";
-import { MdAddPhotoAlternate, MdOutlinePlace } from "react-icons/md";
+import { MdAddPhotoAlternate, MdOutlinePlace, MdArrowForwardIos } from "react-icons/md";
 import {
 	AiFillFacebook,
 	AiOutlineGlobal,
@@ -13,9 +13,12 @@ import {
 	AiFillInstagram,
 	AiOutlineCloudUpload,
 } from "react-icons/ai";
+import { useAuthContext } from '../contexts/AuthContext'
 import Directions from "./Directions";
 
 const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
+
+  const { showRestaurantCard, setShowRestaurantCard} = useAuthContext()
 	let icon;
 	const [image, setImage] = useState(null);
 	const { uploadImage, uploadProgress, error, isSuccess, isError } =
@@ -40,6 +43,11 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
 
 	return (
     <div className="card card-compact rounded-none w-full lg:w-96 bg-base-100 shadow-xl scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
+      <div className="card-actions justify-end">
+        <button className="btn btn-square btn-sm" onClick={() => setShowRestaurantCard(!showRestaurantCard)}>
+          <MdArrowForwardIos size={25}/>
+          </button>
+      </div>
       {restaurant?.photos?.length !== 0 ? (
         <Carousel restaurant={restaurant} />
       ) : (
@@ -49,7 +57,7 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
       <div className="card-body">
         <div className="flex gap-4 items-center">
           <h2 className="card-title">{restaurant?.name}</h2>
-          
+
           <span className="text-xs opacity-70 font-light">
             {showDistance(restaurant) &&
               `${Math.floor(showDistance(restaurant))} km från vald postion`}

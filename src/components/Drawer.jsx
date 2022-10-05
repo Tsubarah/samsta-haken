@@ -45,7 +45,7 @@ const Drawer = ({ children }) => {
 			(restaurant) => restaurant.id === e.currentTarget.id
 		);
 		setRestaurantData(restaurant);
-		setShowRestaurantCard(!showRestaurantCard);
+		setShowRestaurantCard(true);
 	};
 
 

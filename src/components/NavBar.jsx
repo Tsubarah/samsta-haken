@@ -9,14 +9,16 @@ import { AiOutlineUser, AiOutlineUnorderedList } from "react-icons/ai";
 
 const NavBar = () => {
 	const {
-		showTips,
-		setShowTips,
-		drawerIsOpen,
-		setDrawerIsOpen,
-		currentUser,
-		isAdmin,
-		setFilterType
-	} = useAuthContext();
+    showTips,
+    setShowTips,
+    drawerIsOpen,
+    setDrawerIsOpen,
+    currentUser,
+    isAdmin,
+    setFilterType,
+    showRestaurantCard,
+    setShowRestaurantCard,
+  } = useAuthContext();
 
 	const urlLocation = useLocation();
 
