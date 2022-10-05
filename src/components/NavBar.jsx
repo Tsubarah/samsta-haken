@@ -24,7 +24,13 @@ const NavBar = () => {
 
 	const handleToggleDrawer = () => {
 		setDrawerIsOpen(!drawerIsOpen)
+		setShowTips(false)
 	};
+
+	const handleToggleTipsForm = () => {
+    setShowTips(!showTips);
+    setDrawerIsOpen(false);
+  };
 
 
 	return (
@@ -67,9 +73,7 @@ const NavBar = () => {
 
         <button
           className={`col-start-11 justify-self-end gap-2 ${hidden}`}
-          onClick={() => {
-            setShowTips(!showTips);
-          }}>
+          onClick={handleToggleTipsForm}>
           <HiOutlinePencil size={20} />
 
           <span className="btm-nav-label font-display">
