@@ -4,6 +4,7 @@ import { getDistance } from "../utils/helpers";
 import RestaurantCard from "./RestaurantCard";
 import { food } from "../db/food";
 import { useState } from "react";
+import { FaWindowRestore } from "react-icons/fa";
 
 const Drawer = ({ children }) => {
 	const [showFilters, setShowFilters] = useState(false);
@@ -37,6 +38,7 @@ const Drawer = ({ children }) => {
 
 		return distance;
 	};
+  
 
 	let restaurant;
 
@@ -46,6 +48,7 @@ const Drawer = ({ children }) => {
 		);
 		setRestaurantData(restaurant);
 		setShowRestaurantCard(true);
+
 	};
 
 
