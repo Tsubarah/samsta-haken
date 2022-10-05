@@ -176,6 +176,7 @@ const AuthContextProvider = ({ children }) => {
 		setLocation(addressResponse.results[0].geometry.location);
 
 		setSearchParams({ city: city, lat: lat, lng: lng });
+		setAddress(addressResponse.results[0].formatted_address);
 	};
 
 	// Show and hide
