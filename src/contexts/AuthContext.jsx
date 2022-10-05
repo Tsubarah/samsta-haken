@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
@@ -159,18 +160,22 @@ const AuthContextProvider = ({ children }) => {
 	const [searchedCity, setSearchedCity] = useState(null);
 	const [currentCity, setCurrentCity] = useState(null);
 
+	const [searchParams, setSearchParams] = useSearchParams();
+
 	//* City borde vara global då den måste skickas till MAP
 
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
 
 		const city = findSearchedCity(addressResponse);
+		const lat = addressResponse.results[0].geometry.location.lat;
+		const lng = addressResponse.results[0].geometry.location.lng;
 
 		setCurrentCity(null);
 		setSearchedCity(city);
-
 		setLocation(addressResponse.results[0].geometry.location);
-		setAddress(addressResponse.results[0].formatted_address);
+
+		setSearchParams({ city: city, lat: lat, lng: lng });
 	};
 
 	// Show and hide
@@ -193,6 +198,8 @@ const AuthContextProvider = ({ children }) => {
 		address,
 		setAddress,
 		showTips,
+		searchParams,
+		setSearchParams,
 		setShowTips,
 		updateAdmin,
 		drawerIsOpen,

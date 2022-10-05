@@ -13,35 +13,41 @@ const useStreamCollection = (col, isAdmin) => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 
-	const { filterType, currentCity, searchedCity } = useAuthContext();
+	const { filterType, currentCity, searchedCity, searchParams } =
+		useAuthContext();
+
+	const city = searchParams.get("city");
 
 	useEffect(() => {
 		// get reference to collection
 		const colRef = collection(db, col);
 		let queryRef;
 
-		if ((searchedCity || currentCity) && filterType === null) {
+		if (city && filterType === null) {
+			console.log("city & filterType = null");
 			queryRef = isAdmin
-				? query(colRef, where("city", "==", searchedCity || currentCity))
+				? query(colRef, where("city", "==", city))
 				: query(
 						colRef,
 						where("accepted", "==", true),
-						where("city", "==", searchedCity || currentCity)
+						where("city", "==", city)
 				  );
-		} else if (filterType !== null && (currentCity || searchedCity)) {
+		} else if (filterType !== null && city) {
+			console.log("FilterType != null & city");
 			queryRef = isAdmin
 				? query(
 						colRef,
 						where(filterType.type, "==", filterType.value),
-						where("city", "==", searchedCity || currentCity)
+						where("city", "==", city)
 				  )
 				: query(
 						colRef,
 						where(filterType.type, "==", filterType.value),
 						where("accepted", "==", true),
-						where("city", "==", searchedCity || currentCity)
+						where("city", "==", city)
 				  );
-		} else if (filterType) {
+		} else if (filterType && !city) {
+			console.log("filterType BARA");
 			queryRef = isAdmin
 				? query(colRef, where(filterType.type, "==", filterType.value))
 				: query(
@@ -50,6 +56,7 @@ const useStreamCollection = (col, isAdmin) => {
 						where("accepted", "==", true)
 				  );
 		} else {
+			console.log("INGEN STAD");
 			queryRef = isAdmin
 				? query(colRef)
 				: query(colRef, where("accepted", "==", true));

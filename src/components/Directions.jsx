@@ -4,6 +4,7 @@ import { FaDirections } from "react-icons/fa";
 
 const Directions = ({ restaurant }) => {
 	const { location } = useAuthContext();
+
 	const [link, setLink] = useState(null);
 
 	const showDirections = () => {
