@@ -4,7 +4,12 @@ import useUploadImage from "../hooks/useUploadImage";
 import Carousel from "./Carousel";
 import Alert from "./Alert";
 import placeholder from "../assets/images/placeholder-image.webp";
-import { MdAddPhotoAlternate, MdOutlinePlace, MdArrowForwardIos } from "react-icons/md";
+import {
+  MdAddPhotoAlternate,
+  MdOutlinePlace,
+  MdOutlineKeyboardArrowRight,
+  MdOutlineKeyboardArrowDown,
+} from "react-icons/md";
 import {
 	AiFillFacebook,
 	AiOutlineGlobal,
@@ -44,9 +49,12 @@ const RestaurantCard = ({ restaurant, currentUser, isAdmin, showDistance }) => {
 	return (
     <div className="card card-compact rounded-none w-full lg:w-96 bg-base-100 shadow-xl scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
       <div className="card-actions justify-end">
-        <button className="btn btn-square btn-sm" onClick={() => setShowRestaurantCard(!showRestaurantCard)}>
-          <MdArrowForwardIos size={25}/>
-          </button>
+        <button
+          className="btn btn-square btn-ghost btn-sm"
+          onClick={() => setShowRestaurantCard(!showRestaurantCard)}>
+          <MdOutlineKeyboardArrowRight className="hidden lg:grid" size={25} />
+          <MdOutlineKeyboardArrowDown className="lg:hidden grid" size={25} />
+        </button>
       </div>
       {restaurant?.photos?.length !== 0 ? (
         <Carousel restaurant={restaurant} />
