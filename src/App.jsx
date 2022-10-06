@@ -31,6 +31,7 @@ function App() {
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/logout" element={<LogoutPage />} />
 
+				{/* Protected routes */}
 				<Route
 					path="/profile"
 					element={

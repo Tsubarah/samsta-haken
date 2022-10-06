@@ -161,7 +161,6 @@ const AuthContextProvider = ({ children }) => {
 	const [address, setAddress] = useState(null);
 	const [searchParams, setSearchParams] = useSearchParams();
 
-	//* City borde vara global då den måste skickas till MAP
 
 	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
@@ -214,7 +213,7 @@ const AuthContextProvider = ({ children }) => {
 	return (
 		<AuthContext.Provider value={contextValues}>
 			{loading ? (
-				<div id="initial-loader">
+				<div id="initial-loader" className="flex align-middle justify-center">
 					<BeatLoader color={"#888"} size={50} />
 				</div>
 			) : (
