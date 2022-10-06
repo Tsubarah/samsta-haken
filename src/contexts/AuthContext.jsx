@@ -84,7 +84,10 @@ const AuthContextProvider = ({ children }) => {
 			// get download url to uploaded file
 			imageURL = await getDownloadURL(uploadResult.ref);
 
-			console.log("Image uploaded successfully. Download url is", imageURL);
+			console.log(
+				"Image uploaded successfully. Download url is",
+				imageURL
+			);
 		}
 
 		return updateProfile(auth.currentUser, {
@@ -105,7 +108,7 @@ const AuthContextProvider = ({ children }) => {
 		});
 	};
 
-	const updateRestaurantPhoto = async (photo) => {
+	const updateRestaurantPhoto = async photo => {
 		const ref = doc(db, "restaurants", photo.restaurantId);
 
 		await updateDoc(ref, {
@@ -135,7 +138,7 @@ const AuthContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		// listen for auth-state changes
-		const unsubscribe = onAuthStateChanged(auth, async (user) => {
+		const unsubscribe = onAuthStateChanged(auth, async user => {
 			setCurrentUser(user);
 
 			if (user) {
@@ -163,7 +166,7 @@ const AuthContextProvider = ({ children }) => {
 
 	//* City borde vara global då den måste skickas till MAP
 
-	const handleSearch = async (address) => {
+	const handleSearch = async address => {
 		const addressResponse = await getLocationWithAddress(address);
 
 		const city = findSearchedCity(addressResponse);

@@ -8,6 +8,121 @@ import { useState, useEffect, useCallback } from "react";
 import useGetRestaurants from "../hooks/useGetRestaurants";
 import { useAuthContext } from "../contexts/AuthContext";
 import marker from "../assets/images/marker.png";
+import { checkIfStringHasNumber } from "../utils/helpers";
+
+const defaultZoom = 13;
+
+const options = {
+	styles: [
+		{
+			elementType: "labels",
+			featureType: "poi.business",
+			stylers: [{ visibility: "off" }],
+		},
+		{
+			elementType: "geometry",
+			stylers: [
+				{
+					color: "#242f3e",
+				},
+			],
+		},
+		{
+			elementType: "labels.text.fill",
+			stylers: [
+				{
+					color: "#746855",
+				},
+			],
+		},
+		{
+			elementType: "labels.text.stroke",
+			stylers: [
+				{
+					color: "#242f3e",
+				},
+			],
+		},
+		{
+			featureType: "administrative.locality",
+			elementType: "labels.text.fill",
+			stylers: [{ visibility: "off" }],
+		},
+		{
+			featureType: "poi",
+			elementType: "labels",
+			stylers: [{ visibility: "off" }],
+		},
+		{
+			featureType: "road",
+			elementType: "geometry",
+			stylers: [
+				{
+					color: "#38414e",
+				},
+			],
+		},
+		{
+			featureType: "road",
+			elementType: "geometry.stroke",
+			stylers: [
+				{
+					color: "#212a37",
+				},
+			],
+		},
+		{
+			featureType: "road",
+			elementType: "labels.text.fill",
+			stylers: [
+				{
+					color: "#9ca5b3",
+				},
+			],
+		},
+		{
+			featureType: "road.highway",
+			elementType: "geometry",
+			stylers: [
+				{
+					color: "#746855",
+				},
+			],
+		},
+		{
+			featureType: "road.highway",
+			elementType: "geometry.stroke",
+			stylers: [
+				{
+					color: "#1f2835",
+				},
+			],
+		},
+		{
+			featureType: "road.highway",
+			elementType: "labels.text.fill",
+			stylers: [
+				{
+					color: "#f3d19c",
+				},
+			],
+		},
+		{
+			featureType: "transit.station",
+			elementType: "labels.text.fill",
+			stylers: [{ visibility: "off" }],
+		},
+		{
+			featureType: "water",
+			elementType: "geometry",
+			stylers: [
+				{
+					color: "#09090B",
+				},
+			],
+		},
+	],
+};
 
 const Map = () => {
 	const [activeMarker, setActiveMarker] = useState(null);
@@ -20,9 +135,13 @@ const Map = () => {
 		setDrawerIsOpen,
 		searchParams,
 		filterType,
+		userLocation,
+		address,
 	} = useAuthContext();
 
 	//////////
+	const [map, setMap] = useState(/** @type google.maps.Map */ (null));
+	const [zoom, setZoom] = useState(defaultZoom);
 	const [newLocation, setNewLocation] = useState(null);
 	let restaurant;
 	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
@@ -36,7 +155,7 @@ const Map = () => {
 		googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
 	});
 
-	const handleActiveMarker = (marker) => {
+	const handleActiveMarker = marker => {
 		setActiveMarker(null);
 		setShowRestaurantCard(!showRestaurantCard);
 
@@ -45,12 +164,13 @@ const Map = () => {
 		}
 
 		setActiveMarker(marker);
-		restaurant = restaurants?.find((restaurant) => restaurant.id === marker);
+		restaurant = restaurants?.find(restaurant => restaurant.id === marker);
 		setRestaurantData(restaurant);
 	};
 
-	const onLoad = useCallback((map) => {
-		const zoom = 18;
+	// Setting for when map loads
+	const onLoad = useCallback(map => {
+		setMap(map);
 		map.setZoom(zoom);
 	}, []);
 
@@ -59,6 +179,11 @@ const Map = () => {
 			setNewLocation(defaultLocation);
 		} else {
 			setNewLocation({ lat: lat, lng: lng });
+
+			// Setting zoom level for user location and address with number
+			checkIfStringHasNumber(address)
+				? setZoom(18)
+				: setZoom(defaultZoom);
 		}
 	}, [restaurants, city, filterType]);
 
@@ -67,124 +192,15 @@ const Map = () => {
 			mapContainerClassName="w-full h-full"
 			center={newLocation}
 			onLoad={onLoad}
+			zoom={zoom}
 			onClick={() => {
 				handleActiveMarker;
 				setDrawerIsOpen(false);
 			}}
-			options={{
-				styles: [
-					{
-						elementType: "labels",
-						featureType: "poi.business",
-						stylers: [{ visibility: "off" }],
-					},
-					{
-						elementType: "geometry",
-						stylers: [
-							{
-								color: "#242f3e",
-							},
-						],
-					},
-					{
-						elementType: "labels.text.fill",
-						stylers: [
-							{
-								color: "#746855",
-							},
-						],
-					},
-					{
-						elementType: "labels.text.stroke",
-						stylers: [
-							{
-								color: "#242f3e",
-							},
-						],
-					},
-					{
-						featureType: "administrative.locality",
-						elementType: "labels.text.fill",
-						stylers: [{ visibility: "off" }],
-					},
-					{
-						featureType: "poi",
-						elementType: "labels",
-						stylers: [{ visibility: "off" }],
-					},
-					{
-						featureType: "road",
-						elementType: "geometry",
-						stylers: [
-							{
-								color: "#38414e",
-							},
-						],
-					},
-					{
-						featureType: "road",
-						elementType: "geometry.stroke",
-						stylers: [
-							{
-								color: "#212a37",
-							},
-						],
-					},
-					{
-						featureType: "road",
-						elementType: "labels.text.fill",
-						stylers: [
-							{
-								color: "#9ca5b3",
-							},
-						],
-					},
-					{
-						featureType: "road.highway",
-						elementType: "geometry",
-						stylers: [
-							{
-								color: "#746855",
-							},
-						],
-					},
-					{
-						featureType: "road.highway",
-						elementType: "geometry.stroke",
-						stylers: [
-							{
-								color: "#1f2835",
-							},
-						],
-					},
-					{
-						featureType: "road.highway",
-						elementType: "labels.text.fill",
-						stylers: [
-							{
-								color: "#f3d19c",
-							},
-						],
-					},
-					{
-						featureType: "transit.station",
-						elementType: "labels.text.fill",
-						stylers: [{ visibility: "off" }],
-					},
-					{
-						featureType: "water",
-						elementType: "geometry",
-						stylers: [
-							{
-								color: "#09090B",
-							},
-						],
-					},
-				],
-			}}
+			options={options}
 		>
 			<Marker position={newLocation} />
-			{restaurants?.map((restaurant) => (
+			{restaurants?.map(restaurant => (
 				<Marker
 					key={restaurant.id}
 					position={restaurant.position}
@@ -194,6 +210,8 @@ const Map = () => {
 					onClick={() => {
 						handleActiveMarker(restaurant.id);
 						setDrawerIsOpen(!showRestaurantCard);
+						map.panTo(restaurant.position);
+						setZoom(18);
 					}}
 				>
 					{activeMarker === restaurant.id ? (
