@@ -1,10 +1,23 @@
+import { useAuthContext } from "../contexts/AuthContext";
+import Map from "../components/Map";
+import TipsForm from "../components/TipsForm";
 
 const HomePage = () => {
-  return (
-    <div className="flex">
-      <h1 className="m-auto">Welcome</h1>
-    </div>
-  )
-}
+	const { showTips, setShowTips, isAdmin } = useAuthContext();
 
-export default HomePage
+	return (
+		<div className="flex flex-col h-full relative">
+			<Map />
+
+			{showTips && (
+				<TipsForm
+					showTips={showTips}
+					setShowTips={setShowTips}
+					isAdmin={isAdmin}
+				/>
+			)}
+		</div>
+	);
+};
+
+export default HomePage;

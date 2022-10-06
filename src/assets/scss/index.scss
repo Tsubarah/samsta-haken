@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;600;800&display=swap');
+
+//* Drawer styling *//
+.drawer-content {
+	height: 100%;
+}
+
+.drawer-toggle:checked ~ .drawer-side > .drawer-overlay {
+	visibility: hidden;
+}
+
+.drawer-toggle ~ .drawer-side {
+	overflow-y: auto;
+}
+
+.drawer.drawer-end > .drawer-toggle:checked ~ .drawer-content {
+	--tw-translate-x: 0rem;
+}
