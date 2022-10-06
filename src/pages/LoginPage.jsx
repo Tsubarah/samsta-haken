@@ -4,15 +4,9 @@ import Login from "../components/Login";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const LoginPage = () => {
-	const [loading, setLoading] = useState(false);
 	const { loginSwipe } = useAuthContext();
 
-	// console.log(loginSwipe);
-
 	return (
-		// <div className="h-full grid place-content-center">
-		// 	{loading && <div>loading...</div>}
-
 		<div
 			className={`flex w-[200%] transition duration-500 h-full ${
 				loginSwipe ? "-translate-x-1/2" : ""
@@ -26,7 +20,6 @@ const LoginPage = () => {
 				<Signup />
 			</div>
 		</div>
-		// </div>
 	);
 };
 

@@ -16,12 +16,17 @@ const useCurrentLocation = () => {
 					let latitude = position.coords.latitude;
 					let longitude = position.coords.longitude;
 
-					const geolocation = await getLocationWithLatLng(latitude, longitude);
+					const geolocation = await getLocationWithLatLng(
+						latitude,
+						longitude
+					);
 
 					const currentCity = findCity(geolocation);
 
 					setCurrentCityName(currentCity);
-					setPositionAddress(geolocation.results[0].formatted_address);
+					setPositionAddress(
+						geolocation.results[0].formatted_address
+					);
 					setPositionLatLng({ lat: latitude, lng: longitude });
 				} catch (err) {
 					alert("Unable to retrieve your location");
@@ -29,10 +34,6 @@ const useCurrentLocation = () => {
 			});
 		}
 	};
-
-	// useEffect(() => {
-	// 	getCurrentLocation();
-	// }, []);
 
 	return {
 		positionLatLng,
