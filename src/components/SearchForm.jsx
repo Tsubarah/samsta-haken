@@ -8,7 +8,6 @@ import { TiLocationArrow } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
 
 const SearchForm = ({ className }) => {
-	let [searchParams, setSearchParams] = useSearchParams()
 
 	const {
 		handleSearch,
