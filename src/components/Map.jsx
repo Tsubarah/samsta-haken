@@ -224,7 +224,10 @@ const Map = () => {
 					}}
 				>
 					{activeMarker === restaurant.id ? (
-						<InfoWindowF onCloseClick={handleActiveMarker}>
+						<InfoWindowF
+							onCloseClick={handleActiveMarker}
+							position={restaurant.position}
+						>
 							<div>{restaurant.name}</div>
 						</InfoWindowF>
 					) : null}
