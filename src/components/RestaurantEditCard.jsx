@@ -3,7 +3,7 @@ import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { getLocationWithAddress } from "../services/googleAPI";
+import { getLocationWithAddress } from "../services/GoogleAPI";
 import { useNavigate } from "react-router-dom";
 import { checkValue } from "../utils/helpers";
 
