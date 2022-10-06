@@ -21,34 +21,45 @@ const RestaurantEditCard = ({ restaurant }) => {
 	const docRef = doc(db, "restaurants", id);
 
 	const handleEditSubmit = async (data) => {
-		if (data === data) {
-			navigate("/admin");
-		}
-
-		//Lägga in en check på om det faktiskt finns en adress?
-		const address = checkValue(data.adress, restaurant.adress);
+		const address = checkValue(data.address, restaurant.address);
 		const city = checkValue(data.city, restaurant.city);
 
 		const dataLatLng = await getLocationWithAddress(`${address},${city}`);
 
-		await updateDoc(docRef, {
-			name: checkValue(data.name, restaurant.name),
-			address: checkValue(data.address, restaurant.address),
-			city: checkValue(data.city, restaurant.city),
-			position: dataLatLng?.results[0]?.geometry?.location,
-			description: checkValue(data.description, restaurant.description),
-			cuisine: checkValue(data.cuisine, restaurant.cuisine),
-			type_of_place: checkValue(
-				data.type_of_place,
-				restaurant.type_of_place
-			),
-			offers_food: checkValue(data.offers_food, restaurant.offers_food),
-			website: checkValue(data.website, restaurant.website),
-			email: checkValue(data.email, restaurant.email),
-			tel: checkValue(data.tel, restaurant.tel),
-			facebook: checkValue(data.facebook, restaurant.facebook),
-			instagram: checkValue(data.instagram, restaurant.instagram),
-		});
+		if (data === data) {
+			navigate("/admin");
+		}
+
+		if (dataLatLng.status !== "OK") {
+			alert("Failed to update!");
+		} else {
+			const location = dataLatLng.results[0].geometry.location;
+
+			await updateDoc(docRef, {
+				name: checkValue(data.name, restaurant.name),
+				address: checkValue(data.address, restaurant.address),
+				city: checkValue(data.city, restaurant.city),
+				position: location,
+				description: checkValue(
+					data.description,
+					restaurant.description
+				),
+				cuisine: checkValue(data.cuisine, restaurant.cuisine),
+				type_of_place: checkValue(
+					data.type_of_place,
+					restaurant.type_of_place
+				),
+				offers_food: checkValue(
+					data.offers_food,
+					restaurant.offers_food
+				),
+				website: checkValue(data.website, restaurant.website),
+				email: checkValue(data.email, restaurant.email),
+				tel: checkValue(data.tel, restaurant.tel),
+				facebook: checkValue(data.facebook, restaurant.facebook),
+				instagram: checkValue(data.instagram, restaurant.instagram),
+			});
+		}
 
 		reset();
 
