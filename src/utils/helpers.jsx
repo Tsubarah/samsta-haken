@@ -1,14 +1,7 @@
-// Helper to find the value of socials type
-export const findSocialsValue = (source, type) => {
-	let values = source.find(social => social.title === type);
-
-	return <span>{values?.value}</span>;
-};
-
-export const findCity = geolocation => {
+export const findCity = (geolocation) => {
 	const postalTownIndex = geolocation.results
-		.map(location => location.types)
-		.findIndex(location => location == "postal_town");
+		.map((location) => location.types)
+		.findIndex((location) => location == "postal_town");
 
 	const city =
 		geolocation.results[postalTownIndex].address_components[0].long_name;
@@ -16,21 +9,21 @@ export const findCity = geolocation => {
 	return city;
 };
 
-export const findSearchedCity = adressResponse => {
+export const findSearchedCity = (adressResponse) => {
 	let city;
 
 	if (adressResponse) {
 		const adressComponents = adressResponse.results.map(
-			location => location.address_components
+			(location) => location.address_components
 		);
 
 		const postalTownIndex = adressComponents[0]
-			.map(location => location.types)
-			.findIndex(location => location == "postal_town");
+			.map((location) => location.types)
+			.findIndex((location) => location == "postal_town");
 
 		const localityIndex = adressComponents[0]
-			.map(location => location.types)
-			.findIndex(location => location.includes("locality"));
+			.map((location) => location.types)
+			.findIndex((location) => location.includes("locality"));
 
 		if (postalTownIndex !== -1) {
 			city =
@@ -46,14 +39,14 @@ export const findSearchedCity = adressResponse => {
 	return city;
 };
 
-export const getFileExtension = image => {
+export const getFileExtension = (image) => {
 	const fileName = image.name;
 	const extension = fileName.substr(fileName.lastIndexOf("."));
 
 	return extension;
 };
 
-const deg2rad = deg => {
+const deg2rad = (deg) => {
 	return deg * (Math.PI / 180);
 };
 
@@ -81,6 +74,6 @@ export const checkValue = (newValue, oldValue) => {
 	}
 };
 
-export const checkIfStringHasNumber = str => {
+export const checkIfStringHasNumber = (str) => {
 	return /[0-9]/.test(str);
 };

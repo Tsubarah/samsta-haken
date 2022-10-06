@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTable, useSortBy } from "react-table";
-import { findSocialsValue } from "../utils/helpers";
 
 import {
 	TiArrowSortedDown,
@@ -51,33 +50,23 @@ const RestaurantsTable = ({ restaurants }) => {
 			},
 			{
 				Header: "Hemsida",
-				accessor: "socials.hemsida",
-				Cell: (row) =>
-					findSocialsValue(row.row.original.socials, "hemsida"),
+				accessor: "website",
 			},
 			{
 				Header: "E-post",
-				accessor: "socials.e-post",
-				Cell: (row) =>
-					findSocialsValue(row.row.original.socials, "e-post"),
+				accessor: "email",
 			},
 			{
 				Header: "Tel",
-				accessor: "socials.tel",
-				Cell: (row) =>
-					findSocialsValue(row.row.original.socials, "tel"),
+				accessor: "tel",
 			},
 			{
 				Header: "Facebook",
-				accessor: "socials.facebook",
-				Cell: (row) =>
-					findSocialsValue(row.row.original.socials, "facebook"),
+				accessor: "facebook",
 			},
 			{
 				Header: "Instagram",
-				accessor: "socials.instagram",
-				Cell: (row) =>
-					findSocialsValue(row.row.original.socials, "instagram"),
+				accessor: "instagram",
 			},
 			{
 				Header: "Redigera",
