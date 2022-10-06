@@ -17,7 +17,7 @@ import {
 	deleteDoc,
 } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
-import { getLocationWithAddress } from "../services/googleAPI";
+import { getLocationWithAddress } from "../services/GoogleAPI";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { findSearchedCity } from "../utils/helpers";
 

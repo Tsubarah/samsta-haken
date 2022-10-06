@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { getLocationWithLatLng } from "../services/googleAPI";
+import { useState } from "react";
+import { getLocationWithLatLng } from "../services/GoogleAPI";
 import { findCity } from "../utils/helpers";
 
 const useCurrentLocation = () => {
