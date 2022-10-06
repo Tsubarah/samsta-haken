@@ -4,7 +4,7 @@ import { db } from "../firebase";
 import { useForm } from "react-hook-form";
 
 import { MdOutlineCancel } from "react-icons/md";
-import { getLocationWithAddress } from "../services/googleAPI";
+import { getLocationWithAddress } from "../services/GoogleAPI";
 
 const TipsForm = ({ showTips, setShowTips, isAdmin }) => {
   const {

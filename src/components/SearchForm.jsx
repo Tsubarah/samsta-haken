@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 import useCurrentLocation from "../hooks/useCurrentLocation";
 import useGetCollection from "../hooks/useGetCollection";
-import { useSearchParams } from "react-router-dom";
 
 import { TiLocationArrow } from "react-icons/ti";
 import { BiSearch } from "react-icons/bi";
