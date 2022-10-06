@@ -2,8 +2,10 @@
 
 An assignment developed by [Raymond Lam](https://github.com/R4YLx), [Hanna Håkanson](https://github.com/hannahakanson) and [Benjamin Tsubarah](https://github.com/Tsubarah).
 
+Visit the page [Sämsta Haken](https://samsta-haken.netlify.app/)
 
 ### Languages used:
+
 - React.js
 
 ## Table of contents
@@ -36,16 +38,24 @@ Build an application to find restaurants nearby, in a group of three while using
 
 - VS Code
 - React
-- Google maps API
+- Axios
+- Firebase
+- Google Maps API
+- React Hook Form
+- React Table
+- React Query
+- React Query Firebase
 - SCSS
 - Tailwind CSS
+- Daisy UI
+- React Icons
 - Jira for Scrum
 
 ## Setup
 
 To run the app you have to:
 
-1. Add an .env file for Firebase Firestore
+1. Add an .env file for Firebase Firestore and Google Maps keys.
 
 2. Open terminal and run:
 
@@ -61,4 +71,18 @@ You may also see any lint errors in the console.
 
 ## Printscreen
 
+#### Homepage
 
+<img src="https://github.com/R4YLx/tmdb-react-ts/blob/main/public/screens/scrn_1.png" width=100%>
+
+#### Tips modal
+
+<img src="https://github.com/Tsubarah/samsta-haken/blob/main/src/assets/printscreens/Screenshot%202022-10-06%20210340.jpg" width=100%>
+
+#### Admin page
+
+<img src="https://github.com/Tsubarah/samsta-haken/blob/main/src/assets/printscreens/Screenshot%202022-10-06%20210457.jpg" width=100%>
+
+#### Profile page
+
+<img src="https://github.com/Tsubarah/samsta-haken/blob/main/src/assets/printscreens/Screenshot%202022-10-06%20210600.jpg" width=100%>
