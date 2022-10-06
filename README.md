@@ -73,7 +73,7 @@ You may also see any lint errors in the console.
 
 #### Homepage
 
-<img src="https://github.com/R4YLx/tmdb-react-ts/blob/main/public/screens/scrn_1.png" width=100%>
+<img src="https://github.com/Tsubarah/samsta-haken/blob/main/src/assets/printscreens/Screenshot%202022-10-06%20210313.jpg" width=100%>
 
 #### Tips modal
 
