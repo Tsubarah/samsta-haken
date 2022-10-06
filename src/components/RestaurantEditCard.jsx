@@ -39,19 +39,27 @@ const RestaurantEditCard = ({ restaurant }) => {
       navigate("/admin");
     }
 
-    console.log("Cuisine val: ", cuisineVal);
-
     //Lägga in en check på om det faktiskt finns en adress?
     const address = await checkValue(data.address, restaurant.address);
     const city = await checkValue(data.city, restaurant.city);
 
     const dataLatLng = await getLocationWithAddress(`${address},${city}`);
 
+    	if (data === data) {
+			navigate("/admin");
+		}
+
+		if (dataLatLng.status !== "OK") {
+			alert("Failed to update!");
+		} else {
+			const location = dataLatLng.results[0].geometry.location;
+    
+
     await updateDoc(docRef, {
       name: checkValue(data.name, restaurant.name),
       address: checkValue(data.address, restaurant.address),
       city: checkValue(data.city, restaurant.city),
-      position: dataLatLng?.results[0]?.geometry?.location,
+      position: location,
       description: checkValue(data.description, restaurant.description),
       cuisine: cuisineVal,
       type_of_place: typeOfPlace,
@@ -64,8 +72,10 @@ const RestaurantEditCard = ({ restaurant }) => {
     });
 
     reset();
+  
 
     navigate("/admin");
+  }
   };
 
   return (
