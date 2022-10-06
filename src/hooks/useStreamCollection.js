@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-	collection,
-	query,
-	onSnapshot,
-	where,
-} from "firebase/firestore";
+import { collection, query, onSnapshot, where } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuthContext } from "../contexts/AuthContext";
 
@@ -12,13 +7,7 @@ const useStreamCollection = (col, isAdmin) => {
 	const [data, setData] = useState([]);
 	const [loading, setLoading] = useState(true);
 
-	const { 
-					filterType, 
-					currentCity, 
-					searchedCity, 
-					searchParams 
-				} =
-	useAuthContext();
+	const { filterType, searchParams } = useAuthContext();
 
 	const city = searchParams.get("city");
 
@@ -77,7 +66,7 @@ const useStreamCollection = (col, isAdmin) => {
 		});
 
 		return unsubscribe;
-	}, [filterType, searchedCity, currentCity]);
+	}, [filterType, city]);
 
 	return {
 		data,

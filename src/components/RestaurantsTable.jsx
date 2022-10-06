@@ -20,6 +20,7 @@ const RestaurantsTable = ({ restaurants }) => {
 
 	const { deleteRestaurant } = useDeleteRestaurant();
 
+	// Columns for table
 	const columns = useMemo(
 		() => [
 			{
@@ -51,27 +52,32 @@ const RestaurantsTable = ({ restaurants }) => {
 			{
 				Header: "Hemsida",
 				accessor: "socials.hemsida",
-				Cell: (row) => findSocialsValue(row.row.original.socials, "hemsida"),
+				Cell: (row) =>
+					findSocialsValue(row.row.original.socials, "hemsida"),
 			},
 			{
 				Header: "E-post",
 				accessor: "socials.e-post",
-				Cell: (row) => findSocialsValue(row.row.original.socials, "e-post"),
+				Cell: (row) =>
+					findSocialsValue(row.row.original.socials, "e-post"),
 			},
 			{
 				Header: "Tel",
 				accessor: "socials.tel",
-				Cell: (row) => findSocialsValue(row.row.original.socials, "tel"),
+				Cell: (row) =>
+					findSocialsValue(row.row.original.socials, "tel"),
 			},
 			{
 				Header: "Facebook",
 				accessor: "socials.facebook",
-				Cell: (row) => findSocialsValue(row.row.original.socials, "facebook"),
+				Cell: (row) =>
+					findSocialsValue(row.row.original.socials, "facebook"),
 			},
 			{
 				Header: "Instagram",
 				accessor: "socials.instagram",
-				Cell: (row) => findSocialsValue(row.row.original.socials, "instagram"),
+				Cell: (row) =>
+					findSocialsValue(row.row.original.socials, "instagram"),
 			},
 			{
 				Header: "Redigera",
@@ -79,7 +85,9 @@ const RestaurantsTable = ({ restaurants }) => {
 				Cell: (row) => (
 					<button
 						className="btn btn-sm btn-info"
-						onClick={() => navigate(`/restaurants/${row.row.original.id}`)}
+						onClick={() =>
+							navigate(`/restaurants/${row.row.original.id}`)
+						}
 					>
 						Redigera
 					</button>
@@ -106,7 +114,10 @@ const RestaurantsTable = ({ restaurants }) => {
 							<button
 								className="btn btn-success btn-sm"
 								onClick={() =>
-									handleRestaurantStatus(row.row.original.id, row.row.original)
+									handleRestaurantStatus(
+										row.row.original.id,
+										row.row.original
+									)
 								}
 							>
 								J
@@ -115,7 +126,10 @@ const RestaurantsTable = ({ restaurants }) => {
 							<button
 								className="btn btn-error btn-sm"
 								onClick={() =>
-									handleRestaurantStatus(row.row.original.id, row.row.original)
+									handleRestaurantStatus(
+										row.row.original.id,
+										row.row.original
+									)
 								}
 							>
 								N
@@ -140,7 +154,11 @@ const RestaurantsTable = ({ restaurants }) => {
 					{headerGroups.map((headerGroup) => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map((column) => (
-								<th {...column.getHeaderProps(column.getSortByToggleProps())}>
+								<th
+									{...column.getHeaderProps(
+										column.getSortByToggleProps()
+									)}
+								>
 									{column.render("Header")}
 									<span>
 										{column.isSorted ? (
@@ -166,7 +184,9 @@ const RestaurantsTable = ({ restaurants }) => {
 							<tr {...row.getRowProps()}>
 								{row.cells.map((cell) => {
 									return (
-										<td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+										<td {...cell.getCellProps()}>
+											{cell.render("Cell")}
+										</td>
 									);
 								})}
 							</tr>

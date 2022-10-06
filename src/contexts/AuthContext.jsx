@@ -108,7 +108,7 @@ const AuthContextProvider = ({ children }) => {
 		});
 	};
 
-	const updateRestaurantPhoto = async photo => {
+	const updateRestaurantPhoto = async (photo) => {
 		const ref = doc(db, "restaurants", photo.restaurantId);
 
 		await updateDoc(ref, {
@@ -138,7 +138,7 @@ const AuthContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		// listen for auth-state changes
-		const unsubscribe = onAuthStateChanged(auth, async user => {
+		const unsubscribe = onAuthStateChanged(auth, async (user) => {
 			setCurrentUser(user);
 
 			if (user) {
@@ -159,22 +159,16 @@ const AuthContextProvider = ({ children }) => {
 	// Location functions
 
 	const [address, setAddress] = useState(null);
-	const [searchedCity, setSearchedCity] = useState(null);
-	const [currentCity, setCurrentCity] = useState(null);
-
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	//* City borde vara global då den måste skickas till MAP
 
-	const handleSearch = async address => {
+	const handleSearch = async (address) => {
 		const addressResponse = await getLocationWithAddress(address);
 
 		const city = findSearchedCity(addressResponse);
 		const lat = addressResponse.results[0].geometry.location.lat;
 		const lng = addressResponse.results[0].geometry.location.lng;
-
-		setCurrentCity(null);
-		setSearchedCity(city);
 
 		setSearchParams({ city: city, lat: lat, lng: lng });
 		setAddress(addressResponse.results[0].formatted_address);
@@ -209,10 +203,6 @@ const AuthContextProvider = ({ children }) => {
 		updateRestaurantPhoto,
 		userName,
 		userImageUrl,
-		setSearchedCity,
-		searchedCity,
-		currentCity,
-		setCurrentCity,
 		setRestaurantData,
 		restaurantData,
 		setShowRestaurantCard,

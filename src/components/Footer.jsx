@@ -6,17 +6,19 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 
 const Footer = () => {
-	const { setShowTips, showTips, currentUser, isAdmin, setDrawerIsOpen } = useAuthContext();
+	const { setShowTips, showTips, currentUser, isAdmin, setDrawerIsOpen } =
+		useAuthContext();
 
 	const handleToggleTips = () => {
-		setShowTips(!showTips)
-		setDrawerIsOpen(false)
-	}
-
+		setShowTips(!showTips);
+		setDrawerIsOpen(false);
+	};
 
 	return (
 		<>
+			{/* Mobile view */}
 			<div className="btm-nav my-2 relative lg:hidden">
+				{/* Send tips / register */}
 				<button onClick={handleToggleTips}>
 					<HiOutlinePencil size={25} />
 
@@ -24,11 +26,14 @@ const Footer = () => {
 						{isAdmin ? "Registrera" : "Tipsa"}
 					</span>
 				</button>
+
+				{/* Explore map */}
 				<Link to="/">
 					<MdOutlineExplore size={25} />
 					<span className="btm-nav-label">Utforska</span>
 				</Link>
 
+				{/* User actions */}
 				{currentUser ? (
 					<div className="dropdown dropdown-top btm-nav-label">
 						<label
@@ -37,8 +42,12 @@ const Footer = () => {
 						>
 							<AiOutlineUser size={25} />
 
-							<span className="btm-nav-label normal-case">Profil</span>
+							<span className="btm-nav-label normal-case">
+								Profil
+							</span>
 						</label>
+
+						{/* Dropdown for user actions */}
 						<ul
 							tabIndex={0}
 							className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
@@ -68,6 +77,7 @@ const Footer = () => {
 				)}
 			</div>
 
+			{/* Desktop view */}
 			<footer className="hidden lg:block footer footer-center p-4 bg-base-100 text-base-content">
 				<div className="grid grid-cols-3 justify-center items-center">
 					<p className="col-start-2">
@@ -79,7 +89,10 @@ const Footer = () => {
 						rel="noreferrer"
 						className="col-start-3 justify-self-end"
 					>
-						<VscGithubInverted size={25} className="hover:text-orange-500" />
+						<VscGithubInverted
+							size={25}
+							className="hover:text-orange-500"
+						/>
 					</a>
 				</div>
 			</footer>

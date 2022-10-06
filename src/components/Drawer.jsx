@@ -4,13 +4,12 @@ import { getDistance } from "../utils/helpers";
 import RestaurantCard from "./RestaurantCard";
 import { food } from "../db/food";
 import { useState } from "react";
-import { FaWindowRestore } from "react-icons/fa";
 import { useEffect } from "react";
 
 const Drawer = ({ children }) => {
 	const [showFilters, setShowFilters] = useState(false);
-	const [lat, setLat] = useState(null)
-	const [lng, setLng] = useState(null)
+	const [lat, setLat] = useState(null);
+	const [lng, setLng] = useState(null);
 	const restaurants = useGetRestaurants();
 
 	const {
@@ -26,9 +25,9 @@ const Drawer = ({ children }) => {
 		filterType,
 	} = useAuthContext();
 
-
+	// Shows distance from user location to restaurant
 	const showDistance = (restaurantCoords) => {
-		if (!lat && !lng) return
+		if (!lat && !lng) return;
 
 		const distance = getDistance(
 			lat,
@@ -39,7 +38,6 @@ const Drawer = ({ children }) => {
 
 		return distance;
 	};
-  
 
 	const scrollToTop = () => {
 		window.scrollTo({
@@ -51,6 +49,7 @@ const Drawer = ({ children }) => {
 
 	let restaurant;
 
+	// Events for when user clicks on restaurant in drawer
 	const handleClick = async (e) => {
 		restaurant = restaurants.data?.find(
 			(restaurant) => restaurant.id === e.currentTarget.id
@@ -63,14 +62,15 @@ const Drawer = ({ children }) => {
 	};
 
 	useEffect(() => {
-		navigator.geolocation.getCurrentPosition(position => {
+		// Fetching current location of user to calculate distance to restaurants
+		navigator.geolocation.getCurrentPosition((position) => {
 			let latitude = position.coords.latitude;
 			let longitude = position.coords.longitude;
 
-			setLat(latitude)
-			setLng(longitude)
-		})
-	}, [lat, lng])
+			setLat(latitude);
+			setLng(longitude);
+		});
+	}, [lat, lng]);
 
 	return (
 		<div className="drawer h-full drawer-end relative">
@@ -91,7 +91,10 @@ const Drawer = ({ children }) => {
 				</label>
 			</div>
 			<div className="drawer-side grid-cols-1 lg:grid-cols-3 scrollbar-hide">
-				<label htmlFor="my-drawer-4" className="drawer-overlay hidden"></label>
+				<label
+					htmlFor="my-drawer-4"
+					className="drawer-overlay hidden"
+				></label>
 
 				<div className="flex flex-wrap relative bg-base-100 lg:col-span-full lg:col-end-4 scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
 					{showRestaurantCard && drawerIsOpen && (
@@ -109,6 +112,7 @@ const Drawer = ({ children }) => {
 						<div className="divider">Restauranger</div>
 					</div>
 
+					{/* Filter button and dropdown */}
 					<div className="flex flex-col w-full lg:w-96">
 						<button
 							className="btn font-display text-lg"
@@ -116,8 +120,10 @@ const Drawer = ({ children }) => {
 						>
 							Filtrera
 						</button>
+
 						{showFilters && (
 							<div className="col-span-full grid gap-1 grid-rows-2 px-4 py-4">
+								{/* Filter by cuisine */}
 								<select
 									className="select select-bordered select-sm indent-1 font-normal bg-primary"
 									defaultValue="Filtrera på kök"
@@ -141,6 +147,7 @@ const Drawer = ({ children }) => {
 									<span className="opacity-60">eller</span>
 								</div>
 
+								{/* Filter by type of meal restaurants offer */}
 								<select
 									className="select select-bordered select-sm indent-1 font-normal bg-primary"
 									defaultValue="Filtrera på typ"
@@ -160,6 +167,7 @@ const Drawer = ({ children }) => {
 										))}
 								</select>
 
+								{/* Reset filter button */}
 								<div className="pt-4 flex justify-center">
 									<button
 										className="btn btn-sm"
@@ -171,9 +179,12 @@ const Drawer = ({ children }) => {
 							</div>
 						)}
 
+						{/* List of restaurants in drawer */}
 						<ul className="menu w-full lg:w-96 text-base-content">
 							<div className="text-sm pr-2 opacity-60 text-right">
-								{filterType && <h1>Filtrerar efter: {filterType.value}</h1>}
+								{filterType && (
+									<h1>Filtrerar efter: {filterType.value}</h1>
+								)}
 							</div>
 							{restaurants?.data.length ? (
 								restaurants.data.map((restaurant) => {
@@ -190,7 +201,10 @@ const Drawer = ({ children }) => {
 												<p className="text-xs opacity-50">
 													{restaurant.city}
 													<span className="cursor-ponter">
-														{dist && `, ${Math.floor(dist)} km`}
+														{dist &&
+															`, ${Math.floor(
+																dist
+															)} km`}
 													</span>
 												</p>
 											</div>
@@ -199,7 +213,8 @@ const Drawer = ({ children }) => {
 								})
 							) : (
 								<h1 className="text-center">
-									Sorry, no bad restaurants in that category yet😿
+									Sorry, no bad restaurants in that category
+									yet😿
 								</h1>
 							)}
 						</ul>

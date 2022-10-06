@@ -16,11 +16,11 @@ const NavBar = () => {
 		currentUser,
 		isAdmin,
 		setFilterType,
-		setSearchParams,
 	} = useAuthContext();
 
 	const urlLocation = useLocation();
 
+	// Adding className hidden to hide elements depeding on URL
 	const hidden = classNames(urlLocation.pathname !== "/" ? "hidden" : "");
 
 	const handleToggleDrawer = () => {
@@ -40,6 +40,7 @@ const NavBar = () => {
 				{/* Search bar */}
 				<SearchForm className={`col-span-9 lg:col-span-11 ${hidden}`} />
 
+				{/* Drawer button */}
 				<button
 					className={`col-start-12 justify-self-end ${hidden}`}
 					onClick={handleToggleDrawer}
@@ -54,6 +55,7 @@ const NavBar = () => {
 
 			{/* Desktop view */}
 			<div className="navbar bg-base-100 hidden lg:grid grid-cols-12">
+				{/* Logo */}
 				<Link to={"/"}>
 					<h1
 						className="font-display btn btn-ghost normal-case text-xl col-span-2"
@@ -63,8 +65,12 @@ const NavBar = () => {
 					</h1>
 				</Link>
 
-				<SearchForm className={`w-full col-start-4 col-end-10 ${hidden}`} />
+				{/* Searchform */}
+				<SearchForm
+					className={`w-full col-start-4 col-end-10 ${hidden}`}
+				/>
 
+				{/* Drawer button */}
 				<button
 					className={`font-display col-start-10 justify-self-center ${hidden}`}
 					onClick={handleToggleDrawer}
@@ -76,6 +82,7 @@ const NavBar = () => {
 					)}
 				</button>
 
+				{/* Tips/Register button */}
 				<button
 					className={`col-start-11 justify-self-end gap-2 ${hidden}`}
 					onClick={handleToggleTipsForm}
@@ -87,10 +94,16 @@ const NavBar = () => {
 					</span>
 				</button>
 
+				{/* Dropdown with user and admin actions */}
 				<div className="dropdown dropdown-end col-start-12 justify-self-center">
-					<label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+					<label
+						tabIndex={0}
+						className="btn btn-ghost btn-circle avatar"
+					>
 						<AiOutlineUser size={25} />
 					</label>
+
+					{/* Dropdown list */}
 					<ul
 						tabIndex={0}
 						className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
@@ -108,11 +121,17 @@ const NavBar = () => {
 
 							{currentUser ? (
 								<>
-									<Link to="/profile" className="justify-between">
+									<Link
+										to="/profile"
+										className="justify-between"
+									>
 										Profil
 									</Link>
 
-									<Link to="/logout" className="justify-between">
+									<Link
+										to="/logout"
+										className="justify-between"
+									>
 										Logga ut
 									</Link>
 								</>

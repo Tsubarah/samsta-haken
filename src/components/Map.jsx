@@ -11,7 +11,9 @@ import marker from "../assets/images/marker.png";
 import { checkIfStringHasNumber } from "../utils/helpers";
 
 const defaultZoom = 13;
+const defaultLocation = { lat: 55.604981, lng: 13.003822 };
 
+// Options for map styling
 const options = {
 	styles: [
 		{
@@ -135,7 +137,6 @@ const Map = () => {
 		setDrawerIsOpen,
 		searchParams,
 		filterType,
-		userLocation,
 		address,
 	} = useAuthContext();
 
@@ -144,18 +145,20 @@ const Map = () => {
 	const [zoom, setZoom] = useState(defaultZoom);
 	const [newLocation, setNewLocation] = useState(null);
 	let restaurant;
-	const defaultLocation = { lat: 55.604981, lng: 13.003822 };
 
+	// Search params
 	const city = searchParams.get("city");
 	const lat = Number(searchParams.get("lat"));
 	const lng = Number(searchParams.get("lng"));
 
+	// Map
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
 		googleMapsApiKey: import.meta.env.VITE_GOOGLE_API_KEY,
 	});
 
-	const handleActiveMarker = marker => {
+	// Handles actions for active marker
+	const handleActiveMarker = (marker) => {
 		setActiveMarker(null);
 		setShowRestaurantCard(!showRestaurantCard);
 
@@ -164,17 +167,20 @@ const Map = () => {
 		}
 
 		setActiveMarker(marker);
-		restaurant = restaurants?.find(restaurant => restaurant.id === marker);
+		restaurant = restaurants?.find(
+			(restaurant) => restaurant.id === marker
+		);
 		setRestaurantData(restaurant);
 	};
 
-	// Setting for when map loads
-	const onLoad = useCallback(map => {
+	// Settings for when map loads
+	const onLoad = useCallback((map) => {
 		setMap(map);
 		map.setZoom(zoom);
 	}, []);
 
 	useEffect(() => {
+		// Changes center on map when location changes
 		if (!city) {
 			setNewLocation(defaultLocation);
 		} else {
@@ -199,8 +205,11 @@ const Map = () => {
 			}}
 			options={options}
 		>
+			{/* Marker for searched or current position */}
 			<Marker position={newLocation} />
-			{restaurants?.map(restaurant => (
+
+			{/* Restaurant markers */}
+			{restaurants?.map((restaurant) => (
 				<Marker
 					key={restaurant.id}
 					position={restaurant.position}
