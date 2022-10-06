@@ -96,6 +96,7 @@ const SearchForm = ({ className }) => {
         </button>
       </div>
 
+      {/* List with matching results */}
       {searchInput.length > 0 && filteredRestaurants.length > 0 && (
         <ul className="absolute top-12 px-2 py-4 z-10 bg-base-100 w-4/6 lg:w-5/12 max-h-56 overflow-scroll scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
           {filteredRestaurants?.map((restaurant) => (
@@ -110,13 +111,12 @@ const SearchForm = ({ className }) => {
           ))}
         </ul>
       )}
+      {/* If there is no matching results */}
       {filteredRestaurants && filteredRestaurants.length == 0 && (
         <ul className="absolute top-12 px-2 py-4 z-10 bg-base-100 w-4/6 lg:w-5/12 max-h-1/5 overflow-scroll scrollbar-thin scrollbar-thumb-base-content scrollbar-track-black">
-          
-            <li
-              className="cursor-pointer hover:bg-base-300 p-2">
-              Sorry, could not find any matching bad restaurant.
-            </li>
+          <li className="cursor-pointer hover:bg-base-300 p-2">
+            Sorry, could not find any matching bad restaurant.
+          </li>
         </ul>
       )}
     </form>
